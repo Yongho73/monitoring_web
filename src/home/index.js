@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import NaverMapApi from './common/NaverMapAPI'
-import getCabonMapList from '../crud/cabonMap.crud'
+import getMonitoringList from '../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoJson from '../home/util/json/testData.json'
 
-const Index = () => {    
+export default function Index() {    
+  
   // 서울 기준점 좌표  
   const lat =37.5666805;
   const lng = 126.9784147;
@@ -13,7 +14,7 @@ const Index = () => {
   const [list , setList] = useState([])
 
   const handleSearch = async() => {
-    await getCabonMapList().then(response => {
+    await getMonitoringList().then(response => {
       const status = response.status;
       const data = response.data.result;
       
@@ -100,12 +101,8 @@ const Index = () => {
   };
   
   useEffect(() => {
-    //handleSearch();
-    for(let i = 0 ; i < 17 ; i ++ ){
-      let number = Math.floor(Math.random() * (38000000 - 500000+ 1)) + 500000;
-      num.push(number);
-    }
-  },[num])            
+    handleSearch();    
+  },[])            
 
   return (
     
@@ -116,5 +113,3 @@ const Index = () => {
     
   );
 }
-
-export default Index;

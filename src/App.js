@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from './home/layout/header'
-import Index from './home/index'
+import HomePage from './home/HomePage'
 import Footer from './home/layout/footer'
 
 const App = () => {
 	return (
     <div className='App'>
       <Header />
-      <Index />
+      <HomePage />
       <Footer />
     </div>
 	);
