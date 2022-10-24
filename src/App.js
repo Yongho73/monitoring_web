@@ -1,15 +1,12 @@
 import React from 'react';
 import Header from './home/layout/header'
 import HomePage from './home/HomePage'
-import Footer from './home/layout/footer'
+import Left from './home/layout/left'
+import Layout from './home/layout/layout'
 
 const App = () => {
-	return (
-    <div className='App'>
-      <Header />
-      <HomePage />
-      <Footer />
-    </div>
+	return (    
+      <Layout />            
 	);
 }
 

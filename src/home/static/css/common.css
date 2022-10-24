@@ -1,0 +1,153 @@
+@charset 'utf-8';
+@import url('font.css');
+@import url('content.css');
+
+
+
+
+
+/* 초기화 //////////////////////////////////////////// */
+html, body, div, span, applet, object, iframe, h1, ol, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    vertical-align:middle;
+    box-sizing:border-box;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block;}
+ol, ul {list-style:none;}
+blockquote, q {quotes:none;}
+blockquote:before, blockquote:after, q:before, q:after {content:''; content:none;}
+table {border-collapse:collapse; border-spacing:0;}
+span, em, i {vertical-align:baseline; font-style:normal;}
+
+/* 사이트 기본구성 */
+html {height:100%; font-size:87.5%; scroll-behavior:smooth;}
+body {width:100%; height:100%; padding-left:3.571rem; background:#05023c; word-break:keep-all;}
+body,input,textarea,select,button {font:400 1rem/1.571rem 'Montserrat','NotoSansKR','Open Sans','맑은 고딕','Malgun Gothic','sans-serif'; color:#fff; box-sizing:border-box;}
+table,th,h1,h2,h3,h4,h5,h6 {font-size:1rem; font-weight:normal;}
+fieldset {min-width:auto;}
+legend, caption {display:none;}
+img,input,select,textarea {vertical-align:middle;}
+a {display:inline-block; text-decoration:none; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
+a:hover {text-decoration:none; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
+*:focus {outline:none; -ms-touch-action:manipulation; touch-action:manipulation; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
+* {-webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
+
+
+/* 스크롤바 */
+html {
+  scrollbar-arrow-color: #fff;
+  scrollbar-Track-Color: #fff;
+  scrollbar-base-color: #b1b1b1;
+  scrollbar-Face-Color: #b1b1b1;
+  scrollbar-3dLight-Color: #b1b1b1;
+  scrollbar-DarkShadow-Color: #b1b1b1;
+  scrollbar-Highlight-Color: #b1b1b1;
+  scrollbar-Shadow-Color: #b1b1b1;
+}
+
+::-webkit-scrollbar {width:4px; height:5px; border-radius:10px;}
+::-webkit-scrollbar-track {background-color:#fff;}
+::-webkit-scrollbar-thumb {background-color:#b1b1b1; border-radius: 10px;}
+::-webkit-scrollbar-thumb:hover {background:#b1b1b1;}
+::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {width:16px; height:16px; background:#fff;}
+
+
+
+
+
+/* 레이아웃 //////////////////////////////////////////// */
+/* 상단영역 */
+header {display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem;}
+header > div {width:8.071rem; cursor:pointer;}
+header > ul {display:flex;}
+header > ul > li {position:relative;}
+header > ul > li:first-child {margin-right:0.714rem; padding-right:0.714rem;}
+header > ul > li:first-child::after {content:''; position:absolute; top:0.214rem; right:0; width:0.071rem; height:1rem; background:rgba(255,255,255,0.3);}
+header > ul > li > span {margin-right:0.357rem;}
+
+
+/* 좌측메뉴 */
+nav {position:absolute; top:0; left:0; width:4.143rem; height:100%; background:#12014e; z-index:999;}
+nav > input.menu {display:none;}
+nav > label.menu {display:block; position:relative; width:1.571rem; height:1.571rem; margin:1.286rem auto 0 auto; z-index:999;}
+nav > label.menu:hover {cursor:pointer;}
+nav > label.menu > i {position:absolute; top:50%; width:100%; height:0.143rem; border-radius:0.143rem; background:#fff; transition-duration:0.35s; transition-delay:0.35s;}
+nav > label.menu > i::before, nav > label.menu > i::after {content:''; display:block; position:absolute; left:50%; width:100%; height:0.143rem; border-radius:0.143rem; background:#fff; transition:transform 0.35s; transform-origin:50% 50%;}
+nav > label.menu > i::before {transform:translate(-50%, -0.5rem);}
+nav > label.menu > i::after {transform:translate(-50%, 0.5rem);}
+nav > ul {position:fixed; top:0; width:4.143rem; height:100%; padding-top:4.143rem; background:#12014e; transition:width 246ms 0.5s ease; overflow:hidden;}
+nav > ul > li {position:relative;}
+nav > ul > li:hover {background:rgba(54, 31, 136, 0.6);}
+nav > ul > li > a {display:flex; align-items:center; white-space:nowrap;}
+nav > ul > li > a > span {flex-shrink:0; width:4.143rem; height:4.143rem; padding:1.071rem; margin-right:0.357rem; text-align:center; font-size:1.429rem;}
+nav > ul > li > ol {margin-left:4.5rem; border-left:0.071rem solid rgba(54, 31, 136, 0.9); overflow:hidden;}
+nav > ul > li > ol > li {max-height:0; transition:max-height 0.5s 0.5s;}
+nav > ul > li > ol > li:hover {background:rgba(54, 31, 136, 0.6);}
+nav > ul > li > ol > li > a {padding:0.714rem;}
+
+/* 메뉴 오픈 */
+nav > input.menu:checked ~ label > i {background:transparent; transform:rotate(90deg);}
+nav > input.menu:checked ~ label > i::before {transform:translate(-50%, 0) rotate(45deg);}
+nav > input.menu:checked ~ label > i::after {transform:translate(-50%, 0) rotate(-45deg);}
+nav > input.menu:checked ~ ul {width:16.429rem;}
+nav > input.menu:checked ~ ul > li {max-height:21.429rem;}
+nav > input.menu:checked ~ ul > li > ol > li {max-height:7.143rem;}
+nav > input.menu:checked ~ ul > li > ol > li:nth-child(1) {transition:max-height 0.5s 0.67s ease-in;}
+nav > input.menu:checked ~ ul > li > ol > li:nth-child(2) {transition:max-height 0.5s 0.69s ease-in;}
+nav > input.menu:checked ~ ul > li > ol > li:nth-child(3) {transition:max-height 0.5s 0.71s ease-in;}
+
+
+/* 메인영역 */
+main {position:relative; height:calc(100% - 3.713rem); overflow:hidden;}
+
+/* 공통 //////////////////////////////////////////// */
+/* error */
+.error {position:relative; height:100%; background:linear-gradient(#05023c 40%, #681f75 80%, #000022 100%)}
+.error-text {position:absolute; top:50%; left:50%; text-align:center; transform:translate(-50%, -50%);}
+.error > .error-text > ul {display:flex; justify-content:center; align-items:center;}
+.error > .error-text > ul > li {height:8.214rem;}
+.error > .error-text > ul > li:nth-child(2) {width:10.714rem; height:inherit; margin:0 0.714rem 0;}
+.error > .error-text > div {margin-top:2.5rem; font-weight:500; font-size:2.5rem;}
+.error > .error-text > p {margin-top:2.5rem; font-weight:300; font-size:1.143rem; line-height:2rem; white-space:pre-line;}
+.error > .error-object {position:absolute; width:100%; height:100%;}
+.error > .error-object > p:first-child {position:absolute; top:50%; width:2.143rem; transform:translateX(-3.571rem) rotate(40deg); animation:rocket-mov 100s linear infinite both;}
+.error > .error-object > p:last-child {position:absolute; top:14%; left:10%; width:7.143rem; animation:earth-mov 80s infinite;}
+.error > .error-object > p:last-child::before {content:''; position:absolute; top:50%; left:50%; width:120%; height:120%; border-radius:50%; background:rgba(255, 255, 255, 0.2); transform:translate(-50%, -50%); filter:blur(5px); z-index:-1;}
+.error > ol {position:absolute; top:0; left:0; width:100%; height:100%; background:url('/images/error_stars1.png') center/cover no-repeat; animation:stars 4.6s linear infinite alternate;}
+.error > ol::before {content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:url('/images/error_stars2.png') center/cover no-repeat; animation:stars2 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;}
+.error > ol > li {position:absolute; width:2.857rem; height:4.286rem; background:url('/images/error_star.png') center/cover no-repeat;}
+.error > ol > li:nth-child(1) {top:80%; left:25%; animation:glow-star 2.7s linear infinite alternate;}
+.error > ol > li:nth-child(2) {top:25%; left:80%; animation:glow-star 3.7s linear infinite alternate;}
+.error > ol > li:nth-child(3) {top:40%; left:10%; animation:glow-star 4.7s linear infinite alternate;}
+.error > ol > li:nth-child(4) {top:60%; left:70%; animation:glow-star 5.7s linear infinite alternate;}
+.error > ol > li:nth-child(5) {top:10%; left:20%; animation:glow-star 6.7s linear infinite alternate;}
+.error > ol > li:nth-child(6) {top:20%; left:50%; animation:glow-star 7.7s linear infinite alternate;}
+
+@-webkit-keyframes rocket-mov {100% {-webkit-transform:translate(85.714rem, -42.857rem) rotate(80deg);}}
+@-moz-keyframes rocket-mov {100% {-moz-transform:translate(85.714rem, -42.857rem) rotate(80deg);}}
+@keyframes rocket-mov {100% {transform:translate(85.714rem, -42.857rem) rotate(80deg);}}
+
+@-webkit-keyframes earth-mov {100% {-webkit-transform:rotate(360deg);}}
+@-moz-keyframes earth-mov {100% {-moz-transform:rotate(360deg);}}
+@keyframes earth-mov {100% {transform:rotate(360deg);}}
+
+@-webkit-keyframes spin-earth {100% {-webkit-transform:rotate(-360deg); -webkit-translate:transform 10s;}}
+@-moz-keyframes spin-earth {100% {-moz-transform:rotate(-360deg); -moz-translate:transform 10s;}}
+@keyframes spin-earth {100% {transform:rotate(-360deg); translate:transform 10s;}}
+
+@-webkit-keyframes glow-star {40% {opacity:0;} 100%{opacity:1; -webkit-transform:scale(1.2);}}
+@-moz-keyframes glow-star {40% {opacity:0;} 100%{opacity:1; -moz-transform:scale(1.2);}}
+@keyframes glow-star {40% {opacity:0;} 100%{opacity:1; transform:scale(1.2);}}
+
+@-webkit-keyframes stars {0% {opacity:0.5;} 50%{opacity:0.3;} 100%{opacity:1;}}
+@-moz-keyframes stars {0% {opacity:0.5;} 50%{opacity:0.3;} 100%{opacity:1;}}
+@keyframes stars {0% {opacity:0.5;} 50%{opacity:0.3;} 100%{opacity:1;}}
+
+@-webkit-keyframes stars2 {0% {opacity:0.1;} 70% {opacity:0.7;} 100%{opacity:1;}}
+@-moz-keyframes stars2 {0% {opacity:0.1;} 70% {opacity:0.7;} 100%{opacity:1;}}
+@keyframes stars2 {0% {opacity:0.1;} 70% {opacity:0.7;} 100%{opacity:1;}}

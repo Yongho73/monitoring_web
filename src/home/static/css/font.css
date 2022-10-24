@@ -1,0 +1,124 @@
+@charset "utf-8";
+
+
+/* 국문폰트 //////////////////////////////////////////// */
+/* 본고딕 */
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 250;
+	src: local('NotoSansKR-Thin'),
+	url('../font/NotoSans/NotoSans-Thin.eot'),
+	url('../font/NotoSans/NotoSans-Thin.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-Thin.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-Thin.otf') format('truetype');
+}
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 300;
+	src: local('NotoSansKR-Light'),
+	url('../font/NotoSans/NotoSans-Light.eot'),
+	url('../font/NotoSans/NotoSans-Light.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-Light.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-Light.otf') format('truetype');
+}
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 350;
+	src: local('NotoSansKR-DemiLight'),
+	url('../font/NotoSans/NotoSans-DemiLight.eot'),
+	url('../font/NotoSans/NotoSans-DemiLight.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-DemiLight.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-DemiLight.otf') format('truetype');
+}
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 400;
+	src: local('NotoSansKR-Regular'),
+	url('../font/NotoSans/NotoSans-Regular.eot'),
+	url('../font/NotoSans/NotoSans-Regular.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-Regular.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-Regular.otf') format('truetype');
+}
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 500;
+	src: local('NotoSansKR-Medium'),
+	url('../font/NotoSans/NotoSans-Medium.eot'),
+	url('../font/NotoSans/NotoSans-Medium.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-Medium.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-Medium.otf') format('truetype');
+}
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 700;
+	src: local('NotoSansKR-Bold'),
+	url('../font/NotoSans/NotoSans-Bold.eot'),
+	url('../font/NotoSans/NotoSans-Bold.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-Bold.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-Bold.otf') format('truetype');
+}
+@font-face {
+	font-family: 'NotoSansKR';
+	font-style: normal;
+	font-weight: 900;
+	src: local('NotoSansKR-Black'),
+	url('../font/NotoSans/NotoSans-Black.eot'),
+	url('../font/NotoSans/NotoSans-Black.eot?#iefix') format('embedded-opentype'),
+	url('../font/NotoSans/NotoSans-Black.woff') format('woff'),
+	url('../font/NotoSans/NotoSans-Black.otf') format('truetype');
+}
+
+
+/* 영문폰트 //////////////////////////////////////////// */
+/* Montserrat */
+@font-face {
+font-family: 'Montserrat';
+font-weight: 100;
+src: local('※'), url('../font/Montserrat/Montserrat-Thin.woff') format('woff');
+}
+@font-face {
+font-family: 'Montserrat';
+font-weight: 200;
+src: local('※'), url('../font/Montserrat/Montserrat-ExtraLight.woff') format('woff');
+}
+@font-face {
+font-family: 'Montserrat';
+font-weight: 300;
+src: local('※'), url('../font/Montserrat/Montserrat-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-weight: 400;
+  src: local('※'), url('../font/Montserrat/Montserrat-Regular.woff') format('woff');
+  }
+@font-face {
+font-family: 'Montserrat';
+font-weight: 500;
+src: local('※'), url('../font/Montserrat/Montserrat-Medium.woff') format('woff');
+}
+@font-face {
+font-family: 'Montserrat';
+font-weight: 600;
+src: local('※'), url('../font/Montserrat/Montserrat-SemiBold.woff') format('woff');
+}
+@font-face {
+font-family: 'Montserrat';
+font-weight: 700;
+src: local('※'), url('../font/Montserrat/Montserrat-Bold.woff') format('woff');
+}
+@font-face {
+font-family: 'Montserrat';
+font-weight: 800;
+src: local('※'), url('../font/Montserrat/Montserrat-ExtraBold.woff') format('woff');
+}
+@font-face {
+font-family: 'Montserrat';
+font-weight: 900;
+src: local('※'), url('../font/Montserrat/Montserrat-Black.woff') format('woff');
+}
