@@ -6,7 +6,7 @@ import Layout from './home/layout/layout'
 
 const App = () => {
 	return (    
-      <Layout />            
+      <Layout />       
 	);
 }
 
