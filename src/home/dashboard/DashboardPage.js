@@ -5,11 +5,9 @@ import MonitoringList from './index'
 
 export default function MonitoringPage() {  
     
-    return (
-        <BrowserRouter>
+    return (        
            <Switch>                        
               <Route exact path="/dashboard" component={MonitoringList}></Route>     
-          </Switch>
-        </BrowserRouter>
+          </Switch>        
       )
 }

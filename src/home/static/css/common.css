@@ -118,9 +118,9 @@ main {position:relative; height:calc(100% - 3.713rem); overflow:hidden;}
 .error > .error-object > p:first-child {position:absolute; top:50%; width:2.143rem; transform:translateX(-3.571rem) rotate(40deg); animation:rocket-mov 100s linear infinite both;}
 .error > .error-object > p:last-child {position:absolute; top:14%; left:10%; width:7.143rem; animation:earth-mov 80s infinite;}
 .error > .error-object > p:last-child::before {content:''; position:absolute; top:50%; left:50%; width:120%; height:120%; border-radius:50%; background:rgba(255, 255, 255, 0.2); transform:translate(-50%, -50%); filter:blur(5px); z-index:-1;}
-.error > ol {position:absolute; top:0; left:0; width:100%; height:100%; background:url('/images/error_stars1.png') center/cover no-repeat; animation:stars 4.6s linear infinite alternate;}
-.error > ol::before {content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:url('/images/error_stars2.png') center/cover no-repeat; animation:stars2 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;}
-.error > ol > li {position:absolute; width:2.857rem; height:4.286rem; background:url('/images/error_star.png') center/cover no-repeat;}
+.error > ol {position:absolute; top:0; left:0; width:100%; height:100%; background:url('../images/error_stars1.png') center/cover no-repeat; animation:stars 4.6s linear infinite alternate;}
+.error > ol::before {content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:url('../images/error_stars2.png') center/cover no-repeat; animation:stars2 1.2s cubic-bezier(.5, 0, 1, 1) infinite alternate;}
+.error > ol > li {position:absolute; width:2.857rem; height:4.286rem; background:url('../images/error_star.png') center/cover no-repeat;}
 .error > ol > li:nth-child(1) {top:80%; left:25%; animation:glow-star 2.7s linear infinite alternate;}
 .error > ol > li:nth-child(2) {top:25%; left:80%; animation:glow-star 3.7s linear infinite alternate;}
 .error > ol > li:nth-child(3) {top:40%; left:10%; animation:glow-star 4.7s linear infinite alternate;}

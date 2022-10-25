@@ -1,7 +1,6 @@
 import React from 'react'
 import error_four from '../static/images/error_four.png'
 import error_zero_ban from '../static/images/error_zero_ban.png'
-import error_three from '../static/images/error_three.png'
 import error_rocket from '../static/images/error_rocket.png'
 import error_earth from '../static/images/error_earth.png'
 
@@ -13,7 +12,7 @@ export default function Page404() {
                 <ul>
                     <li><img src={error_four} height="100%" alt="four" title="four" /></li>
                     <li><img src={error_zero_ban} width="100%" alt="zero" title="zero" /></li>
-                    <li><img src={error_three} height="100%" alt="three" title="three" /></li>
+                    <li><img src={error_four} height="100%" alt="three" title="three" /></li>
                 </ul>
                 <div>Not Found</div>
 				<p>페이지가 존재하지 않거나, 사용할 수 없는 페이지입니다.
