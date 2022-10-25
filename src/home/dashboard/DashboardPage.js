@@ -8,7 +8,7 @@ export default function MonitoringPage() {
     return (
         <BrowserRouter>
            <Switch>                        
-              <Route exact path="/list" component={MonitoringList}></Route>     
+              <Route exact path="/dashboard" component={MonitoringList}></Route>     
           </Switch>
         </BrowserRouter>
       )

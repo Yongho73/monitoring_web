@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Index from './index'
-import MonitoringPage from './monitoring/MonitoringPage'
+import DashboardPage from './dashboard/DashboardPage'
 import Page404 from './error/404'
 
 export default function HomePage() {  
@@ -9,7 +9,7 @@ export default function HomePage() {
     <BrowserRouter>      
         <Switch>          
             <Route exact path="/" component={Index}></Route>     
-            <Route exact path="/list" component={MonitoringPage}></Route>     
+            <Route exact path="/dashboard" component={DashboardPage}></Route>     
             <Route exact path="*" component={Page404}></Route>     
         </Switch>      
     </BrowserRouter>

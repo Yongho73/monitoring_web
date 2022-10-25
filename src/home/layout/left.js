@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { solid, regular, brands, icon } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
 
 export default function Left() {    
     return (
@@ -10,12 +10,12 @@ export default function Left() {
 
                 <ul>
                     <li>
-                        <a href="../dashboard/dashboard">
+                        <a href="/dashboard">
                             <span><FontAwesomeIcon icon={solid('monitor-waveform')} /></span> 실시간 모니터링
                         </a>
                     </li>
                     <li>
-                        <a href="../place/place">                            
+                        <a href="/place/place">                            
                             <span><FontAwesomeIcon icon={solid('city')} /></span> 사업장 정보
                         </a>
                         <ol>
@@ -24,17 +24,17 @@ export default function Left() {
                         </ol>
                     </li>
                     <li>
-                        <a href="../reduction/reduction">                            
+                        <a href="/reduction/reduction">                            
                             <span><FontAwesomeIcon icon={solid('chart-simple')} /></span> 연간 저감량
                         </a>
                     </li>
                     <li>
-                        <a href="../info/info">                            
+                        <a href="/info/info">                            
                             <span><FontAwesomeIcon icon={solid('circle-info')} /></span> 모니터링 소개
                         </a>
                         <ol>
-                            <li><a href="../info/info">모니터링 시스템</a></li>
-                            <li><a href="../info/step">시스템 절차</a></li>
+                            <li><a href="/info/info">모니터링 시스템</a></li>
+                            <li><a href="/info/step">시스템 절차</a></li>
                         </ol>
                     </li>
                 </ul>

@@ -6,9 +6,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-
+import Paging from './Paging'
 
 const useStyles = makeStyles({
   root: {
@@ -20,20 +19,14 @@ const useStyles = makeStyles({
 });
 
 export default function CommonTablePaging(props) {
-
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  
+  const classes = useStyles();  
+  const [rowsPerPage, setRowsPerPage] = React.useState(props.rowPerPage ? props.rowPerPage : 15);  
   const [list, setList ] = React.useState([])
   const [columns, setColumns ] = React.useState([])    
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);    
-  }
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);    
+  const handleChangePage = (newPage) => {        
+    props.handleChangePage(newPage);
   }
 
   useEffect(() => {
@@ -79,15 +72,14 @@ export default function CommonTablePaging(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={list.length ? list.length : 0  }
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      {props.pagination.totalCount > 0 && 
+        <Paging
+          totalCount={props.pagination.totalCount  }
+          rowsPerPage={props.pagination.pagePerSize}
+          page={props.pagination.pageIndex}
+          onPageChange={handleChangePage}
+        />
+      }
     </Paper>
   );
 }
