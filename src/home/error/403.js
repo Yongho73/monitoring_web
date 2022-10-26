@@ -16,7 +16,7 @@ export default function Page403() {
                     <li><img src={error_three} height="100%" alt="three" title="three" /></li>
                 </ul>
                 <div>Forbidden</div>
-                <p>요청하신 페이지에 접근이 거부되었습니다.
+                <p>요청하신 페이지에 접근이 거부되었습니다.<br/>
                     입력하신 주소가 정확한지 다시 한 번 확인해주세요.
                 </p>
             </div>
