@@ -9,18 +9,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paging from './Paging'
 
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-  },
-  container: {
-    maxHeight: 750,
-  },
-});
+// const useStyles = makeStyles({
+//   root: {
+//     width: '100%',
+//   },
+//   container: {
+//     maxHeight: 750,
+//   },
+// });
 
 export default function CommonTablePaging(props) {
   
-  const classes = useStyles();  
+  // const classes = useStyles();  
   const [rowsPerPage, setRowsPerPage] = React.useState(props.rowPerPage ? props.rowPerPage : 15);  
   const [list, setList ] = React.useState([])
   const [columns, setColumns ] = React.useState([])    
@@ -38,8 +38,8 @@ export default function CommonTablePaging(props) {
   }, [props])
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
+    <Paper>
+      <TableContainer className='list'>
         <Table>
           <TableHead>
             <TableRow>
@@ -48,6 +48,7 @@ export default function CommonTablePaging(props) {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  className='list-title'
                 >
                   {column.label}
                 </TableCell>

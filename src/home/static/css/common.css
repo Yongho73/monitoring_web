@@ -151,3 +151,51 @@ main {position:relative; height:calc(100% - 3.713rem); overflow:hidden;}
 @-webkit-keyframes stars2 {0% {opacity:0.1;} 70% {opacity:0.7;} 100%{opacity:1;}}
 @-moz-keyframes stars2 {0% {opacity:0.1;} 70% {opacity:0.7;} 100%{opacity:1;}}
 @keyframes stars2 {0% {opacity:0.1;} 70% {opacity:0.7;} 100%{opacity:1;}}
+
+/* 탭메뉴 */
+.tab {display:none;}
+.tab + label {padding:0.929rem 3.571rem; font-size:1.143rem; line-height:1.143rem; background:#41069a; box-shadow:0 0.071rem 0.214rem #1e0a64; transition:0.3s background ease, 0.3s box-shadow ease; cursor:pointer;}
+.tab + label:hover {background:#8533ff;}
+.tab + label:nth-of-type(1) {border-radius:2rem 0 0 2rem;}
+.tab + label:nth-of-type(2) {border-radius:0 2rem 2rem 0;}
+.tab ~ content {position:absolute; transform:translateY(-0.714rem); visibility:hidden;}
+.tab:checked + label {background:#7120ea;}
+.tab:checked + label:hover {background:#8533ff;}
+.tab:checked:nth-of-type(1) ~ content:nth-of-type(1), .tab:checked:nth-of-type(2) ~ content:nth-of-type(2) {position:relative; top:0; transform:translateY(0px); transition:0.5s opacity ease-in, 0.8s transform ease; visibility:visible;}
+
+
+/* 리스트 - 검색 */
+.list-search {display:flex; justify-content:flex-end; width:100%; padding:1.071rem; border:0.071rem solid rgba(255, 255, 255, 0.18); border-radius:1.429rem; background:rgba(25, 0, 114, 0.25); box-shadow:0 0.571rem 2.286rem 0 rgba(31, 38, 135, 0.37); backdrop-filter:blur(0.286rem); -webkit-backdrop-filter:blur(0.286rem);}
+.list-search > select {margin-right:0.5rem;}
+.list-search > div {position:relative; width:25%; margin-right:0.5rem;}
+.list-search > div > input {padding-right:2.857rem;}
+.list-search > div > label {position:absolute; right:0; width:2.857rem; height:100%; line-height:2.714rem; border-radius:0 0.357rem 0.357rem 0; background:#7120ea;}
+
+
+/* 리스트 */
+.list {width:100%; padding:1.071rem 2.143rem 2.143rem 2.143rem; border:0.071rem solid rgba(255, 255, 255, 0.18); border-radius:1.429rem; background:rgba(25, 0, 114, 0.25); box-shadow:0 0.571rem 2.286rem 0 rgba(31, 38, 135, 0.37); backdrop-filter:blur(0.286rem); -webkit-backdrop-filter:blur(0.286rem);}
+.list > div {display:flex; align-items:center; color:#bababa; border-bottom:0.071rem solid rgba(255,255,255,0.13);}
+.list > div li {flex:1; padding:1rem;}
+.list > div.list-title {font-weight:500; font-size:1.143rem; color:#fff; border-bottom:0.143rem solid rgba(255,255,255,0.18);}
+.list > div.list-title > li > div {display:flex; justify-content:space-around; margin-top:1rem; padding-top:1rem; border-top:0.071rem solid rgba(255,255,255,0.13);}
+.list > div.list-title > li > div > span {flex:1; padding:0 1rem;}
+.list > div.list-title > li.col-w2 > div > span:first-child {border-right:1px solid rgba(255, 255, 255, 0.13);}
+.list > div.list-title > li.col-w3 > div > span:nth-child(2) {border-right:1px solid rgba(255, 255, 255, 0.13); border-left:1px solid rgba(255, 255, 255, 0.13);}
+.list > div:not(.list-title) {line-height:1rem;}
+.list > div:not(.list-title) > div {display:flex; padding:0 1rem;}
+.list > div:not(.list-title) li {padding:1.2% 1%;}
+.list > div > .col-w2 {flex:2;}
+.list > div > .col-w3 {flex:3;}
+
+
+/* 리스트 - 페이지 */
+.list-page {display:flex; justify-content:center; margin-top:2rem;}
+.list-page > li {display:flex; justify-content:center; align-items:center; width:2.142rem; height:2.142rem; margin-right:1rem; line-height:1rem; border-radius:0.357rem;}
+.list-page > li:last-child {margin-right:0;}
+.list-page > li:hover {background:#ff3469; cursor:pointer;}
+.list-page > li.active {background:#ff3469;}
+
+
+/* 기본 박스 */
+.box {padding:1.071rem; border:0.071rem solid rgba(255, 255, 255, 0.18);	border-radius:1.429rem;	background:rgba(25, 0, 114, 0.25); box-shadow:0 0.571rem 2.286rem 0 rgba(31, 38, 135, 0.37); backdrop-filter:blur(0.286rem); -webkit-backdrop-filter:blur(0.286rem);}
+.box > h2 {font-size:1.071rem;}
