@@ -10,7 +10,7 @@ export default function HomePage(props) {
         <Switch>          
             <Route exact path="/index" component={Index}></Route>                   
             <Route exact path="/dashboard" component={DashboardPage}></Route>     
-            <Redirect from="/" to="/index" />
+            
             <Route exact path="*" component={Page404}></Route>                 
         </Switch>          
   )

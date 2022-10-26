@@ -28,8 +28,8 @@ export default function Page404() {
                 <li></li>
             </ol>
             <div className="error-object">
-                <p><img src={error_rocket} height="100%" alt="rocket" title="rocket" /></p>
-                <p><img src={error_earth} height="100%" alt="earth" title="earth" /></p>                
+                <p><img src={error_rocket} width="100%" alt="rocket" title="rocket" /></p>
+                <p><img src={error_earth} width="100%" alt="earth" title="earth" /></p>                
             </div>
         </div>        
     )
