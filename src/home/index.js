@@ -4,6 +4,8 @@ import getMonitoringList from '../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoJson from '../home/util/json/testData.json'
+import { Route } from 'react-router-dom';
+import CommonTablePaging from './common/CommonTablePaging'
 
 export default function Index() {    
   
@@ -102,12 +104,24 @@ export default function Index() {
   
   useEffect(() => {
     handleSearch();    
-  },[])            
+  },[])
 
   return (
-    
-    //  <NaverMapApi Latitude={lat}  Longtitude={lng} zoom={zoom} roadAddress={null} markerMap= {list}/> 
-    <ReactEcharts option={mapOption} style={{ width: "80vw", height: "80vh" }} />      
+		<div class="dashboard">
+			<input type="radio" id="tab01" name="tabGroup1" class="tab" checked />
+			<label for="tab01">전체 장치 현황</label>
+
+			<input type="radio" id="tab02" name="tabGroup1" class="tab" />
+			<label for="tab02">측정 결과</label>
+
+			<content>
+				<ReactEcharts option={mapOption} style={{ width: "80vw", height: "80vh" }} />
+
+				<div>
+					<Route exact path="/common" component={CommonTablePaging}></Route>
+				</div>
+			</content>
+		</div>
     
    
     

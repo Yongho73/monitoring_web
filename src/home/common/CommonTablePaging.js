@@ -1,12 +1,9 @@
 import React, { useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+// import Table from '@material-ui/core/Table';
+// import TableHead from '@material-ui/core/TableHead';
+// import TableBody from '@material-ui/core/TableBody';
+// import TableRow from '@material-ui/core/TableRow';
+// import TableCell from '@material-ui/core/TableCell';
 import Paging from './Paging'
 
 // const useStyles = makeStyles({
@@ -38,41 +35,40 @@ export default function CommonTablePaging(props) {
   }, [props])
 
   return (
-    <Paper>
-      <TableContainer className='list'>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                  className='list-title'
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {list.map((row, index) => {              
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div class="box">
+			<table className='list'>
+				<thead>
+					<tr>
+						{columns.map((column) => (
+							<th
+								key={column.id}
+								align={column.align}
+								style={{ minWidth: column.minWidth }}
+								className='list-title'
+							>
+								{column.label}
+							</th>
+						))}
+					</tr>
+				</thead>
+				<tbody>
+					{list.map((row, index) => {              
+						return (
+							<tr role="checkbox" tabIndex={-1} key={index}>
+								{columns.map((column) => {
+									const value = row[column.id];
+									return (
+										<td key={column.id} align={column.align}>
+											{column.format && typeof value === 'number' ? column.format(value) : value}
+										</td>
+									);
+								})}
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+
       {props.pagination.totalCount > 0 && 
         <Paging
           totalCount={props.pagination.totalCount  }
@@ -81,6 +77,6 @@ export default function CommonTablePaging(props) {
           onPageChange={handleChangePage}
         />
       }
-    </Paper>
+    </div>
   );
 }

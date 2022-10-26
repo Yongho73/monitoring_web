@@ -1,58 +1,29 @@
-import React , {useEffect , useState} from 'react'
-import { propTypes } from 'react-bootstrap/esm/Image';
-import getMonitoringList from '../../crud/monitoring.crud'
-import CommonTablePaging from '../common/CommonTablePaging'
+import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import DashboardMap from './DashboardMap'
+import DashboardList from './DashboardList'
 
-export default function MonitoringList() {  
+export default function Index() {
 
-    let activePage = 1;    
-    
-    const [list , setList] = useState([])
-    const [pagination , setPagination] = useState({})
-    
-    const columns = [
-        { id:'deviceIdnfr' , align: 'center', label: 'deviceIdnfr' },
-        { id:'oxygen' , align: 'center', label: 'oxygen' },
-        { id:'carbon' , align: 'center', label: 'carbon' },
-        { id:'methane' , align: 'center', label: 'methane' },
-        { id:'airCurrent' , align: 'center', label: 'u' },
-        { id:'lat' , align: 'center', label: 'lat' },
-        { id:'lng' , align: 'center', label: 'lng' }
-    ]
-    const handleSearch = async() => {
+	return (
+		<>
+			<h2><span><FontAwesomeIcon icon={solid('monitor-waveform')} /></span> 실시간 모니터링</h2>
 
-        const param = { pageIndex : activePage }         
+			<div className="dashboard">
+				<input type="radio" id="tab01" name="tabGroup1" className="tab" checked />
+				<label htmlFor="tab01">전체 장치 현황</label>
 
-        await getMonitoringList(param).then(response => {
-            const status = response.status;
-            const data = response.data.responseData.result;
-            const paging = response.data.responseData.pagination
-            
-            if(status === 200){
-                setList(data)
-                setPagination(paging)
-            }
-        })
-    }      
+				<input type="radio" id="tab02" name="tabGroup1" className="tab" />
+				<label htmlFor="tab02">측정 결과</label>
 
-    const handleChangePage = val => {
-        activePage = val ;
-        handleSearch();
-    }
-    useEffect(() => {
-        handleSearch();    
-    },[])       
-
-    return (
-        <>
-            <div>MonitoringList</div>
-            <CommonTablePaging            
-                page = {activePage}
-                columns = {columns}
-                list = {list}                    
-                pagination = {pagination}
-                handleChangePage = {handleChangePage}
-            />
-        </>
-    )
+				<div>
+					<DashboardMap />
+					<DashboardList />
+				</div>
+				
+				<div></div>
+			</div>		
+		</>
+	)
 }
