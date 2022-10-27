@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import getMonitoringList from '../../crud/monitoring.crud'
+import { getMonitoringList } from '../../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoJson from '../../home/util/json/testData.json'
