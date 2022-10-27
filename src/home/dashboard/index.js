@@ -1,6 +1,5 @@
 import React , {useEffect , useState} from 'react'
-import { propTypes } from 'react-bootstrap/esm/Image';
-import getMonitoringList from '../../crud/monitoring.crud'
+import { getMonitoringList } from '../../crud/monitoring.crud'
 import CommonTablePaging from '../common/CommonTablePaging'
 
 export default function MonitoringList() {  
@@ -19,6 +18,7 @@ export default function MonitoringList() {
         { id:'lat' , align: 'center', label: 'lat' },
         { id:'lng' , align: 'center', label: 'lng' }
     ]
+
     const handleSearch = async() => {
 
         const param = { pageIndex : activePage }         

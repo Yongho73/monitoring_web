@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import NaverMapApi from './common/NaverMapAPI'
-import getMonitoringList from '../crud/monitoring.crud'
+import { getMonitoringList , getMonitoringExcelList } from '../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoJson from '../home/util/json/testData.json'
+import { excelDownLoad } from './util/excelDown'
 
 export default function Index() {    
   
@@ -16,9 +17,9 @@ export default function Index() {
   const handleSearch = async() => {
     await getMonitoringList().then(response => {
       const status = response.status;
-      const data = response.data.result;
+      const data = response.data.responseData.result;
       
-      if(status === 200){
+      if(status === 200){        
         setList(data)
       }
     })
@@ -100,16 +101,39 @@ export default function Index() {
     ]
   };
   
+
+  const columns = [
+    { id:'deviceIdnfr' , align: 'center', label: 'deviceIdnfr' },
+    { id:'oxygen' , align: 'center', label: 'oxygen' },
+    { id:'carbon' , align: 'center', label: 'carbon' },
+    { id:'methane' , align: 'center', label: 'methane' },
+    { id:'airCurrent' , align: 'center', label: 'u' },
+    { id:'lat' , align: 'center', label: 'lat' },
+    { id:'lng' , align: 'center', label: 'lng' }
+  ]
+
+  const handleExceDown = async() => {
+
+    await getMonitoringExcelList().then(response => {
+      const status = response.status;
+      const data = response.data.responseData.result;
+      
+      if(status === 200){        
+        excelDownLoad(columns , data , 'test');
+      }
+    })
+
+    
+  }
   useEffect(() => {
     handleSearch();    
   },[])            
 
-  return (
-    
-    //  <NaverMapApi Latitude={lat}  Longtitude={lng} zoom={zoom} roadAddress={null} markerMap= {list}/> 
-    <ReactEcharts option={mapOption} style={{ width: "80vw", height: "80vh" }} />      
-    
-   
-    
+  return (    
+    <>
+      <button onClick={event => handleExceDown()}>Excel Down</button>
+      {/* {list.length > 0 && <ReactExcelDownload fileName={'test'} columns={columns} list={list} />} */}
+      <ReactEcharts option={mapOption} style={{ width: "80vw", height: "80vh" }} />      
+    </>    
   );
 }
