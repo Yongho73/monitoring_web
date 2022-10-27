@@ -1,8 +1,9 @@
-import React , {useEffect , useState} from 'react'
+import React , { useEffect , useState } from 'react'
 import { getMonitoringList } from '../../crud/monitoring.crud'
 import CommonTablePaging from '../common/CommonTablePaging'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
+import noResultImg from '../static/images/no_result.png'
 
 export default function DashboardList() {
 	let activePage = 1;    
@@ -100,6 +101,12 @@ export default function DashboardList() {
 				pagination = {pagination}
 				handleChangePage = {handleChangePage}
 			/>
+
+			<div className="box list-no-result" style={{display:'none'}}>
+				<div><img src={noResultImg} width="100%" alt="no result" title="no result" /></div>
+				<h3>검색결과가 없습니다.</h3>
+				<h4>검색어를 바르게 입력하셨는지 확인하시거나,<br/>다른 키워드로 검색해주세요.</h4>
+			</div>
 		</div>
 	)
 }
