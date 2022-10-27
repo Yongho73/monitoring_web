@@ -34,6 +34,7 @@
     "react-router-dom": "^5.3.4",
     "react-scripts": "3.0.1",
     "styled-components": "^5.3.3",
+    "tui-chart": "^3.11.3",
     "xlsx": "^0.18.5",
     "xlsx-color": "^0.14.30",
     "xlsx-js-style": "^1.2.0"
