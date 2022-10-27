@@ -4,7 +4,11 @@ import { getMonitoringList , getMonitoringExcelList } from '../crud/monitoring.c
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoJson from '../home/util/json/testData.json'
+
 import { excelDownLoad } from './util/excelDown'
+
+import { Route } from 'react-router-dom';
+import CommonTablePaging from './common/CommonTablePaging'
 
 export default function Index() {    
   
@@ -127,13 +131,28 @@ export default function Index() {
   }
   useEffect(() => {
     handleSearch();    
-  },[])            
+  },[])
 
-  return (    
-    <>
-      <button onClick={event => handleExceDown()}>Excel Down</button>
-      {/* {list.length > 0 && <ReactExcelDownload fileName={'test'} columns={columns} list={list} />} */}
-      <ReactEcharts option={mapOption} style={{ width: "80vw", height: "80vh" }} />      
-    </>    
+  return (
+
+		<div class="dashboard">
+			<input type="radio" id="tab01" name="tabGroup1" class="tab" checked />
+			<label for="tab01">전체 장치 현황</label>
+
+			<input type="radio" id="tab02" name="tabGroup1" class="tab" />
+			<label for="tab02">측정 결과</label>
+
+			<content>
+        <button onClick={event => handleExceDown()}>Excel Down</button>
+				<ReactEcharts option={mapOption} style={{ width: "80vw", height: "80vh" }} />
+
+				<div>
+					<Route exact path="/common" component={CommonTablePaging}></Route>
+				</div>
+			</content>
+		</div>
+    
+   
+    
   );
 }
