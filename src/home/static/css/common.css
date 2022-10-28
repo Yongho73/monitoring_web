@@ -176,7 +176,7 @@ main > h2 > span {margin-right:0.5rem;}
 .tab ~ section {position:absolute; transform:translateY(-0.714rem); visibility:hidden;}
 .tab:checked + label {background:#7120ea;}
 .tab:checked + label:hover {background:#8533ff;}
-.tab:checked:nth-of-type(1) ~ section:nth-of-type(1), .tab:checked:nth-of-type(2) ~ section:nth-of-type(2) {position:relative; transform:translateY(0px); transition:0.5s opacity ease-in, 0.8s transform ease; visibility:visible;}
+.tab:checked:nth-of-type(1) ~ .dashboard-list, .tab:checked:nth-of-type(2) ~ .dashboard-result {position:relative; transform:translateY(0px); transition:0.5s opacity ease-in, 0.8s transform ease; visibility:visible;}
 
 
 /* 리스트 - 검색 */
@@ -188,17 +188,11 @@ main > h2 > span {margin-right:0.5rem;}
 
 
 /* 리스트 */
-/* .list {display:block; width:100%;}
-.list > thead, .list > tbody {display:block;}
-.list > thead > tr, .list > tbody > tr {display:grid; grid-template-columns:repeat(auto-fit, minmax(1rem, 1fr)); align-items:center;}
-.list > thead > tr {border-bottom:0.143rem solid rgba(255,255,255,0.18);}
-.list > thead > tr > th {padding:0 1% 3% 1%; font-weight:500; font-size:1.143rem; color:#fff;}
-.list > tbody > tr {border-bottom:0.071rem solid rgba(255,255,255,0.13);}
-.list > tbody > tr > td {padding:6% 2%; color:#bababa;} */
 .list {table-layout:fixed; width:100%;}
 .list > thead > tr {border-bottom:0.143rem solid rgba(255,255,255,0.18);}
 .list > thead > tr > th {padding:0 1% 1% 1%; font-weight:500; font-size:1.143rem; color:#fff;}
 .list > tbody > tr {border-bottom:0.071rem solid rgba(255,255,255,0.13);}
+.list > tbody > tr:hover {background:rgba(103, 123, 254, 0.15); cursor:pointer;}
 .list > tbody > tr > td {padding:1%; color:#bababa;}
 
 
@@ -211,8 +205,8 @@ main > h2 > span {margin-right:0.5rem;}
 
 
 /* 리스트 - 검색없음 */
-.list-no-result {display:flex; flex-direction:column; justify-content:center; align-items:center;}
-.list-no-result > div {width:32.143rem;}
+.list-no-result {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);}
+.list-no-result > div {width:32.143rem; margin:0 auto;}
 .list-no-result > h3 {font-size:1.429rem; line-height:1.429rem;}
 .list-no-result > h4 {margin-top:1.429rem;}
 

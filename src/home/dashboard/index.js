@@ -4,7 +4,7 @@ import CommonTablePaging from '../common/CommonTablePaging'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardList from './DashboardList'
-import DashboardDetail from './DashboardDetail'
+import DashboardResult from './DashboardResult'
 
 export default function Index() {
 	const [showTabIndex , setShowTabIndex] = useState('1')
@@ -30,12 +30,12 @@ export default function Index() {
 				<input type="radio" id="tab02" name="tabGroup1" className="tab" checked={ showTabIndex === '2' ? 'checked' : ''} onChange={event => handleTabIndex('1')} />
 				<label htmlFor="tab02">측정 결과</label>
 				{showTabIndex === '1' ?
-					<section>
+					<section className='dashboard-list'>
 						<DashboardList handleTabShow={handleTabShow} />
 					</section>				
 					:
-					<section>
-						<DashboardDetail deviceCode={deviceCode}/>
+					<section className='dashboard-result'>
+						<DashboardResult deviceCode={deviceCode}/>
 					</section>
 				}
 			</div>		

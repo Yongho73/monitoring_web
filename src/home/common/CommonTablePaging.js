@@ -28,44 +28,44 @@ export default function CommonTablePaging(props) {
   return (
     <div className="box">
 			{list.length > 0 ? 
-			<table className='list'>
-				<thead>
-					<tr>
-						{columns.map((column) => (
-							<th
-								key={column.id}
-								align={column.align}
-								style={{ minWidth: column.minWidth }}
-								className='list-title'
-							>
-								{column.label}
-							</th>
-						))}
-					</tr>
-				</thead>
-				<tbody>
-					{list.map((row, index) => {              
-						return (
-							<tr role="checkbox" tabIndex={-1} key={index} onClick={event => handleRowClick(row)}>
-								{columns.map((column) => {
-									const value = row[column.id];
-									return (
-										<td key={column.id} align={column.align}>
-											{column.format && typeof value === 'number' ? column.format(value) : value}
-										</td>
-									);
-								})}
-							</tr>
-						);
-					})}					
-				</tbody>
-			</table>
-			:
-			<div className="box list-no-result" >
-				<div><img src={noResultImg} width="100%" alt="no result" title="no result" /></div>
-				<h3>검색결과가 없습니다.</h3>
-				<h4>검색어를 바르게 입력하셨는지 확인하시거나,<br/>다른 키워드로 검색해주세요.</h4>
-			</div>
+				<table className='list'>
+					<thead>
+						<tr>
+							{columns.map((column) => (
+								<th
+									key={column.id}
+									align={column.align}
+									style={{ minWidth: column.minWidth }}
+									className='list-title'
+								>
+									{column.label}
+								</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{list.map((row, index) => {              
+							return (
+								<tr role="checkbox" tabIndex={-1} key={index} onClick={event => handleRowClick(row)}>
+									{columns.map((column) => {
+										const value = row[column.id];
+										return (
+											<td key={column.id} align={column.align}>
+												{column.format && typeof value === 'number' ? column.format(value) : value}
+											</td>
+										);
+									})}
+								</tr>
+							);
+						})}					
+					</tbody>
+				</table>
+				:
+				<div className="list-no-result" >
+					<div><img src={noResultImg} width="100%" alt="no result" title="no result" /></div>
+					<h3>검색결과가 없습니다.</h3>
+					<h4>검색어를 바르게 입력하셨는지 확인하시거나,<br/>다른 키워드로 검색해주세요.</h4>
+				</div>
 			}
 
       {props.pagination.totalCount > 0 && 

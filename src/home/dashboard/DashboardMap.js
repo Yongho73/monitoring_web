@@ -47,17 +47,17 @@ export default function DashboardMap(props) {
 		itemStyle: {
 			areaColor: '#05023c',
 			borderWidth: 1,
-			borderColor: '#8638fb',
+			borderColor: '#677bfe',
 		},
 		emphasis: {
 			label: {
 				fontWeight : '600',
 				fontSize: 16,
 				color: '#05023c',
-				backgroundColor : '#8638fb'
+				backgroundColor : '#677bfe'
 			},
 			itemStyle: {
-				areaColor: '#8638fb',
+				areaColor: '#677bfe',
 			}
 		},
 		select: {
@@ -65,9 +65,9 @@ export default function DashboardMap(props) {
 				fontWeight : 600,
 				fontSize: 16,
 				color: '#05023c',
-				backgroundColor : '#8638fb'
+				backgroundColor : '#677bfe'
 			},
-			itemStyle: {areaColor: '#8638fb'}
+			itemStyle: {areaColor: '#677bfe'}
 		},
       }
     ]
