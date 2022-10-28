@@ -1,5 +1,5 @@
 import React , { useEffect , useState } from 'react'
-import { getMonitoringList } from '../../crud/monitoring.crud'
+import { getMonitoringList, getMonitoringDetail } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
@@ -8,9 +8,10 @@ import Paging from '../common/Paging'
 export default function DashboardResult(props) {
 
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(true);  
 
 	useEffect(() => {
+
 		const data = {
 			categories: ['1', '2', '3', '4', '5', '6'],
 			series: [
@@ -117,7 +118,8 @@ export default function DashboardResult(props) {
 	let activePage = 1;    
 	
 	const [list , setList] = useState([])
-	const [pagination , setPagination] = useState({})
+	const [pagination , setPagination] = useState({})	
+	const [pageIndex, setPageIndex] = useState(1)
 	
 	const columns = [
 		{ id:'deviceIdnfr' , label: 'CO₂' },
@@ -135,9 +137,10 @@ export default function DashboardResult(props) {
 
 	const handleSearch = async() => {
 
-		const param = { pageIndex : activePage }         
+		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    
+		console.log(param)     
 
-		await getMonitoringList(param).then(response => {
+		await getMonitoringDetail(param).then(response => {
 			const status = response.status;
 			const data = response.data.responseData.result;
 			const paging = response.data.responseData.pagination
@@ -153,9 +156,9 @@ export default function DashboardResult(props) {
 		activePage = val ;
 		handleSearch();
 	}
-	useEffect(() => {
+	useEffect(() => {		
 		handleSearch();    
-	},[])
+	},[visible])
 
 
 	return (
@@ -193,7 +196,7 @@ export default function DashboardResult(props) {
 			}
 			<dl>
 				<dt>통계</dt>
-				<dd onClick={() => {setVisible(!visible);}}>
+				<dd onClick={event => setVisible(!visible) }>
 					{visible ?
 						<FontAwesomeIcon icon={regular('chevrons-up')} />
 						: <FontAwesomeIcon icon={regular('chevrons-down')} />
@@ -227,21 +230,24 @@ export default function DashboardResult(props) {
 						{list.map((row, index) => {              
 							return (
 								<tr role="checkbox" tabIndex={-1} key={index}>
-									{columns.map((column) => {
-										const value = row[column.id];
-										return (
-											<td key={column.id} align={column.align}>
-												{column.format && typeof value === 'number' ? column.format(value) : value}
-											</td>
-										);
-									})}
+									<td>{row.in_Oxygen}</td>
+									<td>{row.in_Carbon}</td>
+									<td>{row.in_Methane}</td>
+									<td>{row.in_AirCurrent}</td>
+									<td>{row.out_Oxygen}</td>
+									<td>{row.out_Carbon}</td>
+									<td>{row.out_Methane}</td>
+									<td>{row.out_AirCurrent}</td>				
+									<td>{row.st_Temp}</td>		
+									<td>{row.st_Humi}</td>		
+									<td>{row.observedDate}</td>								
 								</tr>
 							);
 						})}
 					</tbody>
 				</table>
 
-				{pagination.totalCount > 0 && !visible && 
+				{!visible && 
 					<Paging
 						totalCount={pagination.totalCount  }
 						rowsPerPage={pagination.pagePerSize}
