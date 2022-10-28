@@ -26,6 +26,10 @@ export default function CommonTablePaging(props) {
     props.handleChangePage(newPage);
   }
 
+  const handleRowClick = row => {
+	props.handleRowClick(row)
+  }
+
   useEffect(() => {
     if(props){
       setList(props.list)
@@ -35,7 +39,7 @@ export default function CommonTablePaging(props) {
   }, [props])
 
   return (
-    <div class="box">
+    <div className="box">
 			<table className='list'>
 				<thead>
 					<tr>
@@ -54,7 +58,7 @@ export default function CommonTablePaging(props) {
 				<tbody>
 					{list.map((row, index) => {              
 						return (
-							<tr role="checkbox" tabIndex={-1} key={index}>
+							<tr role="checkbox" tabIndex={-1} key={index} onClick={event => handleRowClick(row)}>
 								{columns.map((column) => {
 									const value = row[column.id];
 									return (

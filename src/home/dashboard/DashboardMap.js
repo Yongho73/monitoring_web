@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { getMonitoringList } from '../../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
-import geoJson from '../../home/util/json/testData.json'
+import geoJson from '../../home/util/json/geoJson.json'
 
-export default function DashboardMap() {    
+export default function DashboardMap(props) {    
   
   // 서울 기준점 좌표  
   const lat =37.5666805;
@@ -23,6 +23,7 @@ export default function DashboardMap() {
   }
   
   echarts.registerMap('KOR', geoJson, {});
+  
 
   const mapOption = {
     title : {
@@ -30,47 +31,57 @@ export default function DashboardMap() {
 			subtext: 'Overall Device Status',
 			textStyle: { color: '#fff'},
 			subtextStyle: {color: '#94baff'}
-    },
+    },	
     series: [
       {
-				name: '전국지도',
+		name: '전국지도',
         type: 'map',
         map: 'KOR',
-				zoom: 1.2,
-				label: {
-					show: true,
-					fontSize: 12,
-					color: '#c7ebff',
-					backgroundColor : '#05023c'
-				},
-				itemStyle: {
-					areaColor: '#05023c',
-					borderWidth: 1,
-					borderColor: '#8638fb',
-				},
-				emphasis: {
-					label: {
-						fontWeight : '600',
-						fontSize: 16,
-						color: '#05023c',
-						backgroundColor : '#8638fb'
-					},
-					itemStyle: {
-						areaColor: '#8638fb',
-					}
-				},
-				select: {
-					label: {
-						fontWeight : 600,
-						fontSize: 16,
-						color: '#05023c',
-						backgroundColor : '#8638fb'
-					},
-					itemStyle: {areaColor: '#8638fb'}
-				},
+		zoom: 1.2,
+		label: {
+			show: true,
+			fontSize: 12,
+			color: '#c7ebff',
+			backgroundColor : '#05023c'
+		},
+		itemStyle: {
+			areaColor: '#05023c',
+			borderWidth: 1,
+			borderColor: '#8638fb',
+		},
+		emphasis: {
+			label: {
+				fontWeight : '600',
+				fontSize: 16,
+				color: '#05023c',
+				backgroundColor : '#8638fb'
+			},
+			itemStyle: {
+				areaColor: '#8638fb',
+			}
+		},
+		select: {
+			label: {
+				fontWeight : 600,
+				fontSize: 16,
+				color: '#05023c',
+				backgroundColor : '#8638fb'
+			},
+			itemStyle: {areaColor: '#8638fb'}
+		},
       }
     ]
   };
+
+  
+
+  const handleClick = params =>{	
+	props.handleCallback(params.name)
+  }
+
+  const onEvents = {
+    'click': handleClick
+  }
   
   useEffect(() => {
     handleSearch();    
@@ -78,7 +89,7 @@ export default function DashboardMap() {
 
   return (
 
-		<map><ReactEcharts option={mapOption}/></map>
+		<map><ReactEcharts option={mapOption} onEvents={onEvents}/></map>
     
   );
 }
