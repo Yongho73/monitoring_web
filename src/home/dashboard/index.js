@@ -1,4 +1,3 @@
-
 import React , {useEffect , useState} from 'react'
 import { getMonitoringList } from '../../crud/monitoring.crud'
 import CommonTablePaging from '../common/CommonTablePaging'
@@ -31,13 +30,13 @@ export default function Index() {
 				<input type="radio" id="tab02" name="tabGroup1" className="tab" checked={ showTabIndex === '2' ? 'checked' : ''} onChange={event => handleTabIndex('1')} />
 				<label htmlFor="tab02">측정 결과</label>
 				{showTabIndex === '1' ?
-					<div>					
+					<section>
 						<DashboardList handleTabShow={handleTabShow} />
-					</div>				
+					</section>				
 					:
-					<div>
+					<section>
 						<DashboardDetail deviceCode={deviceCode}/>
-					</div>
+					</section>
 				}
 			</div>		
 		</>

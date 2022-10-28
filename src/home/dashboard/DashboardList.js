@@ -5,7 +5,6 @@ import CommonTablePaging from '../common/CommonTablePaging'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardMap from './DashboardMap'
-import { propTypes } from 'react-bootstrap/esm/Image'
 
 export default function DashboardList(props) {
 	let activePage = 1;    
@@ -160,7 +159,7 @@ export default function DashboardList(props) {
 					pagination = {pagination}
 					handleChangePage = {handleChangePage}
 					handleRowClick = {handleRowClick}
-				/>
+				/>				
 			</div>
 		</>
 	)

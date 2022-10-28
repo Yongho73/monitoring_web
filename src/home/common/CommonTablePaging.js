@@ -1,19 +1,6 @@
 import React, { useEffect} from 'react';
-// import Table from '@material-ui/core/Table';
-// import TableHead from '@material-ui/core/TableHead';
-// import TableBody from '@material-ui/core/TableBody';
-// import TableRow from '@material-ui/core/TableRow';
-// import TableCell from '@material-ui/core/TableCell';
 import Paging from './Paging'
-
-// const useStyles = makeStyles({
-//   root: {
-//     width: '100%',
-//   },
-//   container: {
-//     maxHeight: 750,
-//   },
-// });
+import noResultImg from '../static/images/no_result.png'
 
 export default function CommonTablePaging(props) {
   
@@ -40,6 +27,7 @@ export default function CommonTablePaging(props) {
 
   return (
     <div className="box">
+			{list.length > 0 ? 
 			<table className='list'>
 				<thead>
 					<tr>
@@ -69,9 +57,16 @@ export default function CommonTablePaging(props) {
 								})}
 							</tr>
 						);
-					})}
+					})}					
 				</tbody>
 			</table>
+			:
+			<div className="box list-no-result" >
+				<div><img src={noResultImg} width="100%" alt="no result" title="no result" /></div>
+				<h3>검색결과가 없습니다.</h3>
+				<h4>검색어를 바르게 입력하셨는지 확인하시거나,<br/>다른 키워드로 검색해주세요.</h4>
+			</div>
+			}
 
       {props.pagination.totalCount > 0 && 
         <Paging
