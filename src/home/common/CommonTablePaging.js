@@ -1,14 +1,6 @@
 import React, { useEffect} from 'react';
 import Paging from './Paging'
-
-// const useStyles = makeStyles({
-//   root: {
-//     width: '100%',
-//   },
-//   container: {
-//     maxHeight: 750,
-//   },
-// });
+import noResultImg from '../static/images/no_result.png'
 
 export default function CommonTablePaging(props) {
   
@@ -21,6 +13,10 @@ export default function CommonTablePaging(props) {
     props.handleChangePage(newPage);
   }
 
+  const handleRowClick = row => {
+	props.handleRowClick(row)
+  }
+
   useEffect(() => {
     if(props){
       setList(props.list)
@@ -31,6 +27,7 @@ export default function CommonTablePaging(props) {
 
   return (
     <div className="box">
+			{list.length > 0 ? 
 			<table className='list'>
 				<thead>
 					<tr>
@@ -49,7 +46,7 @@ export default function CommonTablePaging(props) {
 				<tbody>
 					{list.map((row, index) => {              
 						return (
-							<tr role="checkbox" tabIndex={-1} key={index}>
+							<tr role="checkbox" tabIndex={-1} key={index} onClick={event => handleRowClick(row)}>
 								{columns.map((column) => {
 									const value = row[column.id];
 									return (
@@ -60,9 +57,16 @@ export default function CommonTablePaging(props) {
 								})}
 							</tr>
 						);
-					})}
+					})}					
 				</tbody>
 			</table>
+			:
+			<div className="box list-no-result" >
+				<div><img src={noResultImg} width="100%" alt="no result" title="no result" /></div>
+				<h3>검색결과가 없습니다.</h3>
+				<h4>검색어를 바르게 입력하셨는지 확인하시거나,<br/>다른 키워드로 검색해주세요.</h4>
+			</div>
+			}
 
       {props.pagination.totalCount > 0 && 
         <Paging
