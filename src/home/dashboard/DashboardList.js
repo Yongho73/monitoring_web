@@ -41,7 +41,7 @@ export default function DashboardList(props) {
 		await getCommCodeList(param).then(response => {
 			const status = response.status;
 			const data = response.data.responseData.result;
-			
+		    
 			if(status === 200){
 				setAreaList(data)
 			}
@@ -79,6 +79,7 @@ export default function DashboardList(props) {
 	} 
 
 	const handleCallback = val => {		
+		console.log(val)
 		if(val === '경남'){
 			val = '경상남도'
 		}else if(val === '경북'){
@@ -92,7 +93,7 @@ export default function DashboardList(props) {
 		}else if(val === '충북'){
 			val = '충청북도'
 		}
-
+		console.log(areaList)
 		const code = areaList.filter(area => area.codeName.includes(val));		
 		
 		if(code.length > 0 ){
@@ -131,14 +132,6 @@ export default function DashboardList(props) {
 		handleSearch();    
 	},[])       
 
-	const test = (val) => {
-		if(val === 1){
-			return regular('magnifying-glass')
-		}else{
-			return regular('cloud')
-		}
-		return ''
-	}
 	return (
 		<>
 			<DashboardMap handleCallback={ handleCallback} />
@@ -167,7 +160,7 @@ export default function DashboardList(props) {
 
 					<div>
 						<input type="text" name="search" title="검색어 입력" id="search" placeholder="검색어를 입력해주세요." onChange={event => setSearchName(event.target.value)} onKeyPress={event => event.key === 'Enter' && handleSearch() }/>
-						<label htmlFor="search"><FontAwesomeIcon icon={test()} onClick={event => handleSearch()} /></label>
+						<label htmlFor="search"><FontAwesomeIcon icon={regular('magnifying-glass')} onClick={event => handleSearch()} /></label>
 					</div>
 					<button>엑셀 다운로드</button>
 				</div>
