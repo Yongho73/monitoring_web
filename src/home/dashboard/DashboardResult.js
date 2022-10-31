@@ -15,6 +15,11 @@ export default function DashboardResult(props) {
 	const [data2, setData2] = useState({});
 	const [data3, setData3] = useState({});
 
+	const [companyName, setCompanyName] = useState("");
+	const [deviceName, setDeviceName] = useState("");
+	const [exhaustType, setExhaustType] = useState("");
+	const [deviceType, setDeviceType] = useState("");
+
 	let activePage = 1;    
 	
 	const [list , setList] = useState([])
@@ -42,9 +47,16 @@ export default function DashboardResult(props) {
 		await getMonitoringDetail(param).then(response => {
 			const status = response.status;
 			const data = response.data.responseData.result;
-			const paging = response.data.responseData.pagination
+			const paging = response.data.responseData.pagination;
+			const device = response.data.responseData.deviceInfo;
 			
+			console.log(data);
 			if(status === 200){
+				setCompanyName(device.companyName);
+				setDeviceName(device.deviceName);
+				setExhaustType(device.exhaustType);
+				setDeviceType(device.deviceType);
+
 				setList(data)
 				setPagination(paging)
 
@@ -100,7 +112,6 @@ export default function DashboardResult(props) {
 			legend: { align: 'bottom', showCheckbox: false },
 			chartExportMenu: { visible: false },
 			chart: { width: 716, height: 318 },
-			series: { shift: true },
 			xAxis: { title: '시' },
 			yAxis: { title: '단위' },
 			theme: 'myTheme',
@@ -109,7 +120,6 @@ export default function DashboardResult(props) {
 			legend: { align: 'bottom', showCheckbox: false },
 			chartExportMenu: { visible: false },
 			chart: { width: 716, height: 318 },
-			series: { shift: true },
 			xAxis: { title: '분' },
 			yAxis: { title: '단위' },
 			theme: 'myTheme',
@@ -171,11 +181,11 @@ export default function DashboardResult(props) {
 		<>
 			<dl>
 				<dt>
-					<span>장치번호:</span>11H110880610
-					<span>사업장:</span>문경환경사업소
-					<span>명칭:</span>소각로
-					<span>배출구분:</span>소각장
-					<span>측정장치:</span> 거치식
+					<span>장치번호:</span>{deviceCode}
+					<span>사업장:</span>{companyName}
+					<span>명칭:</span>{deviceName}
+					<span>배출구분:</span>{exhaustType}
+					<span>측정장치:</span>{deviceType}
 				</dt>
 				<dd>
 					<button>엑셀 다운로드</button>
