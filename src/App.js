@@ -28,6 +28,7 @@ const App = () => {
     }, [])
 
 	return (    				
+		
 		<BrowserRouter>
 			<LoadingComponent loading={loading}/>  
 			<Layout />       
