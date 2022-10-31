@@ -7,51 +7,94 @@ import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
 
 export default function DashboardResult(props) {
-
+	
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
 	const [visible, setVisible] = useState(true);  
 
-	useEffect(() => {
+	const [data1, setData1] = useState({});
+	const [data2, setData2] = useState({});
+	const [data3, setData3] = useState({});
 
-		const data = {
-			categories: ['1', '2', '3', '4', '5', '6'],
-			series: [
-				{
-					name: 'CO₂ - IN',
-					data: [1000, 1200, 1000, 1300, 1000, 1000]
-				},
-				{
-					name: 'CO₂ - OUT',
-					data: [400, 400, 400, 500, 600, 400]
-				},
-			],
-		},
-		data2 = {
-			categories: ['1', '2', '3', '4', '5', '6'],
-			series: [
-				{
-					name: 'O₂ - IN',
-					data: [10, 12, 15, 13, 10, 16]
-				},
-				{
-					name: 'O₂ - OUT',
-					data: [20, 25, 24, 25, 23, 25]
-				},
-			],
-		},
-		data3 = {
-			categories: ['1', '2', '3', '4', '5', '6','7','8','9','10'],
-			series: [
-				{
-					name: 'CO₂',
-					data: [50, 55, 60, 52, 65, 63, 59, 46, 52, 55]
-				},
-				{
-					name: 'O₂',
-					data: [0, -5, 5, -10, 10, -15, 15, -20, -25, 25]
-				},
-			],
-		};
+	let activePage = 1;    
+	
+	const [list , setList] = useState([])
+	const [pagination , setPagination] = useState({})	
+	const [pageIndex, setPageIndex] = useState(1)
+	
+	const columns = [
+		{ id:'deviceIdnfr' , label: 'CO₂' },
+		{ id:'oxygen' , label: 'O₂' },
+		{ id:'carbon' , label: 'LPM' },
+		{ id:'deviceIdnfr' , label: 'CO₂' },
+		{ id:'oxygen' , label: 'O₂' },
+		{ id:'carbon' , label: 'AFM' },
+		{ id:'deviceIdnfr' , label: 'CO₂' },
+		{ id:'oxygen' , label: 'O₂' },
+		{ id:'carbon' , label: 'Variation' },
+		{ id:'methane' , label: 'Temp' },
+		{ id:'lat' , label: 'Humi' },
+	]
+
+	const handleSearch = async() => {
+		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    
+		console.log(param)     
+
+		await getMonitoringDetail(param).then(response => {
+			const status = response.status;
+			const data = response.data.responseData.result;
+			const paging = response.data.responseData.pagination
+			
+			if(status === 200){
+				setList(data)
+				setPagination(paging)
+
+				if(visible) {
+					setChart(data);
+				}
+			}
+		})
+	}
+
+	function setChart(data){
+		let data1_categories = [];
+		let data1_series = [];
+		let data1_series_in_carbon = [];
+		let data1_series_out_carbon = [];
+		let data2_categories = [];
+		let data2_series = [];
+		let data2_series_in_oxygen = [];
+		let data2_series_out_oxygen = [];
+		let data3_categories = [];
+		let data3_series = [];
+		let data3_series_diff_oxygen = [];
+		let data3_series_diff_carbon = [];
+		
+		for(let i = 0; i < data.length; i++){
+			const obj = data[i];
+			console.log(obj);
+			
+			data1_categories.push(obj.observedDate);
+			data2_categories.push(obj.observedDate);
+			data3_categories.push(obj.observedDate);
+
+			data1_series_in_carbon.push(obj.in_Carbon);
+			data1_series_out_carbon.push(obj.out_Carbon);
+
+			data2_series_in_oxygen.push(obj.in_Oxygen);
+			data2_series_out_oxygen.push(obj.out_Oxygen);
+
+			data3_series_diff_oxygen.push(obj.out_Oxygen - obj.in_Oxygen);
+			data3_series_diff_carbon.push(obj.out_Carbon - obj.in_Carbon);
+		}
+
+		data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
+		data1_series.push({name: 'CO₂ - OUT', data: data1_series_out_carbon});
+
+		data2_series.push({name: 'O₂ - IN', data: data2_series_in_oxygen});
+		data2_series.push({name: 'O₂ - OUT', data: data2_series_out_oxygen});
+
+		data3_series.push({name: 'O₂', data: data3_series_diff_oxygen});
+		data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
 
 		const option = {
 			legend: { align: 'bottom', showCheckbox: false },
@@ -110,48 +153,10 @@ export default function DashboardResult(props) {
 		};
 
 		tuiChart.registerTheme('myTheme', theme);
-		const chart = tuiChart.columnChart( document.getElementById('chart01'), data, option );
-		const chart2 = tuiChart.columnChart( document.getElementById('chart02'), data2, option );
-		const chart3 = tuiChart.lineChart( document.getElementById('chart03'), data3, option2 );
-
-	},[]);
-
-	let activePage = 1;    
-	
-	const [list , setList] = useState([])
-	const [pagination , setPagination] = useState({})	
-	const [pageIndex, setPageIndex] = useState(1)
-	
-	const columns = [
-		{ id:'deviceIdnfr' , label: 'CO₂' },
-		{ id:'oxygen' , label: 'O₂' },
-		{ id:'carbon' , label: 'LPM' },
-		{ id:'deviceIdnfr' , label: 'CO₂' },
-		{ id:'oxygen' , label: 'O₂' },
-		{ id:'carbon' , label: 'AFM' },
-		{ id:'deviceIdnfr' , label: 'CO₂' },
-		{ id:'oxygen' , label: 'O₂' },
-		{ id:'carbon' , label: 'Variation' },
-		{ id:'methane' , label: 'Temp' },
-		{ id:'lat' , label: 'Humi' },
-	]
-
-	const handleSearch = async() => {
-
-		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    
-		console.log(param)     
-
-		await getMonitoringDetail(param).then(response => {
-			const status = response.status;
-			const data = response.data.responseData.result;
-			const paging = response.data.responseData.pagination
-			
-			if(status === 200){
-				setList(data)
-				setPagination(paging)
-			}
-		})
-	}      
+		tuiChart.columnChart( document.getElementById('chart01'), {categories: data1_categories, series: data1_series}, option );
+		tuiChart.columnChart( document.getElementById('chart02'), {categories: data2_categories, series: data2_series}, option );
+		tuiChart.lineChart( document.getElementById('chart03'), {categories: data3_categories, series: data3_series}, option2 );
+	}
 
 	const handleChangePage = val => {
 		activePage = val ;
