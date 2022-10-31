@@ -1,51 +1,39 @@
-import React from 'react';
+import React, { useEffect  , useState } from 'react';
+import axios from 'axios'
 import Layout from './home/layout/layout'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import './config/axiosConfig'
 import { createStore, applyMiddleware, compose } from "redux";
-import { Provider } from "react-redux";
-import dispatch from "./reducer/reducer";
-import store from './reducer/store'
-import LoadingComponent from './home/common/LodingSpinner'
+import { Provider , useDispatch } from "react-redux";
+import { store } from './reducer/reducer'
+import LoadingComponent from './home/common/LoadingComponent'
 
 const App = () => {	
 
-	const dispatch = useDispatch();
-    
-    useEffect(() => {
-        axios.interceptors.request.use(function (config) {
-            console.log(1)
-            // 로딩 호출
-            dispatch({
-                type: GLOBAL_LOADING
-            })
+	const [loading , setLoading] = useState(false)
+
+	useEffect(() => {
+        axios.interceptors.request.use(function (config) {			
+            setLoading(true)      
             return config;
-        }, function (error) {
-            // 실패 시 로딩창 종료
-            dispatch({
-                type: GLOBAL_LOADED
-            })
+        }, function (error) { 
+			// 실패 시 로딩창 종료                          
+			setLoading(false) 			
             return Promise.reject(error);
         })
-        axios.interceptors.response.use((config) => {
-            // 완료 시 로딩창 종료
-            dispatch({
-                type: GLOBAL_LOADED
-            })
+        axios.interceptors.response.use((config) => {                        			
+			setLoading(false)   
             return config;
         },(error) => {
-            // 실패 시 로딩창 종료
-            dispatch({
-                type: GLOBAL_LOADED
-            })
+			// 실패 시 로딩창 종료          
+			setLoading(false)                
             return Promise.reject(error)
         })
     }, [])
-	console.log(store)
+
 	return (    
-		<Provider store={store}>
-			<LoadingComponent />  
+		<Provider store={store}>			
 			<BrowserRouter>
+				<LoadingComponent loading={loading}/>  
 				<Layout />       
 			</BrowserRouter>			
 		</Provider>

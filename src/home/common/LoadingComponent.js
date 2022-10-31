@@ -3,9 +3,9 @@ import {useSelector} from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-const LoadingComponent = () => {
-    const {loading} = useSelector((state:RootState) => state.global);
-
+const LoadingComponent = props => {
+  
+    const loading = props.loading;    
 
     return (
         <>
