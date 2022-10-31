@@ -45,7 +45,10 @@ export default function DashboardList(props) {
 			if(status === 200){
 				setAreaList(data)
 			}
-		});
+		}).catch((error)=>{
+			//에러 핸들링
+			  console.log(error);
+		})
 		
 		param = { upperCode: 'EXHAUST_TYPE' }         
 
@@ -56,7 +59,10 @@ export default function DashboardList(props) {
 			if(status === 200){
 				setExhaustList(data)
 			}
-		});
+		}).catch((error)=>{
+			//에러 핸들링
+			  console.log(error);
+		})
 		
 
 		await getDeviceCompanyList(null).then(response => {
@@ -66,6 +72,9 @@ export default function DashboardList(props) {
 			if(status === 200){
 				setCompanyList(data)
 			}
+		}).catch((error)=>{
+			//에러 핸들링
+			  console.log(error);
 		})
 	} 
 
@@ -105,6 +114,9 @@ export default function DashboardList(props) {
 				setList(data)
 				setPagination(paging)
 			}
+		}).catch((error)=>{
+			//에러 핸들링
+			  console.log(error);
 		})
 	}      
 

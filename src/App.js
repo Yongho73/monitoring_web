@@ -1,11 +1,20 @@
 import React from 'react';
 import Layout from './home/layout/layout'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-const App = () => {
+import './config/axiosConfig'
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import dispatch from "./reducer/reducer";
+import store from './reducer/store'
+
+const App = () => {	
+
 	return (    
-		<BrowserRouter>
-      		<Layout />       
-	  	</BrowserRouter>
+		<Provider store={store}>
+			<BrowserRouter>
+				<Layout />       
+			</BrowserRouter>
+		</Provider>
 	);
 }
 
