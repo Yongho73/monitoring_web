@@ -54,8 +54,9 @@ export default function DashboardResult(props) {
 		})
 	}
 
+
 	const setChart = (data) => {
-		
+
 		let data1_categories = [];
 		let data1_series = [];
 		let data1_series_in_carbon = [];
@@ -70,8 +71,9 @@ export default function DashboardResult(props) {
 		let data3_series_diff_carbon = [];
 		
 		for(let i = 0; i < data.length; i++){
+
 			const obj = data[i];			
-			
+
 			data1_categories.push(obj.observedDate);
 			data2_categories.push(obj.observedDate);
 			data3_categories.push(obj.observedDate);
