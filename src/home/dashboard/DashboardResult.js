@@ -41,8 +41,7 @@ export default function DashboardResult(props) {
 	]
 
 	const handleSearch = async() => {
-		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    
-		console.log(param)     
+		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    		
 
 		await getMonitoringDetail(param).then(response => {
 			const status = response.status;
@@ -67,7 +66,9 @@ export default function DashboardResult(props) {
 		})
 	}
 
-	function setChart(data){
+
+	const setChart = (data) => {
+
 		let data1_categories = [];
 		let data1_series = [];
 		let data1_series_in_carbon = [];
@@ -82,9 +83,9 @@ export default function DashboardResult(props) {
 		let data3_series_diff_carbon = [];
 		
 		for(let i = 0; i < data.length; i++){
-			const obj = data[i];
-			console.log(obj);
-			
+
+			const obj = data[i];			
+
 			data1_categories.push(obj.observedDate);
 			data2_categories.push(obj.observedDate);
 			data3_categories.push(obj.observedDate);
@@ -108,6 +109,7 @@ export default function DashboardResult(props) {
 		data3_series.push({name: 'O₂', data: data3_series_diff_oxygen});
 		data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
 
+		
 		const option = {
 			legend: { align: 'bottom', showCheckbox: false },
 			chartExportMenu: { visible: false },

@@ -131,6 +131,14 @@ export default function DashboardList(props) {
 		handleSearch();    
 	},[])       
 
+	const test = (val) => {
+		if(val === 1){
+			return regular('magnifying-glass')
+		}else{
+			return regular('cloud')
+		}
+		return ''
+	}
 	return (
 		<>
 			<DashboardMap handleCallback={ handleCallback} />
@@ -159,7 +167,7 @@ export default function DashboardList(props) {
 
 					<div>
 						<input type="text" name="search" title="검색어 입력" id="search" placeholder="검색어를 입력해주세요." onChange={event => setSearchName(event.target.value)} onKeyPress={event => event.key === 'Enter' && handleSearch() }/>
-						<label htmlFor="search"><FontAwesomeIcon icon={regular('magnifying-glass')} onClick={event => handleSearch()} /></label>
+						<label htmlFor="search"><FontAwesomeIcon icon={test()} onClick={event => handleSearch()} /></label>
 					</div>
 					<button>엑셀 다운로드</button>
 				</div>
