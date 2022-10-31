@@ -11,48 +11,51 @@ export default function DashboardResult(props) {
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
 	const [visible, setVisible] = useState(true);  
 
-	useEffect(() => {
+	const data = {
+		categories: ['1', '2', '3', '4', '5', '6'],
+		series: [
+			{
+				name: 'CO₂ - IN',
+				data: [1000, 1200, 1000, 1300, 1000, 1000]
+			},
+			{
+				name: 'CO₂ - OUT',
+				data: [400, 400, 400, 500, 600, 400]
+			},
+		],
+	},
+	data2 = {
+		categories: ['1', '2', '3', '4', '5', '6'],
+		series: [
+			{
+				name: 'O₂ - IN',
+				data: [10, 12, 15, 13, 10, 16]
+			},
+			{
+				name: 'O₂ - OUT',
+				data: [20, 25, 24, 25, 23, 25]
+			},
+		],
+	},
+	data3 = {
+		categories: ['1', '2', '3', '4', '5', '6','7','8','9','10'],
+		series: [
+			{
+				name: 'CO₂',
+				data: [50, 55, 60, 52, 65, 63, 59, 46, 52, 55]
+			},
+			{
+				name: 'O₂',
+				data: [0, -5, 5, -10, 10, -15, 15, -20, -25, 25]
+			},
+		],
+	};
 
-		const data = {
-			categories: ['1', '2', '3', '4', '5', '6'],
-			series: [
-				{
-					name: 'CO₂ - IN',
-					data: [1000, 1200, 1000, 1300, 1000, 1000]
-				},
-				{
-					name: 'CO₂ - OUT',
-					data: [400, 400, 400, 500, 600, 400]
-				},
-			],
-		},
-		data2 = {
-			categories: ['1', '2', '3', '4', '5', '6'],
-			series: [
-				{
-					name: 'O₂ - IN',
-					data: [10, 12, 15, 13, 10, 16]
-				},
-				{
-					name: 'O₂ - OUT',
-					data: [20, 25, 24, 25, 23, 25]
-				},
-			],
-		},
-		data3 = {
-			categories: ['1', '2', '3', '4', '5', '6','7','8','9','10'],
-			series: [
-				{
-					name: 'CO₂',
-					data: [50, 55, 60, 52, 65, 63, 59, 46, 52, 55]
-				},
-				{
-					name: 'O₂',
-					data: [0, -5, 5, -10, 10, -15, 15, -20, -25, 25]
-				},
-			],
-		};
 
+
+	const makeChart= () => {
+
+		
 		const option = {
 			legend: { align: 'bottom', showCheckbox: false },
 			chartExportMenu: { visible: false },
@@ -114,7 +117,7 @@ export default function DashboardResult(props) {
 		const chart2 = tuiChart.columnChart( document.getElementById('chart02'), data2, option );
 		const chart3 = tuiChart.lineChart( document.getElementById('chart03'), data3, option2 );
 
-	},[]);
+	}
 
 	let activePage = 1;    
 	
@@ -138,8 +141,7 @@ export default function DashboardResult(props) {
 
 	const handleSearch = async() => {
 
-		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    
-		console.log(param)     
+		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    		
 
 		await getMonitoringDetail(param).then(response => {
 			const status = response.status;
@@ -149,6 +151,7 @@ export default function DashboardResult(props) {
 			if(status === 200){
 				setList(data)
 				setPagination(paging)
+				makeChart();
 			}
 		})
 	}      

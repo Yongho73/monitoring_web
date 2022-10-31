@@ -1,16 +1,13 @@
-import React from 'react';
-import Layout from './home/layout/layout'
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import './config/axiosConfig'
-import { createStore, applyMiddleware, compose } from "redux";
-import { Provider } from "react-redux";
-import dispatch from "./reducer/reducer";
-import store from './reducer/store'
-import LoadingComponent from './home/common/LodingSpinner'
+import axios from "axios";
+import React, {useEffect } from "react";
+import { useDispatch } from 'react-redux'
 
-const App = () => {	
+export const GLOBAL_LOADING = "LOADING"
+export const GLOBAL_LOADED = "LOADED"
 
-	const dispatch = useDispatch();
+const LodingLayout = () => {
+
+    const dispatch = useDispatch();
     
     useEffect(() => {
         axios.interceptors.request.use(function (config) {
@@ -41,15 +38,5 @@ const App = () => {
             return Promise.reject(error)
         })
     }, [])
-	console.log(store)
-	return (    
-		<Provider store={store}>
-			<LoadingComponent />  
-			<BrowserRouter>
-				<Layout />       
-			</BrowserRouter>			
-		</Provider>
-	);
 }
-
-export default App;
+export default LodingLayout
