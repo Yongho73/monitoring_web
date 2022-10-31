@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import Paging from '../common/Paging'
+import { toNumber } from '../util/util'
 
 export default function DashboardResult(props) {
 
@@ -230,16 +231,16 @@ export default function DashboardResult(props) {
 						{list.map((row, index) => {              
 							return (
 								<tr role="checkbox" tabIndex={-1} key={index}>
-									<td>{row.in_Oxygen}</td>
-									<td>{row.in_Carbon}</td>
-									<td>{row.in_Methane}</td>
-									<td>{row.in_AirCurrent}</td>
-									<td>{row.out_Oxygen}</td>
-									<td>{row.out_Carbon}</td>
-									<td>{row.out_Methane}</td>
-									<td>{row.out_AirCurrent}</td>				
-									<td>{row.st_Temp}</td>		
-									<td>{row.st_Humi}</td>		
+									<td>{toNumber(row.in_Oxygen)}</td>
+									<td>{toNumber(row.in_Carbon)}</td>
+									<td>{toNumber(row.in_AirCurrent)}</td>
+									<td>{toNumber(row.in_Methane)}</td>
+									<td>{toNumber(row.out_Oxygen)}</td>
+									<td>{toNumber(row.out_Carbon)}</td>
+									<td>{toNumber(row.out_Methane)}</td>
+									<td>{toNumber(row.out_AirCurrent)}</td>				
+									<td>{toNumber(row.st_Temp)}</td>		
+									<td>{toNumber(row.st_Humi)}</td>		
 									<td>{row.observedDate}</td>								
 								</tr>
 							);
