@@ -4,9 +4,10 @@ import LoadingSpinner from '../home/common/LodingSpinner'
 
 
 axios.interceptors.request.use(function (config) {
-  // 
+  // 로딩 호출
+ 
     //LoadingSpinner()
-    return <LoadingSpinner />;
+    return config;
     }, function (error) {
     // 실패 시 로딩창 종료
     

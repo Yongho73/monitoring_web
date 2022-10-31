@@ -2,3 +2,4 @@
 .pagination > li {display:flex; justify-content:center; align-items:center; width:2.142rem; height:2.142rem; margin-right:1rem; line-height:1rem; border-radius:0.357rem;}
 .pagination > li:last-child {margin-right:0;}
 .pagination > li:hover, .pagination > li.active {background:#ff3469; cursor:pointer;}
+.pagination > li:nth-of-type(-n+2), .pagination > li:nth-last-of-type(-n+2)  {font-size:1.429rem;}
