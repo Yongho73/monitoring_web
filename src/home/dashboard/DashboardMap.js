@@ -7,8 +7,6 @@ import geoJson from '../../home/util/json/geoJson.json'
 export default function DashboardMap(props) {    
   
   // 서울 기준점 좌표  
-  const lat =37.5666805;
-  const lng = 126.9784147;
   const [list , setList] = useState([])
 
   const handleSearch = async() => {
