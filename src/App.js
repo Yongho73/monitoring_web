@@ -2,9 +2,6 @@ import React, { useEffect  , useState } from 'react';
 import axios from 'axios'
 import Layout from './home/layout/layout'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { createStore, applyMiddleware, compose } from "redux";
-import { Provider , useDispatch } from "react-redux";
-import { store } from './reducer/reducer'
 import LoadingComponent from './home/common/LoadingComponent'
 
 const App = () => {	
@@ -30,13 +27,12 @@ const App = () => {
         })
     }, [])
 
-	return (    
-		<Provider store={store}>			
-			<BrowserRouter>
-				<LoadingComponent loading={loading}/>  
-				<Layout />       
-			</BrowserRouter>			
-		</Provider>
+	return (    				
+		
+		<BrowserRouter>
+			<LoadingComponent loading={loading}/>  
+			<Layout />       
+		</BrowserRouter>	
 	);
 }
 
