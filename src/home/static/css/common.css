@@ -214,3 +214,63 @@ main > h2 > span {margin-right:0.5rem;}
 /* 기본 박스 */
 .box {position:relative; padding:2.143rem; border:0.071rem solid rgba(255, 255, 255, 0.18);	border-radius:1.429rem;	background:rgba(25, 0, 114, 0.25); box-shadow:0 0.571rem 2.286rem 0 rgba(31, 38, 135, 0.37); backdrop-filter:blur(0.286rem); -webkit-backdrop-filter:blur(0.286rem);}
 .box > h2 {font-size:1.071rem;}
+
+
+/* 로딩 */
+.loading {position:absolute; top:calc(50% - 1.071rem); left:calc(50% - 1.071rem); width:2.143rem; height:2.143rem; -webkit-animation:rotation 1s infinite; animation:rotation 1s infinite; z-index:10;}
+.loading.rotate {transform:rotate(10deg);}
+.loading > div {position:absolute; width:0.714rem; height:0.714rem; border-radius:0.357rem;}
+.loading > div:nth-of-type(1) {left:0; background:#5C6BC0; -webkit-animation:dot1 0.5s ease 0s infinite alternate; animation:dot1 0.5s ease 0s infinite alternate;}
+.loading > div:nth-of-type(2) {right:0; background:#8BC34A; -webkit-animation:dot2 0.5s ease 0s infinite alternate; animation:dot2 0.5s ease 0s infinite alternate;}
+.loading > div:nth-of-type(3) {bottom:0; background:#FFB74D; -webkit-animation:dot3 0.5s ease 0s infinite alternate; animation:dot3 0.5s ease 0s infinite alternate;}
+.loading > div:nth-of-type(4) {right:0; bottom:0; background:#F44336; -webkit-animation:dot4 0.5s ease 0s infinite alternate; animation:dot4 0.5s ease 0s infinite alternate;}
+
+@-webkit-keyframes rotation {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+@keyframes rotation {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+@-webkit-keyframes dot1 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(1.429rem, 1.429rem);}
+}
+
+@keyframes dot1 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(1.429rem, 1.429rem);}
+}
+
+@-webkit-keyframes dot2 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(-1.429rem, 1.429rem);}
+}
+
+@keyframes dot2 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(-1.429rem, 1.429rem);}
+}
+
+@-webkit-keyframes dot3 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(1.429rem, -1.429rem);}
+}
+
+@keyframes dot3 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(1.429rem, -1.429rem);}
+}
+
+@-webkit-keyframes dot4 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(-1.429rem, -1.429rem);}
+}
+
+@keyframes dot4 {
+  from {transform:translate(0, 0);}
+  to {transform:translate(-1.429rem, -1.429rem);}
+}

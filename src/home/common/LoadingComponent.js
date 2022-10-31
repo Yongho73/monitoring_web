@@ -1,5 +1,4 @@
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const LoadingComponent = props => {
@@ -9,15 +8,12 @@ const LoadingComponent = props => {
     return (
         <>
             {loading === false ? "" :
-                <>
-                    <div className={"globalLoadingBackground"}>
-                    </div>
-                    <div className={"globalLoadingIcon"}>
-                        <div className={"iconArea"}>
-                            <CircularProgress />
-                        </div>
-                    </div>
-                </>
+							<div className="loading rotate">
+								<div></div>
+								<div></div>
+								<div></div>
+								<div></div>
+							</div>
             }
         </>
     )
