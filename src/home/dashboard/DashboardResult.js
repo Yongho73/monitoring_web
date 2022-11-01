@@ -1,11 +1,12 @@
 import React , { useEffect , useState } from 'react'
-import { getMonitoringList, getMonitoringDetail } from '../../crud/dashborad.crud'
+import { getMonitoringList, getMonitoringDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
 import { Link } from 'react-router-dom'
+import * as FileSaver from "file-saver";
 
 export default function DashboardResult(props) {
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
@@ -174,12 +175,29 @@ export default function DashboardResult(props) {
 		activePage = val ;
 		handleSearch();
 	}
+
+	const handleExcelDown = async() => {
+		//const param = { deviceCode : deviceCode} ;		
+
+		const formData = new FormData();
+		
+		formData.append('deviceCode', deviceCode);
+
+		await getDeviceDetailExcel(formData).then(response => {
+			console.log(response.data)
+			const excelFileType = 'application/octet-stream';
+			const excelFile = new Blob([response.data], { type: excelFileType});
+  			FileSaver.saveAs(excelFile, 'test.xlsx');
+		})
+
+	}
 	useEffect(() => {		
 		handleSearch();    
 	},[visible])
 
 	return (
 		<>
+		{/* //  window.open('http://localhost:8080/api/dashboard/getDeviceDetail/' + deviceCode */}
 			<dl>
 				<dt>
 					<span>장치번호:</span>{deviceCode}
@@ -189,7 +207,7 @@ export default function DashboardResult(props) {
 					<span>측정장치:</span>{deviceType}
 				</dt>
 				<dd>
-					<button onClick={()=>{window.open('http://localhost:8080/api/dashboard/getDeviceDetail/' + deviceCode)}}>엑셀 다운로드</button>
+					<button onClick={event => handleExcelDown() }>엑셀 다운로드</button>
 				</dd>
 			</dl>
 
