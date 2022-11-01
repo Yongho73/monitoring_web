@@ -5,9 +5,9 @@ import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
+import { Link } from 'react-router-dom'
 
 export default function DashboardResult(props) {
-	
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
 	const [visible, setVisible] = useState(true);  
 
@@ -178,7 +178,6 @@ export default function DashboardResult(props) {
 		handleSearch();    
 	},[visible])
 
-
 	return (
 		<>
 			<dl>
@@ -190,7 +189,7 @@ export default function DashboardResult(props) {
 					<span>측정장치:</span>{deviceType}
 				</dt>
 				<dd>
-					<button>엑셀 다운로드</button>
+					<button onClick={()=>{window.open('http://localhost:8080/api/dashboard/getDeviceDetail/' + deviceCode)}}>엑셀 다운로드</button>
 				</dd>
 			</dl>
 
