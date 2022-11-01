@@ -1,4 +1,4 @@
-import React , { useEffect , useState, useRef } from 'react'
+import React , { useCallback, useEffect, useState, useRef } from 'react'
 import { getMonitoringList, getMonitoringDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
@@ -9,6 +9,7 @@ import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
 import { Link } from 'react-router-dom'
 import * as FileSaver from "file-saver";
+import ElementResizeListener from './../util/ElementResizeListener';
 
 export default function DashboardResult(props) {
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
@@ -168,7 +169,6 @@ export default function DashboardResult(props) {
 		setData2({categories: data2_categories, series: data2_series});
 		setData3({categories: data3_categories, series: data3_series});
 
-		chartRef1.current.chartInst.resize({width:300, height:200})
 	}
 
 	const handleChangePage = val => {
@@ -187,11 +187,26 @@ export default function DashboardResult(props) {
 			const excelFile = new Blob([response.data], { type: excelFileType});
   			FileSaver.saveAs(excelFile, 'test.xlsx');
 		})
-
 	}
-	useEffect(() => {		
+
+	const contentRef: React.RefObject<HTMLDivElement> = useRef(null);
+
+	const adaptResize = useCallback(() => {
+		if (contentRef.current) {
+			const elmRect = contentRef.current.getBoundingClientRect();
+			chartRef1.current.chartInst.resize({width:elmRect.width, height:250})
+			chartRef2.current.chartInst.resize({width:elmRect.width, height:250})
+			chartRef3.current.chartInst.resize({width:elmRect.width, height:250})
+		}
+	}, []);
+
+	useEffect(() => {
 		handleSearch();
 	},[visible])
+
+	useEffect(() => {
+		adaptResize();
+	},[])
 
 	return (
 		<>
@@ -213,7 +228,8 @@ export default function DashboardResult(props) {
 				<ol>
 					<li className="box">
 						<h2>CO₂ 유입 및 배출량</h2>
-						<div className='chart'>
+						<div className='chart' ref={contentRef}>
+							<ElementResizeListener onResize={adaptResize}/>
 							<ColumnChart
 								ref={chartRef1}
 								data={data1}
