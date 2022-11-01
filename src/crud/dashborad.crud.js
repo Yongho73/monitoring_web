@@ -14,7 +14,7 @@ export function getDeviceExceList(param) {
     return axios.get(GET_DEVICE_LIST_EXCEL_URL , {params : param });
 }
 
-export function getMonitoringDetail(param) {
+export function getDeviceDetail(param) {
     return axios.get(GET_DEVICE_DETAIL_URL , {params : param });
 }
 

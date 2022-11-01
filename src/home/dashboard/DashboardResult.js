@@ -1,9 +1,8 @@
 import React , { useCallback, useEffect, useState, useRef } from 'react'
-import { getMonitoringList, getMonitoringDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
+import {  getDeviceDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
-import 'tui-chart/dist/tui-chart.css'
 import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
@@ -72,35 +71,24 @@ export default function DashboardResult(props) {
 	};
 
 	tuiChart.registerTheme('myTheme', theme);
-	const option1 = {
+	
+	const option = {
 		legend: { align: 'bottom', showCheckbox: false, visible: false },
 		chartExportMenu: { visible: false },
 		xAxis: { title: '시'},
 		yAxis: { title: '단위'},
 		chart: { height: 318 },
 		plot: { visible: false },
-		responsive: {
-			animation: { duration: 300 }
-		},
+		// responsive: {
+		// 	animation: { duration: 300 }
+		// },
 		theme: 'myTheme'
 	};
-
-	const option2 = {
-		legend: { align: 'bottom', showCheckbox: false, visible: false },
-		chartExportMenu: { visible: false },
-		chart: { height: 318 },
-		xAxis: { title: '분'},
-		yAxis: { title: '단위' },
-		responsive: {
-			animation: { duration: 300 }
-		},
-		theme: 'myTheme'
-	};
-
+	
 	const handleSearch = async() => {
 		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    		
 
-		await getMonitoringDetail(param).then(response => {
+		await getDeviceDetail(param).then(response => {
 			const status = response.status;
 			const data = response.data.responseData.result;
 			const paging = response.data.responseData.pagination;
@@ -209,8 +197,7 @@ export default function DashboardResult(props) {
 	},[])
 
 	return (
-		<>
-		{/* //  window.open('http://localhost:8080/api/dashboard/getDeviceDetail/' + deviceCode */}
+		<>		
 			<dl>
 				<dt>
 					<span>장치번호:</span>{deviceCode}
@@ -233,7 +220,7 @@ export default function DashboardResult(props) {
 							<ColumnChart
 								ref={chartRef1}
 								data={data1}
-								options={option1}>
+								options={option}>
 							</ColumnChart>
 						</div>
 					</li>
@@ -244,7 +231,7 @@ export default function DashboardResult(props) {
 							<ColumnChart
 								ref={chartRef2}
 								data={data2}
-								options={option1}>
+								options={option}>
 							</ColumnChart>
 						</div>
 					</li>
@@ -255,7 +242,7 @@ export default function DashboardResult(props) {
 							<LineChart
 								ref={chartRef3}
 								data={data3}
-								options={option2}>
+								options={option}>
 							</LineChart>
 						</div>
 					</li>
