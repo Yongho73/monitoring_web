@@ -1,8 +1,10 @@
-import React , { useEffect , useState } from 'react'
+import React , { useEffect , useState, useRef } from 'react'
 import { getMonitoringList, getMonitoringDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
+import 'tui-chart/dist/tui-chart.css'
+import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
 import { Link } from 'react-router-dom'
@@ -26,20 +28,73 @@ export default function DashboardResult(props) {
 	const [list , setList] = useState([])
 	const [pagination , setPagination] = useState({})	
 	const [pageIndex, setPageIndex] = useState(1)
-	
-	const columns = [
-		{ id:'deviceIdnfr' , label: 'CO₂' },
-		{ id:'oxygen' , label: 'O₂' },
-		{ id:'carbon' , label: 'LPM' },
-		{ id:'deviceIdnfr' , label: 'CO₂' },
-		{ id:'oxygen' , label: 'O₂' },
-		{ id:'carbon' , label: 'AFM' },
-		{ id:'deviceIdnfr' , label: 'CO₂' },
-		{ id:'oxygen' , label: 'O₂' },
-		{ id:'carbon' , label: 'Variation' },
-		{ id:'methane' , label: 'Temp' },
-		{ id:'lat' , label: 'Humi' },
-	]
+
+	const chartRef1 = useRef(null);
+	const chartRef2 = useRef(null);
+	const chartRef3 = useRef(null);
+
+	const theme = {
+		legend: {
+			label: {
+				fontSize: 13,
+				color: '#fff'
+			}
+		},
+		chart: {
+			background: 'transparent'
+		},
+		series: {
+			colors: ['#677bfe', '#ff5889'],
+		},
+		xAxis: {
+			title: {
+				fontSize: 13,
+				color: '#fff'
+			},
+			label: {
+				fontSize: 13,
+				color: '#bababa'
+			},
+			tickColor: '#bababa'
+		},
+		yAxis: {
+			title: {
+				fontSize: 13,
+				color: '#fff'
+			},
+			label: {
+				fontSize: 13,
+				color: '#bababa'
+			},
+			tickColor: '#bababa'
+		}
+	};
+
+	tuiChart.registerTheme('myTheme', theme);
+	const option1 = {
+		legend: { align: 'bottom', showCheckbox: false, visible: false },
+		chartExportMenu: { visible: false },
+		xAxis: { title: '시'},
+		yAxis: { title: '단위'},
+		chart: { height: 318 },
+		plot: { visible: false },
+		responsive: {
+			animation: { duration: 300 }
+		},
+		theme: 'myTheme'
+	};
+
+	const option2 = {
+		legend: { align: 'bottom', showCheckbox: false, visible: false },
+		chartExportMenu: { visible: false },
+		chart: { height: 318 },
+		xAxis: { title: '분'},
+		yAxis: { title: '단위' },
+		responsive: {
+			animation: { duration: 300 }
+		},
+		theme: 'myTheme'
+	};
 
 	const handleSearch = async() => {
 		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    		
@@ -49,7 +104,7 @@ export default function DashboardResult(props) {
 			const data = response.data.responseData.result;
 			const paging = response.data.responseData.pagination;
 			const device = response.data.responseData.deviceInfo;
-						
+
 			if(status === 200){
 				setCompanyName(device.companyName);
 				setDeviceName(device.deviceName);
@@ -66,7 +121,6 @@ export default function DashboardResult(props) {
 		})
 	}
 
-
 	const setChart = (data) => {
 
 		let data1_categories = [];
@@ -82,13 +136,14 @@ export default function DashboardResult(props) {
 		let data3_series_diff_oxygen = [];
 		let data3_series_diff_carbon = [];
 		
-		for(let i = 0; i < data.length; i++){
-
+		for(let i = data.length - 1; i >= 0; i--){
 			const obj = data[i];			
 
-			data1_categories.push(obj.observedDate);
-			data2_categories.push(obj.observedDate);
-			data3_categories.push(obj.observedDate);
+			let datetime = new Date(obj.observedDate);
+
+			data1_categories.push(datetime.getHours());
+			data2_categories.push(datetime.getHours());
+			data3_categories.push(datetime.getMinutes());
 
 			data1_series_in_carbon.push(obj.in_Carbon);
 			data1_series_out_carbon.push(obj.out_Carbon);
@@ -109,65 +164,11 @@ export default function DashboardResult(props) {
 		data3_series.push({name: 'O₂', data: data3_series_diff_oxygen});
 		data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
 
-		
-		const option = {
-			legend: { align: 'bottom', showCheckbox: false },
-			chartExportMenu: { visible: false },
-			chart: { width: 716, height: 318 },
-			xAxis: { title: '시' },
-			yAxis: { title: '단위' },
-			theme: 'myTheme',
-		},
-		option2 = {
-			legend: { align: 'bottom', showCheckbox: false },
-			chartExportMenu: { visible: false },
-			chart: { width: 716, height: 318 },
-			xAxis: { title: '분' },
-			yAxis: { title: '단위' },
-			theme: 'myTheme',
-		};
+		setData1({categories: data1_categories, series: data1_series});
+		setData2({categories: data2_categories, series: data2_series});
+		setData3({categories: data3_categories, series: data3_series});
 
-		const theme = {
-			legend: {
-				label: {
-					fontSize: 13,
-					color: '#fff'
-				}
-			},    
-			chart: {
-				background: 'transparent'
-			},
-			series: {
-				colors: ['#677bfe', '#ff5889'],
-			},
-			xAxis: {
-				title: {
-					fontSize: 13,
-					color: '#fff'
-				},
-				label: {
-					fontSize: 13,
-					color: '#bababa'
-				},
-					tickColor: '#bababa'
-				},
-			yAxis: {
-				title: {
-					fontSize: 13,
-					color: '#fff'
-				},
-				label: {
-					fontSize: 13,
-					color: '#bababa'
-				},
-					tickColor: '#bababa'
-			}
-		};
-
-		tuiChart.registerTheme('myTheme', theme);
-		tuiChart.columnChart( document.getElementById('chart01'), {categories: data1_categories, series: data1_series}, option );
-		tuiChart.columnChart( document.getElementById('chart02'), {categories: data2_categories, series: data2_series}, option );
-		tuiChart.lineChart( document.getElementById('chart03'), {categories: data3_categories, series: data3_series}, option2 );
+		chartRef1.current.chartInst.resize({width:300, height:200})
 	}
 
 	const handleChangePage = val => {
@@ -189,7 +190,7 @@ export default function DashboardResult(props) {
 
 	}
 	useEffect(() => {		
-		handleSearch();    
+		handleSearch();
 	},[visible])
 
 	return (
@@ -212,17 +213,35 @@ export default function DashboardResult(props) {
 				<ol>
 					<li className="box">
 						<h2>CO₂ 유입 및 배출량</h2>
-						<div id="chart01" className="chart"></div>
+						<div className='chart'>
+							<ColumnChart
+								ref={chartRef1}
+								data={data1}
+								options={option1}>
+							</ColumnChart>
+						</div>
 					</li>
 
 					<li className="box">
 						<h2>O₂ 유입 및 배출량</h2>
-						<div id="chart02" className="chart"></div>
+						<div className='chart'>
+							<ColumnChart
+								ref={chartRef2}
+								data={data2}
+								options={option1}>
+							</ColumnChart>
+						</div>
 					</li>
 
 					<li className="box">
 						<h2>CO₂, O₂ 변화량</h2>
-						<div id="chart03" className="chart"></div>
+						<div className='chart'>
+							<LineChart
+								ref={chartRef3}
+								data={data3}
+								options={option2}>
+							</LineChart>
+						</div>
 					</li>
 				</ol>
 			}
