@@ -83,8 +83,7 @@ export default function DashboardResult(props) {
 		let data3_series_diff_oxygen = [];
 		let data3_series_diff_carbon = [];
 		
-		for(let i = 0; i < data.length; i++){
-
+		for(let i = data.length - 1; i >= 0; i--){
 			const obj = data[i];			
 
 			data1_categories.push(obj.observedDate);
@@ -114,7 +113,7 @@ export default function DashboardResult(props) {
 		const option = {
 			legend: { align: 'bottom', showCheckbox: false },
 			chartExportMenu: { visible: false },
-			chart: { width: 716, height: 318 },
+			chart: { height: 318 },
 			xAxis: { title: '시' },
 			yAxis: { title: '단위' },
 			theme: 'myTheme',
@@ -122,7 +121,7 @@ export default function DashboardResult(props) {
 		option2 = {
 			legend: { align: 'bottom', showCheckbox: false },
 			chartExportMenu: { visible: false },
-			chart: { width: 716, height: 318 },
+			chart: { height: 318 },
 			xAxis: { title: '분' },
 			yAxis: { title: '단위' },
 			theme: 'myTheme',
