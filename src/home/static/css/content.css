@@ -17,7 +17,7 @@
 .dashboard > .dashboard-result > dl:nth-of-type(2) > dd {padding:0.857rem; border-radius:0.357rem; background:#7120ea; cursor:pointer;}
 .dashboard > .dashboard-result > ol {display:flex; justify-content:space-between; width:100%; margin-top:1%;}
 .dashboard > .dashboard-result > ol > li {padding:1.071rem;}
-.dashboard > .dashboard-result > ol .chart {width:28vw; height:250px;}
+.dashboard > .dashboard-result > ol .chart {width:28vw; height:24vh;}
 .dashboard > .dashboard-result > ol .chart > div, .dashboard > .dashboard-result > ol .chart > div > svg {width:100% !important; height:100% !important;}
 .dashboard > .dashboard-result > ol .chart .tui-chart-series-custom-event-area {display:none;}
 .dashboard > .dashboard-result > div.box {margin-top:1%;}

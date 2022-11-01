@@ -194,9 +194,9 @@ export default function DashboardResult(props) {
 	const adaptResize = useCallback(() => {
 		if (contentRef.current) {
 			const elmRect = contentRef.current.getBoundingClientRect();
-			chartRef1.current.chartInst.resize({width:elmRect.width, height:250})
-			chartRef2.current.chartInst.resize({width:elmRect.width, height:250})
-			chartRef3.current.chartInst.resize({width:elmRect.width, height:250})
+			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 		}
 	}, []);
 
