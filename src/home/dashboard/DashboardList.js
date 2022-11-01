@@ -81,7 +81,7 @@ export default function DashboardList(props) {
 	} 
 
 	const handleCallback = val => {		
-		console.log(val)
+		
 		if(val === '경남'){
 			val = '경상남도'
 		}else if(val === '경북'){
@@ -94,8 +94,7 @@ export default function DashboardList(props) {
 			val = '충청남도'
 		}else if(val === '충북'){
 			val = '충청북도'
-		}
-		console.log(areaList)
+		}		
 		const code = areaList.filter(area => area.codeName.includes(val));		
 		
 		if(code.length > 0 ){
