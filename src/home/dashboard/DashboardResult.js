@@ -56,7 +56,7 @@ export default function DashboardResult(props) {
 				fontSize: 13,
 				color: '#bababa'
 			},
-			tickColor: '#bababa'
+			tickColor: '#fff'
 		},
 		yAxis: {
 			title: {
@@ -67,7 +67,7 @@ export default function DashboardResult(props) {
 				fontSize: 13,
 				color: '#bababa'
 			},
-			tickColor: '#bababa'
+			tickColor: '#fff'
 		}
 	};
 
@@ -185,9 +185,31 @@ export default function DashboardResult(props) {
 		await getDeviceDetailExcel(formData).then(response => {			
 			const excelFileType = 'application/octet-stream';
 			const excelFile = new Blob([response.data], { type: excelFileType});
-  			FileSaver.saveAs(excelFile, 'test.xlsx');
+			let fileName = '측정 결과_' + deviceCode + '_';
+			const now = new Date();
+			fileName += now.yyyymmddhhmmss();
+
+			fileName += '.xlsx'
+
+  			FileSaver.saveAs(excelFile, fileName);
 		})
 	}
+
+	Date.prototype.yyyymmddhhmmss = function() {
+		var MM = this.getMonth() + 1;
+		var dd = this.getDate();
+		var hh = this.getHours();
+		var mm = this.getMinutes();
+		var ss = this.getSeconds();
+	  
+		return [this.getFullYear(),
+				(MM>9 ? '' : '0') + MM,
+				(dd>9 ? '' : '0') + dd,
+				(hh>9 ? '' : '0') + hh,
+				(mm>9 ? '' : '0') + mm,
+				(ss>9 ? '' : '0') + ss
+			   ].join('');
+	  };	  
 
 	const contentRef: React.RefObject<HTMLDivElement> = useRef(null);
 
