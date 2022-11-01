@@ -105,7 +105,6 @@ export default function DashboardResult(props) {
 			const paging = response.data.responseData.pagination;
 			const device = response.data.responseData.deviceInfo;
 
-			console.log(data);
 			if(status === 200){
 				setCompanyName(device.companyName);
 				setDeviceName(device.deviceName);
@@ -178,14 +177,12 @@ export default function DashboardResult(props) {
 	}
 
 	const handleExcelDown = async() => {
-		//const param = { deviceCode : deviceCode} ;		
 
 		const formData = new FormData();
 		
 		formData.append('deviceCode', deviceCode);
 
-		await getDeviceDetailExcel(formData).then(response => {
-			console.log(response.data)
+		await getDeviceDetailExcel(formData).then(response => {			
 			const excelFileType = 'application/octet-stream';
 			const excelFile = new Blob([response.data], { type: excelFileType});
   			FileSaver.saveAs(excelFile, 'test.xlsx');
