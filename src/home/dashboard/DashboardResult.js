@@ -168,6 +168,8 @@ export default function DashboardResult(props) {
 		setData1({categories: data1_categories, series: data1_series});
 		setData2({categories: data2_categories, series: data2_series});
 		setData3({categories: data3_categories, series: data3_series});
+
+		chartRef1.current.chartInst.resize({width:300, height:200})
 	}
 
 	const handleChangePage = val => {
