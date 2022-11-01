@@ -17,12 +17,6 @@ export function excelDownLoad(columns , excelData , fileName) {
   const excelFileName =  fileName;
   
   const ws = XLSX.utils.aoa_to_sheet([ title ]);
-
-  XLSX.utils.sheet_add_json(ws, excelData, {    
-    skipHeader: true,
-    origin: -1 //ok
-  });
-
   ws["A1"].s = {
     fill: {
       patternType:"solid",
@@ -30,6 +24,12 @@ export function excelDownLoad(columns , excelData , fileName) {
       bgColor:{ rgb: "00dce6f1" } 
     }    
   };
+
+  console.log(ws)
+
+  XLSX.utils.sheet_add_json(ws, excelData, { skipHeader: true, origin: -1  });
+
+  
   
   const wb: any = {Sheets: { data: ws }, SheetNames: ['data']};
   const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array'});

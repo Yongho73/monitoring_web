@@ -1,10 +1,12 @@
 import React , {useEffect , useState} from 'react'
-import { getDeviceList } from '../../crud/dashborad.crud'
+import { getDeviceList, getDeviceExceList } from '../../crud/dashborad.crud'
 import { getCommCodeList , getDeviceCompanyList } from '../../crud/code.crud'
 import CommonTablePaging from '../common/CommonTablePaging'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardMap from './DashboardMap'
+import { excelDownLoad } from '../util/excelDown'
+import moment from 'moment'
 
 export default function DashboardList(props) {
 	let activePage = 1;    
@@ -103,6 +105,7 @@ export default function DashboardList(props) {
 	}
 
 	const handleSearch = async(val) => {
+		if(val) setSearchArea(val)
 
 		const param = { pageIndex : activePage , searchArea: val ? val : searchArea , searchCompany: searchCompany, searchExhaustType: searchExhaustType, searchName: searchName}         
 
@@ -126,6 +129,24 @@ export default function DashboardList(props) {
 
 		props.handleTabShow('2' , key )
 	}
+	
+	const handleExcelDown = async() => {
+
+		const param = { pageIndex : activePage , searchArea: searchArea , searchCompany: searchCompany, searchExhaustType: searchExhaustType, searchName: searchName}         
+
+		await getDeviceExceList(param).then(response => {
+			const status = response.status;
+			const data = response.data.responseData.result;
+			
+			if(status === 200){
+				excelDownLoad(columns, data , '전체_장치_현황_'+ moment().format('YYYY-MM-DD') )
+			}
+		}).catch((error)=>{
+			//에러 핸들링
+			  console.log(error);
+		})
+
+	}
 
 	useEffect(() => {
 		handleCommCodeList();
@@ -134,7 +155,7 @@ export default function DashboardList(props) {
 
 	return (
 		<>
-			<DashboardMap handleCallback={ handleCallback} />
+			<DashboardMap handleCallback={ handleCallback } />
 			<div>
 				<div className="list-search">
 					<select name="area" onChange={event => setSearchArea(event.target.value)}>
@@ -162,7 +183,7 @@ export default function DashboardList(props) {
 						<input type="text" name="search" title="검색어 입력" id="search" placeholder="검색어를 입력해주세요." onChange={event => setSearchName(event.target.value)} onKeyPress={event => event.key === 'Enter' && handleSearch() }/>
 						<label htmlFor="search"><FontAwesomeIcon icon={regular('magnifying-glass')} onClick={event => handleSearch()} /></label>
 					</div>
-					<button>엑셀 다운로드</button>
+					<button onClick={event => handleExcelDown()}>엑셀 다운로드</button>
 				</div>
 
 				<CommonTablePaging            

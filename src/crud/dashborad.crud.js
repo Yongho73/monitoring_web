@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const GET_DEVICE_LIST_URL = '/api/dashboard/getDeviceList'
-const GET_DEVICE_LIST_EXCEL_URL = '/api/dashboard/getDeviceExceList'
+const GET_DEVICE_LIST_EXCEL_URL = '/api/dashboard/getDeviceExcelList'
 const GET_MONITORING_Detail = '/api/dashboard/getDeviceDetail'
 
 
