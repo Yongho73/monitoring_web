@@ -79,9 +79,9 @@ export default function DashboardResult(props) {
 		yAxis: { title: '단위'},
 		chart: { height: 318 },
 		plot: { visible: false },
-		// responsive: {
-		// 	animation: { duration: 300 }
-		// },
+		responsive: {
+			animation: { duration: 300 }
+		},
 		theme: 'myTheme'
 	};
 	
