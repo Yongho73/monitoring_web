@@ -25,7 +25,7 @@ export default function DashboardMap(props) {
     })
   }    
 
-  echarts.registerMap('KOR', geoJson, {});
+  echarts.registerMap('KOR', props.geoJson, {});
 
   const mapOption = {
     title : {
@@ -79,7 +79,6 @@ export default function DashboardMap(props) {
 
   const handleClick = params =>{	
 	console.log(params)
-	props.handleCallback(params.name)
 	setAreaName(params.name)
 	
 	for(let i = 0 ; i < test.features.length; i ++ ){
@@ -90,6 +89,7 @@ export default function DashboardMap(props) {
 	}
 
 	setAreaList({...areaList , type: test.type, bbox: test.bbox , features:  filterList})
+	
   }
 
   const onEvents = {
@@ -103,11 +103,7 @@ export default function DashboardMap(props) {
   
   useEffect(() => {	
 	if(areaList.type) {
-		console.log(areaList)		
-		echarts.disconnect();
-		echarts.registerMap('KOR', areaList, {});
-	}else{
-		console.log(2)	
+		props.handleCallback(areaName, areaList)
 	}
   },[areaList])
 
