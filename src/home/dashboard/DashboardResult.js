@@ -185,7 +185,7 @@ export default function DashboardResult(props) {
 		await getDeviceDetailExcel(formData).then(response => {			
 			const excelFileType = 'application/octet-stream';
 			const excelFile = new Blob([response.data], { type: excelFileType});
-			let fileName = '측정 결과_' + deviceCode + '_';
+			let fileName = '측정결과_' + deviceCode + '_';
 			const now = new Date();
 			fileName += now.yyyymmddhhmmss();
 
@@ -224,6 +224,14 @@ export default function DashboardResult(props) {
 
 	useEffect(() => {
 		handleSearch();
+		if(visible) {
+			if (contentRef.current) {
+				const elmRect = contentRef.current.getBoundingClientRect();
+				chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+				chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+				chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			}
+		}
 	},[visible])
 
 	useEffect(() => {
