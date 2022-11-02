@@ -73,7 +73,7 @@ export default function DashboardResult(props) {
 	tuiChart.registerTheme('myTheme', theme);
 	
 	const option = {
-		legend: { align: 'bottom', showCheckbox: false, visible: false },
+		legend: { align: 'bottom', showCheckbox: false, visible: true },
 		chartExportMenu: { visible: false },
 		xAxis: { title: '시'},
 		yAxis: { title: '단위'},
