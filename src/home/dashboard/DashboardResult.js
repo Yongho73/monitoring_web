@@ -3,7 +3,6 @@ import { getMonitoringList, getMonitoringDetail , getDeviceDetailExcel } from '.
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
-import 'tui-chart/dist/tui-chart.css'
 import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
 import { toNumber } from '../util/util'
@@ -73,11 +72,10 @@ export default function DashboardResult(props) {
 
 	tuiChart.registerTheme('myTheme', theme);
 	const option1 = {
-		legend: { align: 'bottom', showCheckbox: false, visible: false },
+		legend: { align: 'bottom', showCheckbox: false},
 		chartExportMenu: { visible: false },
 		xAxis: { title: '시'},
 		yAxis: { title: '단위'},
-		chart: { height: 318 },
 		plot: { visible: false },
 		responsive: {
 			animation: { duration: 300 }
@@ -86,10 +84,9 @@ export default function DashboardResult(props) {
 	};
 
 	const option2 = {
-		legend: { align: 'bottom', showCheckbox: false, visible: false },
+		legend: { align: 'bottom', showCheckbox: false},
 		chartExportMenu: { visible: false },
-		chart: { height: 318 },
-		xAxis: { title: '분'},
+		xAxis: { title: '분' },
 		yAxis: { title: '단위' },
 		responsive: {
 			animation: { duration: 300 }
