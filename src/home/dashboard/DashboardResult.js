@@ -77,9 +77,6 @@ export default function DashboardResult(props) {
 		xAxis: { title: '시'},
 		yAxis: { title: '단위'},
 		plot: { visible: false },
-		responsive: {
-			animation: { duration: 300 }
-		},
 		theme: 'myTheme'
 	};
 
@@ -88,9 +85,6 @@ export default function DashboardResult(props) {
 		chartExportMenu: { visible: false },
 		xAxis: { title: '분' },
 		yAxis: { title: '단위' },
-		responsive: {
-			animation: { duration: 300 }
-		},
 		theme: 'myTheme'
 	};
 
@@ -139,18 +133,18 @@ export default function DashboardResult(props) {
 
 			let datetime = new Date(obj.observedDate);
 
-			data1_categories.push(datetime.getHours());
-			data2_categories.push(datetime.getHours());
-			data3_categories.push(datetime.getMinutes());
+			data1_categories.push(datetime.hhmm());
+			data2_categories.push(datetime.hhmm());
+			data3_categories.push(datetime.hhmm());
 
 			data1_series_in_carbon.push(obj.in_Carbon);
 			data1_series_out_carbon.push(obj.out_Carbon);
 
-			data2_series_in_oxygen.push(obj.in_Oxygen);
-			data2_series_out_oxygen.push(obj.out_Oxygen);
+			data2_series_in_oxygen.push(obj.in_Oxygen / 100);
+			data2_series_out_oxygen.push(obj.out_Oxygen / 100);
 
-			data3_series_diff_oxygen.push(obj.out_Oxygen - obj.in_Oxygen);
-			data3_series_diff_carbon.push(obj.out_Carbon - obj.in_Carbon);
+			data3_series_diff_oxygen.push((obj.in_Oxygen / 100) - (obj.out_Oxygen / 100));
+			data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
 		}
 
 		data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
@@ -192,6 +186,17 @@ export default function DashboardResult(props) {
 		})
 	}
 
+	Date.prototype.hhmm = function() {
+		var hh = this.getHours();
+		var mm = this.getMinutes();
+	  
+		return [
+				(hh>9 ? '' : '0') + hh,":",
+				(mm>9 ? '' : '0') + mm
+			   ].join('');
+	  };
+
+
 	Date.prototype.yyyymmddhhmmss = function() {
 		var MM = this.getMonth() + 1;
 		var dd = this.getDate();
@@ -221,13 +226,11 @@ export default function DashboardResult(props) {
 
 	useEffect(() => {
 		handleSearch();
-		if(visible) {
-			if (contentRef.current) {
-				const elmRect = contentRef.current.getBoundingClientRect();
-				chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-				chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-				chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			}
+		if(visible && contentRef.current) {
+			const elmRect = contentRef.current.getBoundingClientRect();
+			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 		}
 	},[visible])
 
@@ -324,17 +327,19 @@ export default function DashboardResult(props) {
 						{list.map((row, index) => {              
 							return (
 								<tr role="checkbox" tabIndex={-1} key={index}>
-									<td>{toNumber(row.in_Oxygen)}</td>
-									<td>{toNumber(row.in_Carbon)}</td>
-									<td>{toNumber(row.in_AirCurrent)}</td>
-									<td>{toNumber(row.in_Methane)}</td>
-									<td>{toNumber(row.out_Oxygen)}</td>
-									<td>{toNumber(row.out_Carbon)}</td>
-									<td>{toNumber(row.out_Methane)}</td>
-									<td>{toNumber(row.out_AirCurrent)}</td>				
-									<td>{toNumber(row.st_Temp)}</td>		
-									<td>{toNumber(row.st_Humi)}</td>		
-									<td>{row.observedDate}</td>								
+									<td>{row.in_Oxygen / 100}%</td>
+									<td>{toNumber(row.in_Carbon)}ppm</td>
+									<td>{toNumber(row.in_AirCurrent)}lpm</td>
+									{/* <td>{toNumber(row.in_Methane)}</td> */}
+									<td>{row.out_Oxygen / 100}%</td>
+									<td>{toNumber(row.out_Carbon)}ppm</td>
+									{/* <td>{toNumber(row.out_Methane)}</td> */}
+									<td>{toNumber(row.out_AirCurrent)}lpm</td>		
+									<td>{toNumber(row.in_Carbon - row.out_Carbon)}ppm</td>	
+									<td>{(row.in_Oxygen - row.out_Oxygen) / 100}%</td>	
+									<td>{toNumber(row.st_Temp)}°C</td>		
+									<td>{toNumber(row.st_Humi)}%</td>	
+									<td>{row.observedDate}</td>													
 								</tr>
 							);
 						})}
