@@ -7,6 +7,7 @@ import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardMap from './DashboardMap'
 import { excelDownLoad } from '../util/excelDown'
 import moment from 'moment'
+import geoJson from '../../home/util/json/geoJson.json'
 
 export default function DashboardList(props) {
 	let activePage = 1;    
@@ -21,6 +22,7 @@ export default function DashboardList(props) {
 	const [searchCompany , setSearchCompany] = useState('')
 	const [searchExhaustType , setSearchExhaustType] = useState('')
 	const [searchName , setSearchName] = useState('')
+	const [geoList , setGeoList] = useState(geoJson)
 	  
 	const columns = [
 		{ id:'deviceCode' , label: '장치번호' },
@@ -80,7 +82,7 @@ export default function DashboardList(props) {
 		})
 	} 
 
-	const handleCallback = val => {		
+	const handleCallback = (val , geoListData)  => {		
 		
 		if(val === '경남'){
 			val = '경상남도'
@@ -100,6 +102,8 @@ export default function DashboardList(props) {
 		if(code.length > 0 ){
 			handleSearch(code[0].code)
 		}
+
+		setGeoList(geoListData)
 		
 	}
 
@@ -154,7 +158,7 @@ export default function DashboardList(props) {
 
 	return (
 		<>
-			<DashboardMap handleCallback={ handleCallback } />
+			<DashboardMap handleCallback={ handleCallback } geoJson = {geoList}/>
 			<div>
 				<div className="list-search">
 					<select name="area" onChange={event => setSearchArea(event.target.value)}>
