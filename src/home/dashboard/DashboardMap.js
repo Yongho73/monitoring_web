@@ -3,11 +3,16 @@ import { getMonitoringList } from '../../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoJson from '../../home/util/json/geoJson.json'
+import test from '../../home/util/json/TL_SCCO_SIG.json'
+import _ from 'lodash'
 
 export default function DashboardMap(props) {    
   
   // 서울 기준점 좌표  
   const [list , setList] = useState([])
+  const [areaName , setAreaName] = useState('KOR');
+  const [areaList , setAreaList] = useState({})
+  let filterList = [];
 
   const handleSearch = async() => {
     await getMonitoringList().then(response => {
@@ -18,10 +23,9 @@ export default function DashboardMap(props) {
         setList(data)
       }
     })
-  }
-  
+  }    
+
   echarts.registerMap('KOR', geoJson, {});
-  
 
   const mapOption = {
     title : {
@@ -74,7 +78,18 @@ export default function DashboardMap(props) {
   
 
   const handleClick = params =>{	
+	console.log(params)
 	props.handleCallback(params.name)
+	setAreaName(params.name)
+	
+	for(let i = 0 ; i < test.features.length; i ++ ){
+			const code = test.features[i].properties.CTPRVN_CD.substring(0,2);			
+			if(code === '42'){
+				filterList.push(test.features[i] )
+			}		
+	}
+
+	setAreaList({...areaList , type: test.type, bbox: test.bbox , features:  filterList})
   }
 
   const onEvents = {
@@ -83,11 +98,22 @@ export default function DashboardMap(props) {
   
   useEffect(() => {
     handleSearch();    
+	
   },[])
+  
+  useEffect(() => {	
+	if(areaList.type) {
+		console.log(areaList)		
+		echarts.disconnect();
+		echarts.registerMap('KOR', areaList, {});
+	}else{
+		console.log(2)	
+	}
+  },[areaList])
 
   return (
 
-		<map><ReactEcharts option={mapOption} onEvents={onEvents}/></map>
+		<map>{areaName && <ReactEcharts option={mapOption} onEvents={onEvents}/> }</map>
     
   );
 }
