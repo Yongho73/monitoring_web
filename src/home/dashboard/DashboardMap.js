@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { getMonitoringList } from '../../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
-import geoJson from '../../home/util/json/geoJson.json'
-import test from '../../home/util/json/TL_SCCO_SIG.json'
+import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
+// import geoMapLevel2 from '../../home/util/json/geoMapLevel2.json' //추후 지역 상세 표기 시 사용
+// import geoMapLevel3 from '../../home/util/json/geoMapLevel3.json' //추후 지역 상세 표기 시 사용
 import _ from 'lodash'
 
 export default function DashboardMap(props) {    
@@ -12,7 +13,9 @@ export default function DashboardMap(props) {
   const [list , setList] = useState([])
   const [areaName , setAreaName] = useState('KOR');
   const [areaList , setAreaList] = useState({})
+  
   let filterList = [];
+  let data = [];
 
   const handleSearch = async() => {
     await getMonitoringList().then(response => {
@@ -23,9 +26,7 @@ export default function DashboardMap(props) {
         setList(data)
       }
     })
-  }    
-
-  echarts.registerMap('KOR', props.geoJson, {});
+  }      
 
   const mapOption = {
     title : {
@@ -51,6 +52,7 @@ export default function DashboardMap(props) {
 			borderWidth: 1,
 			borderColor: '#677bfe',
 		},
+		nameProperty: 'name', // registerMap 할 때 지정한 기준 키값 
 		emphasis: {
 			label: {
 				fontWeight : '600',
@@ -70,25 +72,31 @@ export default function DashboardMap(props) {
 				backgroundColor : '#677bfe'
 			},
 			itemStyle: {areaColor: '#677bfe'}
-		},
+		}
       }
     ]
   };
 
+  echarts.registerMap('KOR', props.geoJson, {});  
   
 
   const handleClick = params =>{	
-	console.log(params)
-	setAreaName(params.name)
-	
-	for(let i = 0 ; i < test.features.length; i ++ ){
-			const code = test.features[i].properties.CTPRVN_CD.substring(0,2);			
-			if(code === '42'){
-				filterList.push(test.features[i] )
-			}		
-	}
 
-	setAreaList({...areaList , type: test.type, bbox: test.bbox , features:  filterList})
+	//추후 지역 상세 표기 시 사용
+	 let highCode = '';
+	
+	
+	 for(let i = 0 ; i < props.geoJson.features.length; i ++ ){					
+		if(props.geoJson.features[i].properties.name === params.name){
+			highCode = props.geoJson.features[i].properties.value ;				
+		}
+	}
+	console.log(highCode)
+	props.handleCallback(params.name, highCode , props.geoLevel)
+	
+	
+
+	
 	
   }
 
@@ -103,7 +111,9 @@ export default function DashboardMap(props) {
   
   useEffect(() => {	
 	if(areaList.type) {
-		props.handleCallback(areaName, areaList)
+		const level = props.geoLevel + 1
+		console.log(level)
+		props.handleCallback(areaName, areaList , level)
 	}
   },[areaList])
 

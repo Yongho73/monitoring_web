@@ -7,7 +7,9 @@ import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardMap from './DashboardMap'
 import { excelDownLoad } from '../util/excelDown'
 import moment from 'moment'
-import geoJson from '../../home/util/json/geoJson.json'
+import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
+import axios from 'axios'
+import { IsoRounded } from '@material-ui/icons'
 
 export default function DashboardList(props) {
 	let activePage = 1;    
@@ -22,7 +24,8 @@ export default function DashboardList(props) {
 	const [searchCompany , setSearchCompany] = useState('')
 	const [searchExhaustType , setSearchExhaustType] = useState('')
 	const [searchName , setSearchName] = useState('')
-	const [geoList , setGeoList] = useState(geoJson)
+	const [geoList , setGeoList] = useState(geoMapLevel1)
+	const [geoLevel , setGeoLevel] = useState(1)
 	  
 	const columns = [
 		{ id:'deviceCode' , label: '장치번호' },
@@ -82,7 +85,7 @@ export default function DashboardList(props) {
 		})
 	} 
 
-	const handleCallback = (val , geoListData)  => {		
+	const handleCallback = async(val ,highCode , level)  => {		
 		
 		if(val === '경남'){
 			val = '경상남도'
@@ -97,17 +100,40 @@ export default function DashboardList(props) {
 		}else if(val === '충북'){
 			val = '충청북도'
 		}		
-		const code = areaList.filter(area => area.codeName.includes(val));		
+		if(level === 1){
+			const code = areaList.filter(area => area.codeName.includes(val));		
 		
-		if(code.length > 0 ){
-			handleSearch(code[0].code)
+			if(code.length > 0 ){
+				handleSearch(code[0].code)
+			}							
 		}
-
-		setGeoList(geoListData)
 		
+		let url = '';
+		if(level === 1){
+			url = '/mapData/depth_2/' + highCode + '.json' ; 
+			await axios.get(url).then((res) => {
+				console.log(res)
+				setGeoList(res.data);
+				setGeoLevel(level + 1) ;
+			})
+		}else if(level === 2){
+			url = '/mapData/depth_3/' + highCode + '.json' ; 
+			await axios.get(url).then((res) => {
+				console.log(res)
+				setGeoList(res.data);
+				setGeoLevel(level + 1) ;
+			})
+		}
+		
+
+		
+		// 추후 지도 상세 로직 필요시 주석해제
+		// setGeoList(geoListData) 
+		// setGeoLevel(level)		
 	}
 
 	const handleSearch = async(val) => {
+		
 		if(val) setSearchArea(val)
 
 		const param = { pageIndex : activePage , searchArea: val ? val : searchArea , searchCompany: searchCompany, searchExhaustType: searchExhaustType, searchName: searchName}         
@@ -158,10 +184,10 @@ export default function DashboardList(props) {
 
 	return (
 		<>
-			<DashboardMap handleCallback={ handleCallback } geoJson = {geoList}/>
+			<DashboardMap handleCallback={ handleCallback } geoJson = {geoList} geoLevel={geoLevel}/>
 			<div>
 				<div className="list-search">
-					<select name="area" onChange={event => setSearchArea(event.target.value)}>
+					<select name="area" onChange={event => setSearchArea(event.target.value)} value = { searchArea }>
 						<option value="">지역</option>
 						{areaList.length > 0 && areaList.map((item ,index) => {
 							return <option value={item.code} key={index}>{item.codeName}</option>
