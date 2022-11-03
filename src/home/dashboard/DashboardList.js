@@ -107,7 +107,7 @@ export default function DashboardList(props) {
 				handleSearch(code[0].code)
 			}							
 		}
-		
+		console.log(highCode)
 		let url = '';
 		if(level === 1){
 			url = '/mapData/depth_2/' + highCode + '.json' ; 
