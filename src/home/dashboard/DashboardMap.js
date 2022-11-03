@@ -84,14 +84,12 @@ export default function DashboardMap(props) {
 
 	//추후 지역 상세 표기 시 사용
 	 let highCode = '';
-	
-	
+		
 	 for(let i = 0 ; i < props.geoJson.features.length; i ++ ){					
 		if(props.geoJson.features[i].properties.name === params.name){
 			highCode = props.geoJson.features[i].properties.value ;				
 		}
 	}
-	console.log(highCode)
 	props.handleCallback(params.name, highCode , props.geoLevel)
 	
 	
