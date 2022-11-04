@@ -5,6 +5,8 @@ import * as echarts from "echarts";
 import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
 // import geoMapLevel2 from '../../home/util/json/geoMapLevel2.json' //추후 지역 상세 표기 시 사용
 // import geoMapLevel3 from '../../home/util/json/geoMapLevel3.json' //추후 지역 상세 표기 시 사용
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import _ from 'lodash'
 
 export default function DashboardMap(props) {    
@@ -117,7 +119,10 @@ export default function DashboardMap(props) {
 
   return (
 
-		<map>{areaName && <ReactEcharts option={mapOption} onEvents={onEvents}/> }</map>
+		<map>
+			<button><FontAwesomeIcon icon={regular('arrow-rotate-left')} /></button>
+			{areaName && <ReactEcharts option={mapOption} onEvents={onEvents}/> }
+		</map>
     
   );
 }
