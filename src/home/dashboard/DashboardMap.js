@@ -80,29 +80,31 @@ export default function DashboardMap(props) {
 			highCode = props.geoJson.features[i].properties.value ;				
 		}
 	}
-	props.handleCallback(params.name, highCode , props.geoLevel)
+	if(props.geoLevel !== 3){
+		props.handleCallback(params.name, highCode , props.geoLevel + 1)		
+	}
 	
 	
+  }
 
+  const handleBackArea = () => {	
+	let preCode = props.geoHighCode;
 	
-	
+	if(preCode.length > 2 ){
+		preCode = preCode.substring(0,2)
+	}
+	props.handlePreCallback( preCode, props.geoLevel === 1 ? 1 : props.geoLevel - 1 )	
   }
 
   const onEvents = {
     'click': handleClick
   }
-  
-  useEffect(() => {	
-	if(areaList.type) {
-		const level = props.geoLevel + 1		
-		props.handleCallback(areaName, areaList , level)
-	}
-  },[areaList])
+   
 
   return (
 
 		<map>
-			<button><FontAwesomeIcon icon={regular('arrow-rotate-left')} /></button>
+			<button onClick={event => handleBackArea()}><FontAwesomeIcon icon={regular('arrow-rotate-left')} /></button>
 			{areaName && <ReactEcharts option={mapOption} onEvents={onEvents}/> }
 		</map>
     

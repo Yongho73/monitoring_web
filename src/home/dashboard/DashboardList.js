@@ -10,6 +10,7 @@ import moment from 'moment'
 import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
 import axios from 'axios'
 import { IsoRounded } from '@material-ui/icons'
+import { use } from 'echarts'
 
 export default function DashboardList(props) {
 	let activePage = 1;    
@@ -26,6 +27,7 @@ export default function DashboardList(props) {
 	const [searchName , setSearchName] = useState('')
 	const [geoList , setGeoList] = useState(geoMapLevel1)
 	const [geoLevel , setGeoLevel] = useState(1)
+	const [geoHighCode , setGeoHighCode] = useState('')
 	  
 	const columns = [
 		{ id:'deviceCode' , label: '장치번호' },
@@ -85,8 +87,10 @@ export default function DashboardList(props) {
 		})
 	} 
 
-	const handleCallback = async(val ,highCode , level)  => {		
+	const handleCallback = async(val , highCode , level )  => {		
 		
+		setGeoLevel(level) ;
+
 		if(val === '경남'){
 			val = '경상남도'
 		}else if(val === '경북'){
@@ -100,41 +104,52 @@ export default function DashboardList(props) {
 		}else if(val === '충북'){
 			val = '충청북도'
 		}		
-		if(level === 1){
+		if(level === 2){
 			const code = areaList.filter(area => area.codeName.includes(val));		
 		
 			if(code.length > 0 ){
 				handleSearch(code[0].code)
-			}							
-		}
-				
-		handleMapArea(highCode)	
+			}								
+		}		
+		handleMapArea(highCode , level)	
+	}
+
+	const handlePreCallback = (val , level) =>{
+		setGeoLevel(level) ;		
+		handleMapArea(val , level)
 	}
 
 	const handleMapArea = async(val , level) => {
 		let url = ''
-		if(val.length === 2){
+		if(level === 1){			
+			setGeoList(geoMapLevel1);
+			setGeoHighCode(val)
+			setSearchArea(val)
+			handleSearch('INIT')
+		}else if(level === 2 ){			
 			url = '/mapData/depth_2/' + val + '.json' ; 
 			await axios.get(url).then((res) => {				
-				setGeoList(res.data);
-				setGeoLevel(level + 1) ;
+				setGeoList(res.data);				
+				setGeoHighCode(val)
 			})
-		}else if(val.length  === 5){
+		}else if(level  === 3 ){
 			url = '/mapData/depth_3/' + val + '.json' ; 
 			await axios.get(url).then((res) => {				
-				setGeoList(res.data);
-				setGeoLevel(level + 1) ;
+				setGeoList(res.data);				
+				setGeoHighCode(val)
 			})
-		}	
+		}			
 	}
 
 	const handleSearch = async(val) => {
 		
-		if(val){
+		if(val && val !== 'INIT'){			
 			setSearchArea(val)
+		}else{
+			setSearchArea('')
 		}
 
-		const param = { pageIndex : activePage , searchArea: val ? val : searchArea , searchCompany: searchCompany, searchExhaustType: searchExhaustType, searchName: searchName}         
+		const param = { pageIndex : activePage , searchArea: val ? val ==='INIT' ? '': val  : searchArea , searchCompany: searchCompany, searchExhaustType: searchExhaustType, searchName: searchName}         
 
 		await getDeviceList(param).then(response => {
 			const status = response.status;
@@ -143,12 +158,7 @@ export default function DashboardList(props) {
 			
 			if(status === 200){
 				setList(data)
-				setPagination(paging)
-				if(param.searchArea === null || param.searchArea === ''){
-					setGeoList(geoMapLevel1)
-				}else{
-					handleMapArea(searchArea , 1)
-				}
+				setPagination(paging)				
 			}
 		}).catch((error)=>{
 			//에러 핸들링
@@ -187,7 +197,7 @@ export default function DashboardList(props) {
 
 	return (
 		<>
-			<DashboardMap handleCallback={ handleCallback } geoJson = {geoList} geoLevel={geoLevel}/>
+			<DashboardMap handleCallback={ handleCallback } geoJson = {geoList} geoLevel={geoLevel} geoHighCode = {geoHighCode} handlePreCallback={handlePreCallback}/>
 			<div>
 				<div className="list-search">
 					<select name="area" onChange={event => setSearchArea(event.target.value)} value = { searchArea }>
