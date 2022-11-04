@@ -107,34 +107,32 @@ export default function DashboardList(props) {
 				handleSearch(code[0].code)
 			}							
 		}
-		console.log(highCode)
-		let url = '';
-		if(level === 1){
-			url = '/mapData/depth_2/' + highCode + '.json' ; 
-			await axios.get(url).then((res) => {
-				console.log(res)
-				setGeoList(res.data);
-				setGeoLevel(level + 1) ;
-			})
-		}else if(level === 2){
-			url = '/mapData/depth_3/' + highCode + '.json' ; 
-			await axios.get(url).then((res) => {
-				console.log(res)
-				setGeoList(res.data);
-				setGeoLevel(level + 1) ;
-			})
-		}
-		
+				
+		handleMapArea(highCode)	
+	}
 
-		
-		// 추후 지도 상세 로직 필요시 주석해제
-		// setGeoList(geoListData) 
-		// setGeoLevel(level)		
+	const handleMapArea = async(val , level) => {
+		let url = ''
+		if(val.length === 2){
+			url = '/mapData/depth_2/' + val + '.json' ; 
+			await axios.get(url).then((res) => {				
+				setGeoList(res.data);
+				setGeoLevel(level + 1) ;
+			})
+		}else if(val.length  === 5){
+			url = '/mapData/depth_3/' + val + '.json' ; 
+			await axios.get(url).then((res) => {				
+				setGeoList(res.data);
+				setGeoLevel(level + 1) ;
+			})
+		}	
 	}
 
 	const handleSearch = async(val) => {
 		
-		if(val) setSearchArea(val)
+		if(val){
+			setSearchArea(val)
+		}
 
 		const param = { pageIndex : activePage , searchArea: val ? val : searchArea , searchCompany: searchCompany, searchExhaustType: searchExhaustType, searchName: searchName}         
 
@@ -146,6 +144,11 @@ export default function DashboardList(props) {
 			if(status === 200){
 				setList(data)
 				setPagination(paging)
+				if(param.searchArea === null || param.searchArea === ''){
+					setGeoList(geoMapLevel1)
+				}else{
+					handleMapArea(searchArea , 1)
+				}
 			}
 		}).catch((error)=>{
 			//에러 핸들링

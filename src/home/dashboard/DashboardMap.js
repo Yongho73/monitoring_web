@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getMonitoringList } from '../../crud/monitoring.crud'
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
@@ -16,17 +15,6 @@ export default function DashboardMap(props) {
   
   let filterList = [];
   let data = [];
-
-  const handleSearch = async() => {
-    await getMonitoringList().then(response => {
-      const status = response.status;
-      const data = response.data.result;
-      
-      if(status === 200){
-        setList(data)
-      }
-    })
-  }      
 
   const mapOption = {
     title : {
@@ -102,15 +90,9 @@ export default function DashboardMap(props) {
     'click': handleClick
   }
   
-  useEffect(() => {
-    handleSearch();    
-	
-  },[])
-  
   useEffect(() => {	
 	if(areaList.type) {
-		const level = props.geoLevel + 1
-		console.log(level)
+		const level = props.geoLevel + 1		
 		props.handleCallback(areaName, areaList , level)
 	}
   },[areaList])
