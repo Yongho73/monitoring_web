@@ -165,7 +165,6 @@ export default function DashboardResult(props) {
 	}
 
 	const handleExcelDown = async() => {
-
 		const formData = new FormData();
 		
 		formData.append('deviceCode', deviceCode);
@@ -290,7 +289,7 @@ export default function DashboardResult(props) {
 			}
 			<dl>
 				<dt>통계</dt>
-				<dd onClick={event => setVisible(!visible) }>
+				<dd onClick={ e => setVisible(!visible) }>
 					{visible ?
 						<FontAwesomeIcon icon={regular('chevrons-up')} />
 						: <FontAwesomeIcon icon={regular('chevrons-down')} />
@@ -321,23 +320,20 @@ export default function DashboardResult(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{list.map((row, index) => {              
+						{list.map((row, index) => {
 							return (
 								<tr role="checkbox" tabIndex={-1} key={index}>
-																		<td>{row.in_Oxygen / 100}%</td>
+									<td>{row.in_Oxygen / 100}%</td>
 									<td>{toNumber(row.in_Carbon)}ppm</td>
 									<td>{toNumber(row.in_AirCurrent)}lpm</td>
-									{/* <td>{toNumber(row.in_Methane)}</td> */}
 									<td>{row.out_Oxygen / 100}%</td>
 									<td>{toNumber(row.out_Carbon)}ppm</td>
-									{/* <td>{toNumber(row.out_Methane)}</td> */}
-									<td>{toNumber(row.out_AirCurrent)}lpm</td>		
-									<td>{toNumber(row.in_Carbon - row.out_Carbon)}ppm</td>	
-									<td>{(row.in_Oxygen - row.out_Oxygen) / 100}%</td>	
-									<td>{toNumber(row.st_Temp)}°C</td>		
-									<td>{toNumber(row.st_Humi)}%</td>	
-									<td>{row.observedDate}</td>													
-
+									<td>{toNumber(row.out_AirCurrent)}lpm</td>
+									<td>{toNumber(row.in_Carbon - row.out_Carbon)}ppm</td>
+									<td>{(row.in_Oxygen - row.out_Oxygen) / 100}%</td>
+									<td>{toNumber(row.st_Temp)}°C</td>
+									<td>{toNumber(row.st_Humi)}%</td>
+									<td>{row.observedDate}</td>
 								</tr>
 							);
 						})}
