@@ -311,7 +311,7 @@ export default function DashboardResult(props) {
 						<tr>
 							<th>CO₂</th>
 							<th>O₂</th>
-							<th>LPM</th>
+							<th>AFM</th>
 							<th>CO₂</th>
 							<th>O₂</th>
 							<th>AFM</th>
