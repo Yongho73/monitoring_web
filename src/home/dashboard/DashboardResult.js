@@ -301,38 +301,38 @@ export default function DashboardResult(props) {
 				<table className='list'>
 					<thead>
 						<tr>
-							<th colSpan={3}>IN</th>
-							<th colSpan={3}>OUT</th>
-							<th colSpan={2}>Variation</th>
-							<th rowSpan={2}>Temp</th>
-							<th rowSpan={2}>Humi</th>
-							<th rowSpan={2}>Date</th>
+							<th colSpan={3} className='borderRightWhite'>IN</th>
+							<th colSpan={3} className='borderRightWhite'>OUT</th>
+							<th colSpan={2} className='borderRightWhite'>Variation</th>
+							<th rowSpan={2} className='borderRightWhite'>Temporary</th>
+							<th rowSpan={2} className='borderRightWhite'>Humi</th>
+							<th rowSpan={2} >Date</th>
 						</tr>
 						<tr>
-							<th>CO₂</th>
-							<th>O₂</th>
-							<th>AFM</th>
-							<th>CO₂</th>
-							<th>O₂</th>
-							<th>AFM</th>
-							<th>CO₂</th>
-							<th>O₂</th>
+							<th className='borderRightWhite'>CO₂</th>
+							<th className='borderRightWhite'>O₂</th>
+							<th className='borderRightWhite'>AFM</th>
+							<th className='borderRightWhite'>CO₂</th>
+							<th className='borderRightWhite'>O₂</th>
+							<th className='borderRightWhite'>AFM</th>
+							<th className='borderRightWhite'>CO₂</th>
+							<th className='borderRightWhite'>O₂</th>
 						</tr>
 					</thead>
 					<tbody>
 						{list.map((row, index) => {
 							return (
 								<tr role="checkbox" tabIndex={-1} key={index}>
-									<td>{row.in_Oxygen / 100}%</td>
-									<td>{toNumber(row.in_Carbon)}ppm</td>
-									<td>{toNumber(row.in_AirCurrent)}lpm</td>
-									<td>{row.out_Oxygen / 100}%</td>
-									<td>{toNumber(row.out_Carbon)}ppm</td>
-									<td>{toNumber(row.out_AirCurrent)}lpm</td>
-									<td>{toNumber(row.in_Carbon - row.out_Carbon)}ppm</td>
-									<td>{(row.in_Oxygen - row.out_Oxygen) / 100}%</td>
-									<td>{toNumber(row.st_Temp)}°C</td>
-									<td>{toNumber(row.st_Humi)}%</td>
+									<td className='borderRightWhite'>{row.in_Oxygen / 100}%</td>
+									<td className='borderRightWhite'>{toNumber(row.in_Carbon)}ppm</td>
+									<td className='borderRightWhite'>{toNumber(row.in_AirCurrent)}lpm</td>
+									<td className='borderRightWhite'>{row.out_Oxygen / 100}%</td>
+									<td className='borderRightWhite'>{toNumber(row.out_Carbon)}ppm</td>
+									<td className='borderRightWhite'>{toNumber(row.out_AirCurrent)}lpm</td>
+									<td className='borderRightWhite'>{toNumber(row.in_Carbon - row.out_Carbon)}ppm</td>
+									<td className='borderRightWhite'>{(row.in_Oxygen - row.out_Oxygen) / 100}%</td>
+									<td className='borderRightWhite'>{toNumber(row.st_Temp)}°C</td>
+									<td className='borderRightWhite'>{toNumber(row.st_Humi)}%</td>
 									<td>{row.observedDate}</td>
 								</tr>
 							);
