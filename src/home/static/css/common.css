@@ -274,3 +274,7 @@ main > h2 > span {margin-right:0.5rem;}
   from {transform:translate(0, 0);}
   to {transform:translate(-1.429rem, -1.429rem);}
 }
+
+
+/* border right white */
+.borderRightWhite { border-right:0.5px solid #fff !important}
