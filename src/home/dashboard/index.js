@@ -21,7 +21,7 @@ export default function Index() {
 
 	return (
 		<>
-			<h2><span><FontAwesomeIcon icon={solid('monitor-waveform')} /></span> 실시간 - 모니터링</h2>
+			<h2><span><FontAwesomeIcon icon={solid('monitor-waveform')} /></span> 실시간 모니터링</h2>
 
 			<div className="dashboard">
 				<input type="radio" id="tab01" name="tabGroup1" className="tab" checked={ showTabIndex === '1' ? 'checked' : ''} onChange={event => handleTabIndex('1')} />
