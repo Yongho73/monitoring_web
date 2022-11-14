@@ -9,14 +9,21 @@ import { toNumber } from '../util/util'
 import { Link } from 'react-router-dom'
 import * as FileSaver from "file-saver";
 import ElementResizeListener from './../util/ElementResizeListener';
+import Popup from 'reactjs-popup';
+import Calendar from 'react-calendar';
+
+import 'react-calendar/dist/Calendar.css';
 
 export default function DashboardResult(props) {
 	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
 	const [visible, setVisible] = useState(true);  
+	const [showExcelDialog, setShowExcelDialog] = useState(false);  
 
 	const [data1, setData1] = useState({});
 	const [data2, setData2] = useState({});
 	const [data3, setData3] = useState({});
+
+	const [selectedDate, setSelectedDate] = useState(new Date());
 
 	const [companyName, setCompanyName] = useState("");
 	const [deviceName, setDeviceName] = useState("");
@@ -168,13 +175,12 @@ export default function DashboardResult(props) {
 		const formData = new FormData();
 		
 		formData.append('deviceCode', deviceCode);
+		formData.append('date', selectedDate.yyyymmdd());
 
 		await getDeviceDetailExcel(formData).then(response => {			
 			const excelFileType = 'application/octet-stream';
 			const excelFile = new Blob([response.data], { type: excelFileType});
-			let fileName = '측정 결과_' + deviceCode + '_';
-			const now = new Date();
-			fileName += now.yyyymmddhhmmss();
+			let fileName = '측정 결과_' + deviceCode + '_' + selectedDate.yyyymmdd();
 
 			fileName += '.xlsx'
 
@@ -190,7 +196,17 @@ export default function DashboardResult(props) {
 				(hh>9 ? '' : '0') + hh,":",
 				(mm>9 ? '' : '0') + mm
 			   ].join('');
-	  };
+	};
+
+	Date.prototype.yyyymmdd = function() {
+		var MM = this.getMonth() + 1;
+		var dd = this.getDate();
+	  
+		return [this.getFullYear(),
+				(MM>9 ? '' : '0') + MM,
+				(dd>9 ? '' : '0') + dd,
+			   ].join('');
+	};
 
 
 	Date.prototype.yyyymmddhhmmss = function() {
@@ -236,7 +252,7 @@ export default function DashboardResult(props) {
 	},[])
 
 	return (
-		<>		
+		<>	
 			<dl>
 				<dt>
 					<span>장치번호:</span>{deviceCode}
@@ -246,7 +262,22 @@ export default function DashboardResult(props) {
 					<span>측정장치:</span>{deviceType}
 				</dt>
 				<dd>
-					<button onClick={event => handleExcelDown() }>엑셀 다운로드</button>
+					{/* <button onClick={event => handleExcelDown() }>엑셀 다운로드</button> */}
+					<Popup trigger={<button> 엑셀 다운로드</button>} position="bottom right">
+						<div className='box' style={{background: 'rgba(255, 255, 255, 0.25)'}}>
+							<div style={{textAlign: 'center'}}>
+								<h2>엑셀 다운로드</h2>
+							</div>
+							<Calendar value={selectedDate}
+									  onChange={e => setSelectedDate(e)}
+									  maxDate={new Date()}
+									  calendarType='US'
+							/>
+							<div style={{marginTop: '0.5rem', textAlign: 'right'}}>
+								<button onClick={event => handleExcelDown() }>다운로드</button>
+							</div>
+						</div>
+					</Popup>
 				</dd>
 			</dl>
 
