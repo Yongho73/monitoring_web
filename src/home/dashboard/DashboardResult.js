@@ -22,6 +22,7 @@ export default function DashboardResult(props) {
 	const [data1, setData1] = useState({});
 	const [data2, setData2] = useState({});
 	const [data3, setData3] = useState({});
+	const [data4, setData4] = useState({});
 
 	const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -39,6 +40,7 @@ export default function DashboardResult(props) {
 	const chartRef1 = useRef(null);
 	const chartRef2 = useRef(null);
 	const chartRef3 = useRef(null);
+	const chartRef4 = useRef(null);
 
 	const theme = {
 		legend: {
@@ -92,6 +94,26 @@ export default function DashboardResult(props) {
 		theme: 'myTheme'
 	};
 	
+	const option2 = {
+		legend: { align: 'bottom', showCheckbox: false, visible: true },
+		chartExportMenu: { visible: false },
+		xAxis: { title: '시'},
+		yAxis: {
+			title: '단위',
+			scale: {
+				min: -20,
+				max: 20,
+				stepSize: 20
+			}
+		},
+		chart: { height: 120 },
+		plot: { visible: false },
+		responsive: {
+			animation: { duration: 300 }
+		},
+		theme: 'myTheme'
+	};
+	
 	const handleSearch = async() => {
 		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    		
 
@@ -129,8 +151,10 @@ export default function DashboardResult(props) {
 		let data2_series_out_oxygen = [];
 		let data3_categories = [];
 		let data3_series = [];
-		let data3_series_diff_oxygen = [];
 		let data3_series_diff_carbon = [];
+		let data4_categories = [];
+		let data4_series = [];
+		let data4_series_diff_oxygen = [];
 		
 		for(let i = data.length - 1; i >= 0; i--){
 			const obj = data[i];			
@@ -140,15 +164,17 @@ export default function DashboardResult(props) {
 			data1_categories.push(datetime.hhmm());
 			data2_categories.push(datetime.hhmm());
 			data3_categories.push(datetime.hhmm());
+			data4_categories.push(datetime.hhmm());
 
 			data1_series_in_carbon.push(obj.in_Carbon);
 			data1_series_out_carbon.push(obj.out_Carbon);
 
 			data2_series_in_oxygen.push(obj.in_Oxygen / 100);
 			data2_series_out_oxygen.push(obj.out_Oxygen / 100);
-
-			data3_series_diff_oxygen.push((obj.in_Oxygen / 100) - (obj.out_Oxygen / 100));
+			
 			data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
+
+			data4_series_diff_oxygen.push((obj.in_Oxygen / 100) - (obj.out_Oxygen / 100));
 		}
 
 		data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
@@ -157,12 +183,14 @@ export default function DashboardResult(props) {
 		data2_series.push({name: 'O₂ - IN', data: data2_series_in_oxygen});
 		data2_series.push({name: 'O₂ - OUT', data: data2_series_out_oxygen});
 
-		data3_series.push({name: 'O₂', data: data3_series_diff_oxygen});
 		data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
+		
+		data4_series.push({name: 'O₂', data: data4_series_diff_oxygen});
 
 		setData1({categories: data1_categories, series: data1_series});
 		setData2({categories: data2_categories, series: data2_series});
 		setData3({categories: data3_categories, series: data3_series});
+		setData4({categories: data4_categories, series: data4_series});
 
 	}
 
@@ -232,7 +260,8 @@ export default function DashboardResult(props) {
 			const elmRect = contentRef.current.getBoundingClientRect();
 			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
+			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 		}
 	}, []);
 
@@ -242,7 +271,8 @@ export default function DashboardResult(props) {
 			const elmRect = contentRef.current.getBoundingClientRect();
 			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
+			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 		}
 
 	},[visible])
@@ -307,12 +337,20 @@ export default function DashboardResult(props) {
 					</li>
 
 					<li className="box">
-						<h2>CO₂, O₂ 변화량</h2>
-						<div className='chart'>
+						<h2>O₂, CO₂ 변화량</h2>
+						<div className='chart2'>
 							<LineChart
 								ref={chartRef3}
 								data={data3}
-								options={option}>
+								options={option2}>
+							</LineChart>
+						</div>
+						
+						<div className='chart2'>
+							<LineChart
+								ref={chartRef4}
+								data={data4}
+								options={option2}>
 							</LineChart>
 						</div>
 					</li>

@@ -20,6 +20,8 @@
 .dashboard > .dashboard-result > ol > li {padding:1.071rem;}
 .dashboard > .dashboard-result > ol .chart {width:28vw; height:24vh;}
 .dashboard > .dashboard-result > ol .chart .tui-chart-series-custom-event-area {display:none;}
+/* .dashboard > .dashboard-result > ol .chart2 {width:28vw; height:24vh;} */
+.dashboard > .dashboard-result > ol .chart2 .tui-chart-series-custom-event-area {display:none;}
 .dashboard > .dashboard-result > div.box {margin-top:1%;}
 .dashboard > .dashboard-result > div.box .list thead tr th {padding:0 0.5% 0.5% 0.5%; border-right:0.143rem solid rgba(255,255,255,0.18);}
 .dashboard > .dashboard-result > div.box .list thead tr:first-child th:last-child {border-right:0;}
