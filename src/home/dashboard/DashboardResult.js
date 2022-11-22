@@ -355,11 +355,11 @@ export default function DashboardResult(props) {
 						{list.map((row, index) => {
 							return (
 								<tr role="checkbox" tabIndex={-1} key={index}>
-									<td>{row.in_Oxygen / 100} ppm</td>
-									<td>{toNumber(row.in_Carbon)} %</td>
+									<td>{row.in_Carbon} ppm</td>
+									<td>{toNumber(row.in_Oxygen / 100)} %</td>
 									<td>{toNumber(row.in_AirCurrent)} m³/h</td>
-									<td>{row.out_Oxygen / 100} ppm</td>
-									<td>{toNumber(row.out_Carbon)} %</td>
+									<td>{row.out_Carbon} ppm</td>
+									<td>{toNumber(row.out_Oxygen / 100)} %</td>
 									<td>{toNumber(row.out_AirCurrent)} m³/h</td>
 									<td>{toNumber(row.in_Carbon - row.out_Carbon)} ppm</td>
 									<td>{(row.in_Oxygen - row.out_Oxygen) / 100} %</td>
