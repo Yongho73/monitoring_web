@@ -354,7 +354,7 @@ export default function DashboardResult(props) {
 					<tbody>
 						{list.map((row, index) => {
 							return (
-								<tr role="checkbox" tabIndex={-1} key={index}>
+								<tr role="checkbox" tabIndex={-1} key={index} >
 									<td>{row.in_Carbon} ppm</td>
 									<td>{toNumber(row.in_Oxygen / 100)} %</td>
 									<td>{toNumber(row.in_AirCurrent)} m³/h</td>
@@ -362,7 +362,7 @@ export default function DashboardResult(props) {
 									<td>{toNumber(row.out_Oxygen / 100)} %</td>
 									<td>{toNumber(row.out_AirCurrent)} m³/h</td>
 									<td>{toNumber(row.in_Carbon - row.out_Carbon)} ppm</td>
-									<td>{(row.in_Oxygen - row.out_Oxygen) / 100} %</td>
+									<td>{(row.out_Oxygen - row.in_Oxygen) / 100} %</td>
 									<td>{toNumber(row.st_Temp)}°C</td>
 									<td>{toNumber(row.st_Humi)}%</td>
 									<td>{row.observedDate}</td>
