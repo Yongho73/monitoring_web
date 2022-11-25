@@ -174,7 +174,7 @@ export default function DashboardResult(props) {
 			
 			data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
 
-			data4_series_diff_oxygen.push((obj.in_Oxygen / 100) - (obj.out_Oxygen / 100));
+			data4_series_diff_oxygen.push((obj.out_Oxygen / 100) - (obj.in_Oxygen / 100));
 		}
 
 		data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
