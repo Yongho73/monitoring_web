@@ -115,7 +115,7 @@ export default function DashboardResult(props) {
 	};
 	
 	const handleSearch = async() => {
-		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 10 : 5, pageIndex: activePage }    		
+		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 60 : 7, pageIndex: activePage }    		
 
 		await getDeviceDetail(param).then(response => {
 			const status = response.status;
@@ -339,16 +339,16 @@ export default function DashboardResult(props) {
 							<th rowSpan={2}>Temporary</th>
 							<th rowSpan={2}>Humi</th>
 							<th rowSpan={2} >Date</th>
-						</tr>
-						<tr>
-							<th>CO₂</th>
-							<th>O₂</th>
-							<th>AFM</th>
-							<th>CO₂</th>
-							<th>O₂</th>
-							<th>AFM</th>
-							<th>CO₂</th>
-							<th>O₂</th>
+							<td>
+								<span>CO₂</span>
+								<span>O₂</span>
+								<span>AFM</span>
+								<span>CO₂</span>
+								<span>O₂</span>
+								<span>AFM</span>
+								<span>CO₂</span>
+								<span>O₂</span>
+							</td>
 						</tr>
 					</thead>
 					<tbody>
