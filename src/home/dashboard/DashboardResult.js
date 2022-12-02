@@ -341,9 +341,9 @@ export default function DashboardResult(props) {
 							<th colSpan={3}>IN</th>
 							<th colSpan={3}>OUT</th>
 							<th colSpan={2}>Variation</th>
-							<th rowSpan={2}>Temporary</th>
-							<th rowSpan={2}>Humi</th>
-							<th rowSpan={2} >Date</th>
+							<th rowSpan={2}>Temperature</th>
+							<th rowSpan={2}>Humidity</th>
+							<th rowSpan={2}>Date</th>
 							<td>
 								<span>CO₂</span>
 								<span>O₂</span>
