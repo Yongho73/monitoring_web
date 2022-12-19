@@ -161,10 +161,10 @@ export default function DashboardResult(props) {
 
 			let datetime = new Date(obj.observedDate);
 
-			data1_categories.push(datetime.hhmm());
-			data2_categories.push(datetime.hhmm());
-			data3_categories.push(datetime.hhmm());
-			data4_categories.push(datetime.hhmm());
+			data1_categories.push(datetime.hhmmss());
+			data2_categories.push(datetime.hhmmss());
+			data3_categories.push(datetime.hhmmss());
+			data4_categories.push(datetime.hhmmss());
 
 			data1_series_in_carbon.push(obj.in_Carbon);
 			data1_series_out_carbon.push(obj.out_Carbon);
