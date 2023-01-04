@@ -11,22 +11,22 @@ import { getWeather } from '../../crud/code.crud';
 export default function Header() {
 	const [weather, setWeather] = useState('');
 	
-	const handleWeather = async() => {
-		const param = { city: 'Seoul' }    		
+	// const handleWeather = async() => {
+	// 	const param = { city: 'Seoul' }    		
 
-		await getWeather(param).then(response => {
-			const status = response.status;
-			const data = response.data.responseData;
+	// 	await getWeather(param).then(response => {
+	// 		const status = response.status;
+	// 		const data = response.data.responseData;
 			
-			if(status === 200){
-				setWeather(data);
-			}
-		})
-	}
+	// 		if(status === 200){
+	// 			setWeather(data);
+	// 		}
+	// 	})
+	// }
 	
-	useEffect(() => {
-		handleWeather();
-	},[])
+	// useEffect(() => {
+	// 	handleWeather();
+	// },[])
 
 	return (
 		<header>            

@@ -8,6 +8,15 @@ export function toNumber(val) {
     return val;
 }
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 Date.prototype.hhmm = function() {
     var hh = this.getHours();
@@ -50,10 +59,10 @@ Date.prototype.yyyymmddhhmmss = function() {
     var ss = this.getSeconds();
   
     return [this.getFullYear(),
-            (MM>9 ? '' : '0') + MM,
-            (dd>9 ? '' : '0') + dd,
-            (hh>9 ? '' : '0') + hh,
-            (mm>9 ? '' : '0') + mm,
-            (ss>9 ? '' : '0') + ss
-           ].join('');
-  };
+        (MM>9 ? '' : '0') + MM,
+        (dd>9 ? '' : '0') + dd,
+        (hh>9 ? '' : '0') + hh,
+        (mm>9 ? '' : '0') + mm,
+        (ss>9 ? '' : '0') + ss
+   ].join('');
+};

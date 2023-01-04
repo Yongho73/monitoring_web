@@ -5,12 +5,13 @@ import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
-import { toNumber } from '../util/util'
+import { toNumber, makeid } from '../util/util'
 import { Link } from 'react-router-dom'
 import * as FileSaver from "file-saver";
 import ElementResizeListener from './../util/ElementResizeListener';
 import Popup from 'reactjs-popup';
 import Calendar from 'react-calendar';
+import * as mqtt from 'react-paho-mqtt';
 
 import 'react-calendar/dist/Calendar.css';
 
@@ -26,6 +27,7 @@ export default function DashboardResult(props) {
 
 	const [selectedDate, setSelectedDate] = useState(new Date());
 
+	const [deviceIdnfr, setDeviceIdnfr] = useState("");
 	const [companyName, setCompanyName] = useState("");
 	const [deviceName, setDeviceName] = useState("");
 	const [exhaustType, setExhaustType] = useState("");
@@ -41,6 +43,9 @@ export default function DashboardResult(props) {
 	const chartRef2 = useRef(null);
 	const chartRef3 = useRef(null);
 	const chartRef4 = useRef(null);
+
+	const websocketAddr = "mon.bizmarvel.co.kr";
+	const websocketPort = "61614";
 
 	const theme = {
 		legend: {
@@ -91,6 +96,7 @@ export default function DashboardResult(props) {
 		responsive: {
 			animation: { duration: 300 }
 		},
+		series: {shift: true},
 		theme: 'myTheme'
 	};
 	
@@ -111,6 +117,7 @@ export default function DashboardResult(props) {
 		responsive: {
 			animation: { duration: 300 }
 		},
+		series: {shift: true},
 		theme: 'myTheme'
 	};
 	
@@ -128,6 +135,7 @@ export default function DashboardResult(props) {
 				setDeviceName(device.deviceName);
 				setExhaustType(device.exhaustType);
 				setDeviceType(device.deviceType);
+				setDeviceIdnfr(device.deviceIdnfr);
 
 				setList(data)
 				setPagination(paging)
@@ -135,6 +143,9 @@ export default function DashboardResult(props) {
 				if(visible) {
 					setChart(data);
 				}
+
+				//TODO paho mqtt 연동
+				
 			}
 		})
 	}
@@ -156,25 +167,41 @@ export default function DashboardResult(props) {
 		let data4_series = [];
 		let data4_series_diff_oxygen = [];
 		
-		for(let i = data.length - 1; i >= 0; i--){
-			const obj = data[i];			
-
-			let datetime = new Date(obj.observedDate);
+		if(data.length == 0) {
+			let datetime = new Date();
 
 			data1_categories.push(datetime.hhmmss());
 			data2_categories.push(datetime.hhmmss());
 			data3_categories.push(datetime.hhmmss());
 			data4_categories.push(datetime.hhmmss());
 
-			data1_series_in_carbon.push(obj.in_Carbon);
-			data1_series_out_carbon.push(obj.out_Carbon);
+			data1_series_in_carbon.push(0);
+			data1_series_out_carbon.push(0);
+			data2_series_in_oxygen.push(0);
+			data2_series_out_oxygen.push(0);
+			data3_series_diff_carbon.push(0);
+			data4_series_diff_oxygen.push(0);
+		} else{
+			for(let i = data.length - 1; i >= 0; i--){
+				const obj = data[i];			
 
-			data2_series_in_oxygen.push(obj.in_Oxygen / 100);
-			data2_series_out_oxygen.push(obj.out_Oxygen / 100);
-			
-			data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
+				let datetime = new Date(obj.observedDate);
 
-			data4_series_diff_oxygen.push((obj.out_Oxygen / 100) - (obj.in_Oxygen / 100));
+				data1_categories.push(datetime.hhmmss());
+				data2_categories.push(datetime.hhmmss());
+				data3_categories.push(datetime.hhmmss());
+				data4_categories.push(datetime.hhmmss());
+
+				data1_series_in_carbon.push(obj.in_Carbon);
+				data1_series_out_carbon.push(obj.out_Carbon);
+
+				data2_series_in_oxygen.push(obj.in_Oxygen / 100);
+				data2_series_out_oxygen.push(obj.out_Oxygen / 100);
+				
+				data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
+
+				data4_series_diff_oxygen.push((obj.out_Oxygen / 100) - (obj.in_Oxygen / 100));
+			}
 		}
 
 		data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
@@ -184,7 +211,7 @@ export default function DashboardResult(props) {
 		data2_series.push({name: 'O₂ - OUT', data: data2_series_out_oxygen});
 
 		data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
-		
+
 		data4_series.push({name: 'O₂', data: data4_series_diff_oxygen});
 
 		setData1({categories: data1_categories, series: data1_series});
@@ -237,7 +264,6 @@ export default function DashboardResult(props) {
 			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 		}
-
 	},[visible])
 
 	useEffect(() => {
