@@ -32,7 +32,7 @@ export default function Header() {
 		<header>            
 			<Link to="/index"><img src={logoImg} width="100%" alt="bizmarvel logo" title="bizmarvel logo" /></Link>
 			<ul>                
-				<li><span><FontAwesomeIcon icon={solid('sun-bright')} /></span> {맑음/*weather.description*/}</li>
+				<li><span><FontAwesomeIcon icon={solid('sun-bright')} /></span> {/*weather.description*/}</li>
 				<li><span><FontAwesomeIcon icon={regular('cloud')} /></span> 대기농도 {0/*weather.carbonIntensity*/}ppm</li>
 			</ul>
 		</header>
