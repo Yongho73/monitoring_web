@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
-import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
-// import geoMapLevel2 from '../../home/util/json/geoMapLevel2.json' //추후 지역 상세 표기 시 사용
-// import geoMapLevel3 from '../../home/util/json/geoMapLevel3.json' //추후 지역 상세 표기 시 사용
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import _ from 'lodash'
@@ -42,7 +39,7 @@ export default function DashboardMap(props) {
 			borderWidth: 1,
 			borderColor: '#677bfe',
 		},
-		nameProperty: 'name', // registerMap 할 때 지정한 기준 키값 
+		nameProperty: 'adm_nm', // registerMap 할 때 지정한 기준 키값
 		emphasis: {
 			label: {
 				fontWeight : '600',
@@ -70,21 +67,18 @@ export default function DashboardMap(props) {
   echarts.registerMap('KOR', props.geoJson, {});  
   
 
-  const handleClick = params =>{	
-
+  const handleClick = params =>{
 	//추후 지역 상세 표기 시 사용
 	 let highCode = '';
-		
-	 for(let i = 0 ; i < props.geoJson.features.length; i ++ ){					
-		if(props.geoJson.features[i].properties.name === params.name){
-			highCode = props.geoJson.features[i].properties.value ;				
+
+	 for(let i = 0 ; i < props.geoJson.features.length; i ++ ){
+		if(props.geoJson.features[i].properties.adm_nm === params.name){
+			highCode = props.geoJson.features[i].properties.adm_cd;
 		}
 	}
 	if(props.geoLevel !== 3){
 		props.handleCallback(params.name, highCode , props.geoLevel + 1)		
 	}
-	
-	
   }
 
   const handleBackArea = () => {	
