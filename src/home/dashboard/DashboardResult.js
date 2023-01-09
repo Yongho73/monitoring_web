@@ -150,23 +150,25 @@ export default function DashboardResult(props) {
 	useEffect(() =>{
 		if(deviceIdnfr && !mqttClient && !isConnect){
 			isConnect = true
-			const client = mqtt.connect("mqtt://"+mqttAddr+":"+mqttPort, {
-				clientId: uuidv4(),
-				properties: { topicAliasMaximum: 20, maximumPacketSize: 100 }
-			});
+			try {
+				const client = mqtt.connect("mqtt://" + mqttAddr + ":" + mqttPort, {
+					clientId: uuidv4(),
+					properties: {topicAliasMaximum: 20, maximumPacketSize: 100}
+				});
 
-			const topic1 = "ccdm/" + deviceIdnfr + "/data";
+				const topic1 = "ccdm/" + deviceIdnfr + "/data";
 
-			client.on("connect", () => {
-				client.subscribe(topic1);
-			});
+				client.on("connect", () => {
+					client.subscribe(topic1);
+				});
 
-			client.on('message', function (topic, message) {
+				client.on('message', function (topic, message) {
 
-				const json = JSON.parse(message.toString())
-				setClientData(json);
-			})
-			setMqttClient(client);
+					const json = JSON.parse(message.toString())
+					setClientData(json);
+				})
+				setMqttClient(client);
+			} catch(err) {console.log(err)}
 		}
 	}, [deviceIdnfr])
 
