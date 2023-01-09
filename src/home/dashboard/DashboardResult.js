@@ -45,7 +45,7 @@ export default function DashboardResult(props) {
 	const chartRef3 = useRef(null);
 	const chartRef4 = useRef(null);
 
-	const mqttPort = "61614";
+	const mqttPort = "85";
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
 	const [isLive, setIsLive] = useState('N');
