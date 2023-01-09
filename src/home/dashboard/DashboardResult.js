@@ -153,9 +153,9 @@ export default function DashboardResult(props) {
 			try {
 				let url = '';
 				if(window.location.hostname.endsWith('bizmarvel.co.kr')) {
-					url = "mqtt://" + window.location.hostname + ":" + mqttPort;
+					url = "wss://" + window.location.hostname + ":" + mqttPort;
 				} else{
-					url = "mqtt://" + '192.168.0.3' + ":" + mqttPort;
+					url = "ws://" + '192.168.0.3' + ":" + mqttPort;
 				}
 				const client = mqtt.connect(url, {
 					clientId: uuidv4(),
