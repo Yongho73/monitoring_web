@@ -45,7 +45,7 @@ export default function DashboardResult(props) {
 	const chartRef3 = useRef(null);
 	const chartRef4 = useRef(null);
 
-	const mqttAddr = "192.168.0.3";
+	const mqttAddr = "dev.bizmarvel.co.kr";
 	const mqttPort = "61614";
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
