@@ -48,7 +48,7 @@ export default function DashboardResult(props) {
 	const mqttPort = "61614";
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
-	const [isLive, setIsLive] = useState(false);
+	const [isLive, setIsLive] = useState('N');
 	let isConnect = false;
 
 	const theme = {
@@ -165,15 +165,16 @@ export default function DashboardResult(props) {
 				const topic1 = "ccdm/" + deviceIdnfr + "/data";
 
 				client.on("connect", () => {
+					setIsLive('W')
 					client.subscribe(topic1);
 				});
 
 				client.on('message', function (topic, message) {
-					setIsLive(true);
+					setIsLive('Y');
 					setClientData(JSON.parse(message.toString()));
 				})
 				setMqttClient(client);
-			} catch(err) {console.log(err); setIsLive(false)}
+			} catch(err) {console.log(err); setIsLive('N')}
 		}
 	}, [deviceIdnfr])
 
@@ -306,6 +307,15 @@ export default function DashboardResult(props) {
 		}
 	}, []);
 
+	const isLiveFun = () => {
+		if(isLive === 'Y')
+			return <span title='실시간 연동됨' style={{color: 'green'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+		else if (isLive === 'W')
+			return <span title='실시간 준비됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+		else
+			return <span title='실시간 연동 실패' style={{color: 'red'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+	}
+
 	useEffect(() => {
 		handleSearch();
 		if(visible && contentRef.current) {
@@ -325,7 +335,7 @@ export default function DashboardResult(props) {
 		<>	
 			<dl>
 				<dt>
-					{isLive ? <span title='실시간' style={{color: 'green'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span> : <span title='실시간' style={{color: 'red'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>}
+					{isLiveFun()}
 					<span>장치번호:</span>{deviceCode}
 					<span>사업장:</span>{companyName}
 					<span>명칭:</span>{deviceName}
