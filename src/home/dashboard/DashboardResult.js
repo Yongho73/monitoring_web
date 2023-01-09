@@ -48,6 +48,7 @@ export default function DashboardResult(props) {
 	const mqttPort = "61614";
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
+	const [isLive, setIsLive] = useState(false);
 	let isConnect = false;
 
 	const theme = {
@@ -168,12 +169,11 @@ export default function DashboardResult(props) {
 				});
 
 				client.on('message', function (topic, message) {
-
-					const json = JSON.parse(message.toString())
-					setClientData(json);
+					setIsLive(true);
+					setClientData(JSON.parse(message.toString()));
 				})
 				setMqttClient(client);
-			} catch(err) {console.log(err)}
+			} catch(err) {console.log(err); setIsLive(false)}
 		}
 	}, [deviceIdnfr])
 
@@ -325,6 +325,7 @@ export default function DashboardResult(props) {
 		<>	
 			<dl>
 				<dt>
+					{isLive ? <span title='실시간' style={{color: 'green'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span> : <span title='실시간' style={{color: 'red'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>}
 					<span>장치번호:</span>{deviceCode}
 					<span>사업장:</span>{companyName}
 					<span>명칭:</span>{deviceName}
