@@ -45,7 +45,6 @@ export default function DashboardResult(props) {
 	const chartRef3 = useRef(null);
 	const chartRef4 = useRef(null);
 
-	const mqttAddr = "dev.bizmarvel.co.kr";
 	const mqttPort = "61614";
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
@@ -151,7 +150,13 @@ export default function DashboardResult(props) {
 		if(deviceIdnfr && !mqttClient && !isConnect){
 			isConnect = true
 			try {
-				const client = mqtt.connect("mqtt://" + mqttAddr + ":" + mqttPort, {
+				let url = '';
+				if(window.location.hostname.endsWith('bizmarvel.co.kr')) {
+					url = "mqtt://" + window.location.hostname + ":" + mqttPort;
+				} else{
+					url = "mqtt://" + '192.168.0.3' + ":" + mqttPort;
+				}
+				const client = mqtt.connect(url, {
 					clientId: uuidv4(),
 					properties: {topicAliasMaximum: 20, maximumPacketSize: 100}
 				});
