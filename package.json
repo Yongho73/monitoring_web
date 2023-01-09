@@ -26,6 +26,7 @@
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "mqtt": "^4.3.7",
     "mui-datatables": "^3.7.7",
     "nodemon": "^2.0.20",
     "react": "^16.14.0",

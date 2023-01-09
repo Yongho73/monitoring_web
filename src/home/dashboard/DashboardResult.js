@@ -5,11 +5,13 @@ import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
-import { toNumber, makeid } from '../util/util'
+import {toNumber, makeid, uuidv4} from '../util/util'
 import * as FileSaver from "file-saver";
 import ElementResizeListener from './../util/ElementResizeListener';
 import Popup from 'reactjs-popup';
 import Calendar from 'react-calendar';
+
+import mqtt from "mqtt/dist/mqtt";
 
 import 'react-calendar/dist/Calendar.css';
 
@@ -22,6 +24,7 @@ export default function DashboardResult(props) {
 	const [data2, setData2] = useState({});
 	const [data3, setData3] = useState({});
 	const [data4, setData4] = useState({});
+	const [chageData1, setChageData1] = useState({});
 
 	const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -42,8 +45,11 @@ export default function DashboardResult(props) {
 	const chartRef3 = useRef(null);
 	const chartRef4 = useRef(null);
 
-	const websocketAddr = "mon.bizmarvel.co.kr";
-	const websocketPort = "61614";
+	const mqttAddr = "192.168.0.3";
+	const mqttPort = "61614";
+	const [clientData , setClientData] = useState(null)
+	const [mqttClient, setMqttClient] = useState(null);
+	let isConnect = false;
 
 	const theme = {
 		legend: {
@@ -129,95 +135,135 @@ export default function DashboardResult(props) {
 			const device = response.data.responseData.deviceInfo;
 
 			if(status === 200){
+				setList(data)
+				setPagination(paging)
+
 				setCompanyName(device.companyName);
 				setDeviceName(device.deviceName);
 				setExhaustType(device.exhaustType);
 				setDeviceType(device.deviceType);
 				setDeviceIdnfr(device.deviceIdnfr);
-
-				setList(data)
-				setPagination(paging)
-
-				if(visible) {
-					setChart(data);
-				}
-
-				//TODO paho mqtt 연동
-				
 			}
 		})
 	}
 
-	const setChart = (data) => {
+	useEffect(() =>{
+		if(deviceIdnfr && !mqttClient && !isConnect){
+			isConnect = true
+			const client = mqtt.connect("mqtt://"+mqttAddr+":"+mqttPort, {
+				clientId: uuidv4(),
+				properties: { topicAliasMaximum: 20, maximumPacketSize: 100 }
+			});
 
-		let data1_categories = [];
-		let data1_series = [];
-		let data1_series_in_carbon = [];
-		let data1_series_out_carbon = [];
-		let data2_categories = [];
-		let data2_series = [];
-		let data2_series_in_oxygen = [];
-		let data2_series_out_oxygen = [];
-		let data3_categories = [];
-		let data3_series = [];
-		let data3_series_diff_carbon = [];
-		let data4_categories = [];
-		let data4_series = [];
-		let data4_series_diff_oxygen = [];
-		
-		if(data.length == 0) {
-			let datetime = new Date();
+			const topic1 = "ccdm/" + deviceIdnfr + "/data";
 
-			data1_categories.push(datetime.hhmmss());
-			data2_categories.push(datetime.hhmmss());
-			data3_categories.push(datetime.hhmmss());
-			data4_categories.push(datetime.hhmmss());
+			client.on("connect", () => {
+				client.subscribe(topic1);
+			});
 
-			data1_series_in_carbon.push(0);
-			data1_series_out_carbon.push(0);
-			data2_series_in_oxygen.push(0);
-			data2_series_out_oxygen.push(0);
-			data3_series_diff_carbon.push(0);
-			data4_series_diff_oxygen.push(0);
-		} else{
-			for(let i = data.length - 1; i >= 0; i--){
-				const obj = data[i];			
+			client.on('message', function (topic, message) {
 
-				let datetime = new Date(obj.observedDate);
+				const json = JSON.parse(message.toString())
+				setClientData(json);
+			})
+			setMqttClient(client);
+		}
+	}, [deviceIdnfr])
+
+	useEffect(() => {
+		if(clientData){
+			// 날짜 가공
+			clientData.observedDate = clientData.observedDate.slice(0, 4) + '-' +
+				clientData.observedDate.slice(4, 6) + '-' +
+				clientData.observedDate.slice(6, 8) + ' ' +
+				clientData.observedDate.slice(8, 10) + ':'+
+				clientData.observedDate.slice(10, 12) + ':'+
+				clientData.observedDate.slice(12, 14)
+
+			// 리스트
+			const arr = []
+			arr.push(clientData);
+			for(let i = 0 ; i < list.length ; i ++ ){
+				if(i !== list.length -1){
+					arr.push(list[i]);
+				}
+			}
+			setList(arr)
+		}
+
+	},[clientData])
+
+	useEffect(() => {
+		if(list && visible){
+			let data1_categories = [];
+			let data1_series = [];
+			let data1_series_in_carbon = [];
+			let data1_series_out_carbon = [];
+			let data2_categories = [];
+			let data2_series = [];
+			let data2_series_in_oxygen = [];
+			let data2_series_out_oxygen = [];
+			let data3_categories = [];
+			let data3_series = [];
+			let data3_series_diff_carbon = [];
+			let data4_categories = [];
+			let data4_series = [];
+			let data4_series_diff_oxygen = [];
+
+			if(list.length == 0) {
+				let datetime = new Date();
 
 				data1_categories.push(datetime.hhmmss());
 				data2_categories.push(datetime.hhmmss());
 				data3_categories.push(datetime.hhmmss());
 				data4_categories.push(datetime.hhmmss());
 
-				data1_series_in_carbon.push(obj.in_Carbon);
-				data1_series_out_carbon.push(obj.out_Carbon);
+				data1_series_in_carbon.push(0);
+				data1_series_out_carbon.push(0);
+				data2_series_in_oxygen.push(0);
+				data2_series_out_oxygen.push(0);
+				data3_series_diff_carbon.push(0);
+				data4_series_diff_oxygen.push(0);
+			} else{
+				for(let i = list.length - 1; i >= 0; i--){
+					const obj = list[i];
 
-				data2_series_in_oxygen.push(obj.in_Oxygen / 100);
-				data2_series_out_oxygen.push(obj.out_Oxygen / 100);
-				
-				data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
+					let datetime = new Date(obj.observedDate);
 
-				data4_series_diff_oxygen.push((obj.out_Oxygen / 100) - (obj.in_Oxygen / 100));
+					data1_categories.push(datetime.hhmmss());
+					data2_categories.push(datetime.hhmmss());
+					data3_categories.push(datetime.hhmmss());
+					data4_categories.push(datetime.hhmmss());
+
+					data1_series_in_carbon.push(obj.in_Carbon);
+					data1_series_out_carbon.push(obj.out_Carbon);
+
+					data2_series_in_oxygen.push(obj.in_Oxygen / 100);
+					data2_series_out_oxygen.push(obj.out_Oxygen / 100);
+
+					data3_series_diff_carbon.push(obj.in_Carbon - obj.out_Carbon);
+
+					data4_series_diff_oxygen.push((obj.out_Oxygen / 100) - (obj.in_Oxygen / 100));
+				}
 			}
+
+			data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
+			data1_series.push({name: 'CO₂ - OUT', data: data1_series_out_carbon});
+
+			data2_series.push({name: 'O₂ - IN', data: data2_series_in_oxygen});
+			data2_series.push({name: 'O₂ - OUT', data: data2_series_out_oxygen});
+
+			data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
+
+			data4_series.push({name: 'O₂', data: data4_series_diff_oxygen});
+
+			setData1({categories: data1_categories, series: data1_series});
+			setData2({categories: data2_categories, series: data2_series});
+			setData3({categories: data3_categories, series: data3_series});
+			setData4({categories: data4_categories, series: data4_series});
 		}
+	},[list])
 
-		data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
-		data1_series.push({name: 'CO₂ - OUT', data: data1_series_out_carbon});
-
-		data2_series.push({name: 'O₂ - IN', data: data2_series_in_oxygen});
-		data2_series.push({name: 'O₂ - OUT', data: data2_series_out_oxygen});
-
-		data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
-
-		data4_series.push({name: 'O₂', data: data4_series_diff_oxygen});
-
-		setData1({categories: data1_categories, series: data1_series});
-		setData2({categories: data2_categories, series: data2_series});
-		setData3({categories: data3_categories, series: data3_series});
-		setData4({categories: data4_categories, series: data4_series});
-
-	}
 
 	const handleChangePage = val => {
 		activePage = val ;
