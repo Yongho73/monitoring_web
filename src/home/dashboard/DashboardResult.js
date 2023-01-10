@@ -45,7 +45,6 @@ export default function DashboardResult(props) {
 	const chartRef3 = useRef(null);
 	const chartRef4 = useRef(null);
 
-	const mqttPort = "85";
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
 	const [isLive, setIsLive] = useState('N');
@@ -153,9 +152,9 @@ export default function DashboardResult(props) {
 			try {
 				let url = '';
 				if(window.location.hostname.endsWith('bizmarvel.co.kr')) {
-					url = "wss://" + window.location.hostname + ":" + mqttPort;
+					url = "wss://" + window.location.hostname + ":85";
 				} else{
-					url = "ws://" + '192.168.0.3' + ":" + mqttPort;
+					url = "ws://192.168.0.3:61614";
 				}
 				const client = mqtt.connect(url, {
 					clientId: uuidv4(),
@@ -170,23 +169,33 @@ export default function DashboardResult(props) {
 				});
 
 				client.on('message', function (topic, message) {
-					setIsLive('Y');
 					setClientData(JSON.parse(message.toString()));
 				})
+
+
 				setMqttClient(client);
 			} catch(err) {console.log(err); setIsLive('N')}
 		}
 	}, [deviceIdnfr])
 
+	useEffect(() =>{
+		if(visible) {
+			setIsLive('W');
+		} else{
+			setIsLive('S');
+		}
+	}, [visible])
+
 	useEffect(() => {
-		if(clientData){
+		if(clientData && visible){
+			setIsLive('Y');
 			// 날짜 가공
 			clientData.observedDate = clientData.observedDate.slice(0, 4) + '-' +
-				clientData.observedDate.slice(4, 6) + '-' +
-				clientData.observedDate.slice(6, 8) + ' ' +
-				clientData.observedDate.slice(8, 10) + ':'+
-				clientData.observedDate.slice(10, 12) + ':'+
-				clientData.observedDate.slice(12, 14)
+									  clientData.observedDate.slice(4, 6) + '-' +
+									  clientData.observedDate.slice(6, 8) + ' ' +
+									  clientData.observedDate.slice(8, 10) + ':'+
+									  clientData.observedDate.slice(10, 12) + ':'+
+									  clientData.observedDate.slice(12, 14)
 
 			// 리스트
 			const arr = []
@@ -198,7 +207,6 @@ export default function DashboardResult(props) {
 			}
 			setList(arr)
 		}
-
 	},[clientData])
 
 	useEffect(() => {
@@ -295,7 +303,7 @@ export default function DashboardResult(props) {
 		})
 	}
 
-	const contentRef: React.RefObject<HTMLDivElement> = useRef(null);
+	const contentRef = useRef(null);
 
 	const adaptResize = useCallback(() => {
 		if (contentRef.current) {
@@ -310,8 +318,10 @@ export default function DashboardResult(props) {
 	const isLiveFun = () => {
 		if(isLive === 'Y')
 			return <span title='실시간 연동됨' style={{color: 'green'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+		else if (isLive === 'S')
+			return <span title='실시간 연동 중지됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
 		else if (isLive === 'W')
-			return <span title='실시간 준비됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 준비됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
 		else
 			return <span title='실시간 연동 실패' style={{color: 'red'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
 	}
