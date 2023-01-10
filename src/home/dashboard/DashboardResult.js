@@ -189,6 +189,7 @@ export default function DashboardResult(props) {
 	useEffect(() => {
 		if(clientData && visible){
 			setIsLive('Y');
+
 			// 날짜 가공
 			clientData.observedDate = clientData.observedDate.slice(0, 4) + '-' +
 									  clientData.observedDate.slice(4, 6) + '-' +
@@ -198,14 +199,20 @@ export default function DashboardResult(props) {
 									  clientData.observedDate.slice(12, 14)
 
 			// 리스트
-			const arr = []
-			arr.push(clientData);
-			for(let i = 0 ; i < list.length ; i ++ ){
-				if(i !== list.length -1){
-					arr.push(list[i]);
-				}
+			// const arr = []
+			// arr.push(clientData);
+			//
+			// for (let i = 0; i < list.length; i++) {
+			// 	if (i !== list.length - 1 || ) {
+			// 		arr.push(list[i]);
+			// 	}
+			// }
+
+			if(list.length >= 7) {
+				list.splice(list.length - 1);
 			}
-			setList(arr)
+
+			setList([clientData, ...list])
 		}
 	},[clientData])
 
