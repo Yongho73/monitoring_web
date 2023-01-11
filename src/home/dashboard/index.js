@@ -8,11 +8,11 @@ import DashboardResult from './DashboardResult'
 
 export default function Index() {
 	const [showTabIndex , setShowTabIndex] = useState('1')
-	const [deviceCode , setDeviceCode] = useState('')
+	const [deviceIdnfr , setDeviceIdnfr] = useState('')
 
 	const handleTabShow = (tabIndex , val) => {
 		setShowTabIndex(tabIndex)		
-		setDeviceCode(val)
+		setDeviceIdnfr(val)
 	}
 
 	const handleTabIndex = tabIndex =>{
@@ -35,7 +35,7 @@ export default function Index() {
 					</section>				
 					:
 					<section className='dashboard-result'>
-						<DashboardResult deviceCode={deviceCode}/>
+						<DashboardResult deviceIdnfr={deviceIdnfr}/>
 					</section>
 				}
 			</div>		

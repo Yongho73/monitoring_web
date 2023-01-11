@@ -16,7 +16,6 @@ import mqtt from "mqtt/dist/mqtt";
 import 'react-calendar/dist/Calendar.css';
 
 export default function DashboardResult(props) {
-	const [deviceCode , setDeviceCode] = useState(props.deviceCode)
 	const [visible, setVisible] = useState(true);  
 	const [showExcelDialog, setShowExcelDialog] = useState(false);  
 
@@ -28,7 +27,8 @@ export default function DashboardResult(props) {
 
 	const [selectedDate, setSelectedDate] = useState(new Date());
 
-	const [deviceIdnfr, setDeviceIdnfr] = useState("");
+	const [deviceCode , setDeviceCode] = useState("")
+	const [deviceIdnfr, setDeviceIdnfr] = useState(props.deviceIdnfr);
 	const [companyName, setCompanyName] = useState("");
 	const [deviceName, setDeviceName] = useState("");
 	const [exhaustType, setExhaustType] = useState("");
@@ -125,7 +125,7 @@ export default function DashboardResult(props) {
 	};
 	
 	const handleSearch = async() => {
-		const param = { deviceCode : deviceCode, pagePerSize : !visible ? 60 : 7, pageIndex: activePage }    		
+		const param = { deviceIdnfr : deviceIdnfr, pagePerSize : !visible ? 60 : 7, pageIndex: activePage }
 
 		await getDeviceDetail(param).then(response => {
 			const status = response.status;
@@ -137,11 +137,11 @@ export default function DashboardResult(props) {
 				setList(data)
 				setPagination(paging)
 
+				setDeviceCode(device.deviceCode);
 				setCompanyName(device.companyName);
 				setDeviceName(device.deviceName);
 				setExhaustType(device.exhaustType);
 				setDeviceType(device.deviceType);
-				setDeviceIdnfr(device.deviceIdnfr);
 			}
 		})
 	}
@@ -197,16 +197,6 @@ export default function DashboardResult(props) {
 									  clientData.observedDate.slice(8, 10) + ':'+
 									  clientData.observedDate.slice(10, 12) + ':'+
 									  clientData.observedDate.slice(12, 14)
-
-			// 리스트
-			// const arr = []
-			// arr.push(clientData);
-			//
-			// for (let i = 0; i < list.length; i++) {
-			// 	if (i !== list.length - 1 || ) {
-			// 		arr.push(list[i]);
-			// 	}
-			// }
 
 			if(list.length >= 7) {
 				list.splice(list.length - 1);
@@ -296,7 +286,7 @@ export default function DashboardResult(props) {
 	const handleExcelDown = async() => {
 		const formData = new FormData();
 		
-		formData.append('deviceCode', deviceCode);
+		formData.append('deviceIdnfr', deviceIdnfr);
 		formData.append('date', selectedDate.yyyymmdd());
 
 		await getDeviceDetailExcel(formData).then(response => {			

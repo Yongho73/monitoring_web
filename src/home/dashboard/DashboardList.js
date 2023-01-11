@@ -155,7 +155,7 @@ export default function DashboardList(props) {
 			const status = response.status;
 			const data = response.data.responseData.result;
 			const paging = response.data.responseData.pagination
-			
+
 			if(status === 200){
 				setList(data)
 				setPagination(paging)				
@@ -167,7 +167,7 @@ export default function DashboardList(props) {
 	}      
 
 	const handleRowClick = val =>{
-		const key = val.deviceCode;
+		const key = val.deviceIdnfr;
 
 		props.handleTabShow('2' , key )
 	}
