@@ -12,6 +12,7 @@ import Popup from 'reactjs-popup';
 import Calendar from 'react-calendar';
 
 import mqtt from "mqtt/dist/mqtt";
+import jsmpeg from "jsmpeg";
 
 import 'react-calendar/dist/Calendar.css';
 
@@ -338,6 +339,33 @@ export default function DashboardResult(props) {
 		adaptResize();
 	},[])
 
+	// cctv 추가 시작 ==========================---------------
+	const cctvCanvasRef = useRef(null);
+	let client = null;
+    let canvas = null;
+    // cctv 켜기
+	const cctvOn = () => {
+        console.log("cctv 켜기");
+		client = new WebSocket('ws://34.64.209.141:9000');
+        canvas = cctvCanvasRef.current;
+        new jsmpeg(client, {canvas: canvas});           
+    };
+    // cctv 끄기
+	const cctvOff = () => {
+		console.log("cctv 끄기");
+        client.close();
+		client = null;
+        canvas = null;      
+    };
+	// cctv 전체화면
+	const openCctvFullscreen = () => {    		 		
+		console.log("cctv 전체화면");
+		if (canvas.requestFullscreen) {
+			canvas.requestFullscreen();
+		}
+	};
+	// cctv 추가 종료 ==========================---------------
+
 	return (
 		<>	
 			<dl>
@@ -351,10 +379,13 @@ export default function DashboardResult(props) {
 				</dt>
 				<dd>
 					{/* <button onClick={event => handleExcelDown() }>엑셀 다운로드</button> */}
-					<Popup trigger={<button style={{'marginRight': '1rem'}}> CCTV 연결</button>} position="bottom right">
+					<Popup trigger={<button style={{'marginRight': '1rem'}}> CCTV 연결</button>} position="bottom right" onOpen={()=>cctvOn()} onClose={()=>cctvOff()}>
 						<div className='box' style={{background: 'rgba(255, 255, 255, 0.25)'}}>
-							<iframe width="720" height="455" frameborder="0" allowfullscreen src="https://streamedian.com/embed?s=cnRzcDovL2Jpem1hcnZlbDpiaXptMTkxNEBwbHVnaW4uaXB0aW1lY2FtLmNvbToyMTQ0Ni9zdHJlYW1fY2gwMF8x&r=NzIweDQ4MA=="></iframe>
+							<canvas ref={cctvCanvasRef} style={{width: '500px', height:"350px"}}></canvas>
 						</div>
+						<div>
+                            <button onClick={()=>openCctvFullscreen()}>전체화면</button>
+                        </div>
 					</Popup>
 					<Popup trigger={<button> 엑셀 다운로드</button>} position="bottom right">
 						<div className='box' style={{background: 'rgba(255, 255, 255, 0.25)'}}>
