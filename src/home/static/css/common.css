@@ -216,6 +216,24 @@ main > h2 > span {margin-right:0.5rem;}
 .box > h2 {font-size:1.071rem;}
 
 
+/* 팝업 - 버튼 밑 */
+.popup-content > div:first-of-type {display:none;}
+.popup-mini {display:flex; flex-direction:column; border-radius:0.714rem; background:#1a006f; overflow:hidden;}
+.popup-mini > canvas {position:relative; width:28.571rem;}
+.popup-mini > span {position:absolute; right:0.929rem; bottom:0.714rem; font-size:1.429rem; cursor:pointer;}
+.popup-mini .react-calendar__navigation {height:2.714rem; margin-bottom:0;}
+.popup-mini .react-calendar__month-view__weekdays {color:#7120ea;}
+.popup-mini .react-calendar__navigation button {padding:0;}
+.popup-mini .react-calendar__navigation button:hover, .popup-mini .react-calendar button:hover {background:#efefef;}
+.popup-mini .react-calendar__navigation button:disabled {background:#efefef;}
+.popup-mini .react-calendar__month-view__days__day--neighboringMonth {color:#bebebe;}
+.popup-mini .react-calendar__tile--now, .popup-mini .react-calendar__tile--now:hover {color:#fff; background:#7120ea !important;}
+.popup-mini .react-calendar__tile--active, .popup-mini .react-calendar__tile--active:hover {background:#263ed9 !important;}
+.popup-mini .react-calendar__tile:disabled {background:#efefef; opacity:0.6;}
+.popup-mini .react-calendar__year-view .react-calendar__tile, .popup-mini .react-calendar__decade-view .react-calendar__tile, .popup-mini .react-calendar__century-view .react-calendar__tile {padding:0;}
+.popup-mini .react-calendar__tile--hasActive {color:#fff; background:#263ed9;}
+
+
 /* 로딩 */
 .loading {position:absolute; top:calc(50% - 1.071rem); left:calc(50% - 1.071rem); width:2.143rem; height:2.143rem; -webkit-animation:rotation 1s infinite; animation:rotation 1s infinite; z-index:10;}
 .loading.rotate {transform:rotate(10deg);}
@@ -274,7 +292,3 @@ main > h2 > span {margin-right:0.5rem;}
   from {transform:translate(0, 0);}
   to {transform:translate(-1.429rem, -1.429rem);}
 }
-
-
-/* react calender */
-.react-calendar__month-view__weekdays__weekday { color: black !important}
