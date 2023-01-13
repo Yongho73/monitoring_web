@@ -495,7 +495,7 @@ export default function DashboardResult(props) {
     // cctv 켜기
 	const cctvOn = () => {
         console.log("cctv 켜기");
-		client = new WebSocket('ws://34.64.209.141:9000');
+		client = new WebSocket('wss://mon.bizmarvel.co.kr:9000');
         canvas = cctvCanvasRef.current;
         new jsmpeg(client, {canvas: canvas});           
     };
