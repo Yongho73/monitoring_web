@@ -11,8 +11,13 @@
 .dashboard > .dashboard-result > dl {display:flex; justify-content:space-between; align-items:center; width:100%;}
 .dashboard > .dashboard-result > dl > dt {font-size:1.143rem; color:#bababa;}
 .dashboard > .dashboard-result > dl > dt > span {margin:0 0.5rem 0 1.429rem; color:#fff;}
-.dashboard > .dashboard-result > dl > dt > span:first-child {margin-left:0;}
+.dashboard > .dashboard-result > dl > dt > span:first-child {margin:0; cursor:pointer;}
+.dashboard > .dashboard-result > dl > dt > span.live-inter {color:#80f652;}
+.dashboard > .dashboard-result > dl > dt > span.live-stop {color:#f65252;}
+.dashboard > .dashboard-result > dl > dt > span.live-ready {color:#52caf6;}
+.dashboard > .dashboard-result > dl > dt > span.live-fail {color:#ecf652;}
 .dashboard > .dashboard-result > dl > dd {display:flex; align-items:center;}
+.dashboard > .dashboard-result > dl > dd > button:last-child {margin-left:0.7143rem;}
 .dashboard > .dashboard-result > dl:nth-of-type(2) {margin-top:1%;}
 .dashboard > .dashboard-result > dl:nth-of-type(2) > dt {color:#fff;}
 .dashboard > .dashboard-result > dl:nth-of-type(2) > dd {padding:0.857rem; border-radius:0.357rem; background:#7120ea; cursor:pointer;}
@@ -21,6 +26,7 @@
 .dashboard > .dashboard-result > ol .chart {width:28vw; height:24vh;}
 .dashboard > .dashboard-result > ol .chart .tui-chart-series-custom-event-area {display:none;}
 .dashboard > .dashboard-result > ol .chart2 .tui-chart-series-custom-event-area {display:none;}
+.dashboard > .dashboard-result > ol .chart .echarts-for-react {height:100% !important;}
 .dashboard > .dashboard-result > div.box {margin-top:1%;}
 .dashboard > .dashboard-result > div.box .list thead {display:grid;}
 .dashboard > .dashboard-result > div.box .list thead tr {display:grid; grid-template-columns:3fr 3fr 2fr repeat(2, 1fr) 2fr;}

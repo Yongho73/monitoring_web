@@ -1,9 +1,10 @@
 import React , { useCallback, useEffect, useState, useRef } from 'react'
 import {  getDeviceDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { regular, solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import {ColumnChart, LineChart} from '@toast-ui/react-chart'
+import ReactEcharts from 'echarts-for-react'
 import Paging from '../common/Paging'
 import {toNumber, makeid, uuidv4} from '../util/util'
 import * as FileSaver from "file-saver";
@@ -98,7 +99,7 @@ export default function DashboardResult(props) {
 		chart: { height: 318 },
 		plot: { visible: false },
 		responsive: {
-			animation: { duration: 300 }
+			animation: false
 		},
 		series: {shift: true},
 		theme: 'myTheme'
@@ -119,11 +120,75 @@ export default function DashboardResult(props) {
 		chart: { height: 120 },
 		plot: { visible: false },
 		responsive: {
-			animation: { duration: 300 }
+			animation: false
 		},
 		series: {shift: true},
 		theme: 'myTheme'
 	};
+
+	const co2 = {
+		grid: { top: 30, right: 30, bottom: 35, left: 1, containLabel: true },
+		legend: {
+			show: true,
+			bottom: -5,
+			itemGap: 30,
+			textStyle: {
+				color: '#fff'
+			}
+		},
+		xAxis: {
+			type: 'category',
+			name: '시',
+			nameTextStyle: {
+				verticalAlign: 'top',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			data: ['13:17:50', '13:18:00', '13:18:10', '13:18:20', '13:18:30', '13:18:40', '13:18:50'],
+			axisLabel: { color: '#fff' },
+		},
+		yAxis: {
+			type: 'value',
+			name: '단위',
+			nameTextStyle: {
+				align: 'right',
+				verticalAlign: 'bottom',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			splitLine: {
+				lineStyle: {
+					color: 'rgba(255,255,255,0.18)'
+				}
+			},
+			axisLabel: { color:'#fff' },
+			interval : 20,
+		},
+		series: [
+			{
+				name: 'CO₂-IN',
+				type: 'bar',
+				data: [13.604, 14.173, 16.334, 20.261, 32.063, 42.192, 52.492, 71.173],
+				label: {
+					show: false,
+				},
+				barWidth: '20%',
+				itemStyle: {color:'#677bfe'},
+				animation: false
+			},
+			{
+				name: 'CO₂-OUT',
+				type: 'bar',
+				data: [13.604, 14.173, 16.334, 20.261, 32.063, 42.192, 52.492, 71.173],
+				label: {
+					show: false,
+				},
+				barWidth: '20%',
+				itemStyle: {color:'#ff5889'},
+				animation: false
+			}
+		]
+	}
 	
 	const handleSearch = async() => {
 		const param = { deviceIdnfr : deviceIdnfr, pagePerSize : !visible ? 60 : 7, pageIndex: activePage }
@@ -306,7 +371,7 @@ export default function DashboardResult(props) {
 	const adaptResize = useCallback(() => {
 		if (contentRef.current) {
 			const elmRect = contentRef.current.getBoundingClientRect();
-			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			// chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
@@ -315,20 +380,20 @@ export default function DashboardResult(props) {
 
 	const isLiveFun = () => {
 		if(isLive === 'Y')
-			return <span title='실시간 연동됨' style={{color: 'green'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동됨' className='live-inter'><FontAwesomeIcon icon={regular('link-horizontal')} /></span>
 		else if (isLive === 'S')
-			return <span title='실시간 연동 중지됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 중지됨' className='live-stop'><FontAwesomeIcon icon={solid('stop')} /></span>
 		else if (isLive === 'W')
-			return <span title='실시간 연동 준비됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 준비됨' className='live-ready'><FontAwesomeIcon icon={regular('bullseye-pointer')} /></span>
 		else
-			return <span title='실시간 연동 실패' style={{color: 'red'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 실패' className='live-fail'><FontAwesomeIcon icon={regular('triangle-exclamation')} /></span>
 	}
 
 	useEffect(() => {
 		handleSearch();
 		if(visible && contentRef.current) {
 			const elmRect = contentRef.current.getBoundingClientRect();
-			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			// chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
@@ -379,27 +444,20 @@ export default function DashboardResult(props) {
 				</dt>
 				<dd>
 					{/* <button onClick={event => handleExcelDown() }>엑셀 다운로드</button> */}
-					<Popup trigger={<button style={{'marginRight': '1rem'}}> CCTV 연결</button>} position="bottom right" onOpen={()=>cctvOn()} onClose={()=>cctvOff()}>
-						<div className='box' style={{background: 'rgba(255, 255, 255, 0.25)'}}>
-							<canvas ref={cctvCanvasRef} style={{width: '500px', height:"350px"}}></canvas>
+					<Popup trigger={<button>CCTV 연결</button>} position='bottom right' onOpen={()=>cctvOn()} onClose={()=>cctvOff()}>
+						<div className='popup-mini'>
+							<canvas ref={cctvCanvasRef}></canvas>
+							<span onClick={()=>openCctvFullscreen()}><FontAwesomeIcon icon={regular('expand')} /></span>
 						</div>
-						<div>
-                            <button onClick={()=>openCctvFullscreen()}>전체화면</button>
-                        </div>
 					</Popup>
-					<Popup trigger={<button> 엑셀 다운로드</button>} position="bottom right">
-						<div className='box' style={{background: 'rgba(255, 255, 255, 0.25)'}}>
-							<div style={{textAlign: 'center'}}>
-								<h2>엑셀 다운로드</h2>
-							</div>
+					<Popup trigger={<button>엑셀 다운로드</button>}  position='bottom right'>
+						<div className='popup-mini'>
 							<Calendar value={selectedDate}
-									  onChange={e => setSelectedDate(e)}
-									  maxDate={new Date()}
-									  calendarType='US'
+								onChange={e => setSelectedDate(e)}
+								maxDate={new Date()}
+								calendarType='US'
 							/>
-							<div style={{marginTop: '0.5rem', textAlign: 'right'}}>
-								<button onClick={event => handleExcelDown() }>다운로드</button>
-							</div>
+							<button onClick={event => handleExcelDown() }>다운로드</button>
 						</div>
 					</Popup>
 				</dd>
@@ -410,12 +468,13 @@ export default function DashboardResult(props) {
 					<li className="box">
 						<h2>CO₂ 유입 및 배출량</h2>
 						<div className='chart' ref={contentRef}>
-							<ElementResizeListener onResize={adaptResize}/>
+							{/* <ElementResizeListener onResize={adaptResize}/>
 							<ColumnChart
 								ref={chartRef1}
 								data={data1}
 								options={option}>
-							</ColumnChart>
+							</ColumnChart> */}
+							<ReactEcharts option={co2}></ReactEcharts>
 						</div>
 					</li>
 
