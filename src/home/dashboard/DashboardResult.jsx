@@ -22,6 +22,7 @@ import {
 	faTriangleExclamation
 } from "@fortawesome/pro-regular-svg-icons";
 import {faStop} from "@fortawesome/pro-solid-svg-icons";
+import ReactEcharts from "echarts-for-react";
 
 export default function DashboardResult(props) {
 	const [visible, setVisible] = useState(true);  
@@ -377,7 +378,7 @@ export default function DashboardResult(props) {
 	const adaptResize = useCallback(() => {
 		if (contentRef.current) {
 			const elmRect = contentRef.current.getBoundingClientRect();
-			chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
+			// chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
 			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
 			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
