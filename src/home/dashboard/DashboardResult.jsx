@@ -564,12 +564,9 @@ export default function DashboardResult(props) {
 					</li>
 
 					<li className="box">
-						<h2>O₂, CO₂ 변화량</h2>
+						<h2>CO₂, O₂ 변화량</h2>
 						<div className='chart2'>
 							<ReactEcharts option={diffO2}></ReactEcharts>
-						</div>
-						
-						<div className='chart2'>
 							<ReactEcharts option={diffCo2}></ReactEcharts>
 						</div>
 					</li>

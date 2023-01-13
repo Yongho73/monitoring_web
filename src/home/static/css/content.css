@@ -23,10 +23,11 @@
 .dashboard > .dashboard-result > dl:nth-of-type(2) > dd {padding:0.857rem; border-radius:0.357rem; background:#7120ea; cursor:pointer;}
 .dashboard > .dashboard-result > ol {display:flex; justify-content:space-between; width:100%; margin-top:1%;}
 .dashboard > .dashboard-result > ol > li {padding:1.071rem;}
-.dashboard > .dashboard-result > ol .chart {width:28vw; height:24vh;}
+.dashboard > .dashboard-result > ol .chart, .dashboard > .dashboard-result > ol .chart2 {width:28vw; height:24vh;}
 .dashboard > .dashboard-result > ol .chart .tui-chart-series-custom-event-area {display:none;}
 .dashboard > .dashboard-result > ol .chart2 .tui-chart-series-custom-event-area {display:none;}
 .dashboard > .dashboard-result > ol .chart .echarts-for-react {height:100% !important;}
+.dashboard > .dashboard-result > ol .chart2 .echarts-for-react {height:50% !important;}
 .dashboard > .dashboard-result > div.box {margin-top:1%;}
 .dashboard > .dashboard-result > div.box .list thead {display:grid;}
 .dashboard > .dashboard-result > div.box .list thead tr {display:grid; grid-template-columns:3fr 3fr 2fr repeat(2, 1fr) 2fr;}
