@@ -57,7 +57,7 @@ export function excelDownLoad(columns , excelData , fileName) {
     }
   })
     
-  const wb: any = {Sheets: { data: ws }, SheetNames: ['data']};  
+  const wb = {Sheets: { data: ws }, SheetNames: ['data']};
   
   const excelButter = XLSX.write(wb, { bookType: 'xlsx', type: 'array'});
   const excelFile = new Blob([excelButter], { type: excelFileType});

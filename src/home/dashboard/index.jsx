@@ -2,9 +2,9 @@ import React , {useEffect , useState} from 'react'
 import { getMonitoringList } from '../../crud/monitoring.crud'
 import CommonTablePaging from '../common/CommonTablePaging'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardList from './DashboardList'
 import DashboardResult from './DashboardResult'
+import {faMonitorWaveform} from "@fortawesome/pro-solid-svg-icons";
 
 export default function Index() {
 	const [showTabIndex , setShowTabIndex] = useState('1')
@@ -21,7 +21,7 @@ export default function Index() {
 
 	return (
 		<>
-			<h2><span><FontAwesomeIcon icon={solid('monitor-waveform')} /></span> 실시간 모니터링</h2>
+			<h2><span><FontAwesomeIcon icon={faMonitorWaveform} /></span> 실시간 모니터링</h2>
 
 			<div className="dashboard">
 				<input type="radio" id="tab01" name="tabGroup1" className="tab" checked={ showTabIndex === '1' ? 'checked' : ''} onChange={event => handleTabIndex('1')} />

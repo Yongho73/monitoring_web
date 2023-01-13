@@ -1,7 +1,6 @@
 import React , { useCallback, useEffect, useState, useRef } from 'react'
 import {  getDeviceDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import tuiChart from 'tui-chart'
 import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
@@ -15,6 +14,7 @@ import mqtt from "mqtt/dist/mqtt";
 import jsmpeg from "jsmpeg";
 
 import 'react-calendar/dist/Calendar.css';
+import {faArrowRotateRight, faChevronsDown, faChevronsUp} from "@fortawesome/pro-regular-svg-icons";
 
 export default function DashboardResult(props) {
 	const [visible, setVisible] = useState(true);  
@@ -315,13 +315,13 @@ export default function DashboardResult(props) {
 
 	const isLiveFun = () => {
 		if(isLive === 'Y')
-			return <span title='실시간 연동됨' style={{color: 'green'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동됨' style={{color: 'green'}}><FontAwesomeIcon icon={faArrowRotateRight} /></span>
 		else if (isLive === 'S')
-			return <span title='실시간 연동 중지됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 중지됨' style={{color: 'orange'}}><FontAwesomeIcon icon={faArrowRotateRight} /></span>
 		else if (isLive === 'W')
-			return <span title='실시간 연동 준비됨' style={{color: 'orange'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 준비됨' style={{color: 'orange'}}><FontAwesomeIcon icon={faArrowRotateRight} /></span>
 		else
-			return <span title='실시간 연동 실패' style={{color: 'red'}}><FontAwesomeIcon icon={regular('arrow-rotate-right')} /></span>
+			return <span title='실시간 연동 실패' style={{color: 'red'}}><FontAwesomeIcon icon={faArrowRotateRight} /></span>
 	}
 
 	useEffect(() => {
@@ -454,8 +454,8 @@ export default function DashboardResult(props) {
 				<dt>통계</dt>
 				<dd onClick={ e => setVisible(!visible) }>
 					{visible ?
-						<FontAwesomeIcon icon={regular('chevrons-up')} />
-						: <FontAwesomeIcon icon={regular('chevrons-down')} />
+						<FontAwesomeIcon icon={faChevronsUp} />
+						: <FontAwesomeIcon icon={faChevronsDown} />
 					}
 				</dd>
 			</dl>

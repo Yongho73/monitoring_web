@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro' // <-- import styles to be used
-import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
+import {faChartSimple, faMonitorWaveform} from "@fortawesome/pro-solid-svg-icons";
+import {faCircleInfo, faCity} from "@fortawesome/pro-regular-svg-icons";
 
 export default function Left() {    
 	return (
@@ -12,12 +12,12 @@ export default function Left() {
 			<ul>
 				<li>
 					<a href="/dashboard">
-						<span><FontAwesomeIcon icon={solid('monitor-waveform')} /></span> 실시간 모니터링
+						<span><FontAwesomeIcon icon={faMonitorWaveform} /></span> 실시간 모니터링
 					</a>
 				</li>
 				<li>
 					<a href="/place/place">                            
-						<span><FontAwesomeIcon icon={regular('city')} /></span> 사업장 정보
+						<span><FontAwesomeIcon icon={faCity} /></span> 사업장 정보
 					</a>
 					<ol>
 						<li><a href="../place/place">문경환경사업소</a></li>
@@ -26,12 +26,12 @@ export default function Left() {
 				</li>
 				<li>
 					<a href="/reduction/reduction">                            
-							<span><FontAwesomeIcon icon={solid('chart-simple')} /></span> 연간 저감량
+							<span><FontAwesomeIcon icon={faChartSimple} /></span> 연간 저감량
 					</a>
 				</li>
 				<li>
 					<a href="/info/info">                            
-						<span><FontAwesomeIcon icon={regular('circle-info')} /></span> 모니터링 소개
+						<span><FontAwesomeIcon icon={faCircleInfo} /></span> 모니터링 소개
 					</a>
 					<ol>
 						<li><a href="/info/info">모니터링 시스템</a></li>

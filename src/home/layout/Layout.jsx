@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "./header";
-import Left from './left'
+import Header from "./Header";
+import Left from './Left'
 import HomePage from "../HomePage";
 
 const Layout = () => {

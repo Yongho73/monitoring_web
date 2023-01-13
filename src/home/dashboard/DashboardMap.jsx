@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import _ from 'lodash'
+import {faArrowRotateLeft} from "@fortawesome/pro-regular-svg-icons";
 
 export default function DashboardMap(props) {    
   
@@ -98,7 +98,7 @@ export default function DashboardMap(props) {
   return (
 
 		<map>
-			<button onClick={event => handleBackArea()}><FontAwesomeIcon icon={regular('arrow-rotate-left')} /></button>
+			<button onClick={event => handleBackArea()}><FontAwesomeIcon icon={faArrowRotateLeft} /></button>
 			{areaName && <ReactEcharts option={mapOption} onEvents={onEvents}/> }
 		</map>
     

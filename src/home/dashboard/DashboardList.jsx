@@ -3,7 +3,6 @@ import { getDeviceList, getDeviceExceList } from '../../crud/dashborad.crud'
 import { getCommCodeList , getDeviceCompanyList } from '../../crud/code.crud'
 import CommonTablePaging from '../common/CommonTablePaging'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { regular } from '@fortawesome/fontawesome-svg-core/import.macro'
 import DashboardMap from './DashboardMap'
 import { excelDownLoad } from '../util/excelDown'
 import moment from 'moment'
@@ -11,6 +10,7 @@ import geoMapLevel1 from '../../home/util/json/geoMapLevel1.json'
 import axios from 'axios'
 import { IsoRounded } from '@material-ui/icons'
 import { use } from 'echarts'
+import {faMagnifyingGlass} from "@fortawesome/pro-regular-svg-icons";
 
 export default function DashboardList(props) {
 	let activePage = 1;    
@@ -223,7 +223,7 @@ export default function DashboardList(props) {
 
 					<div>
 						<input type="text" name="search" title="검색어 입력" id="search" placeholder="검색어를 입력해주세요." onChange={event => setSearchName(event.target.value)} onKeyPress={event => event.key === 'Enter' && handleSearch() }/>
-						<label htmlFor="search"><FontAwesomeIcon icon={regular('magnifying-glass')} onClick={event => handleSearch()} /></label>
+						<label htmlFor="search"><FontAwesomeIcon icon={faMagnifyingGlass} onClick={event => handleSearch()} /></label>
 					</div>
 					<button onClick={event => handleExcelDown()}>엑셀 다운로드</button>
 				</div>

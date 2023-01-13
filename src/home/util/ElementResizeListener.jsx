@@ -1,22 +1,18 @@
 import React, { useCallback, useRef, useEffect, RefObject, MutableRefObject } from 'react';
 
-interface Props {
-    onResize: (event: Event) => void;
-};
-
 //
 // I used this as reference
 // http://www.backalleycoder.com/2013/03/18/cross-browser-event-based-element-resize-detection/
 //
 
-const ElementResizeListener: React.FC<Props> = ({ onResize }) => {
+const ElementResizeListener = ({ onResize }) => {
     const rafRef = useRef(0);
-    const objectRef: RefObject<HTMLObjectElement> = useRef(null);
+    const objectRef = useRef(null);
     const onResizeRef = useRef(onResize);
 
     onResizeRef.current = onResize;
 
-    const _onResize = useCallback((e: Event) => {
+    const _onResize = useCallback((e) => {
         if (rafRef.current) {
             cancelAnimationFrame(rafRef.current);
         }
