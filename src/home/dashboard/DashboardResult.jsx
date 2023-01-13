@@ -1,12 +1,9 @@
 import React , { useCallback, useEffect, useState, useRef } from 'react'
 import {  getDeviceDetail , getDeviceDetailExcel } from '../../crud/dashborad.crud'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import tuiChart from 'tui-chart'
-import {ColumnChart, LineChart} from '@toast-ui/react-chart'
 import Paging from '../common/Paging'
-import {toNumber, makeid, uuidv4} from '../util/util'
+import {toNumber,  uuidv4} from '../util/util'
 import * as FileSaver from "file-saver";
-import ElementResizeListener from './../util/ElementResizeListener';
 import Popup from 'reactjs-popup';
 import Calendar from 'react-calendar';
 
@@ -23,16 +20,14 @@ import {
 } from "@fortawesome/pro-regular-svg-icons";
 import {faStop} from "@fortawesome/pro-solid-svg-icons";
 import ReactEcharts from "echarts-for-react";
+import {
+	LineChart,
+	BarChart
+} from 'echarts/charts';
 
 export default function DashboardResult(props) {
 	const [visible, setVisible] = useState(true);  
-	const [showExcelDialog, setShowExcelDialog] = useState(false);  
-
-	const [data1, setData1] = useState({});
-	const [data2, setData2] = useState({});
-	const [data3, setData3] = useState({});
-	const [data4, setData4] = useState({});
-	const [chageData1, setChageData1] = useState({});
+	const [showExcelDialog, setShowExcelDialog] = useState(false);
 
 	const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -46,92 +41,16 @@ export default function DashboardResult(props) {
 	let activePage = 1;    
 	
 	const [list , setList] = useState([])
-	const [pagination , setPagination] = useState({})	
-	const [pageIndex, setPageIndex] = useState(1)
-
-	const chartRef1 = useRef(null);
-	const chartRef2 = useRef(null);
-	const chartRef3 = useRef(null);
-	const chartRef4 = useRef(null);
+	const [pagination , setPagination] = useState({})
 
 	const [clientData , setClientData] = useState(null)
 	const [mqttClient, setMqttClient] = useState(null);
 	const [isLive, setIsLive] = useState('N');
 	let isConnect = false;
 
-	const theme = {
-		legend: {
-			label: {
-				fontSize: 13,
-				color: '#fff'
-			}
-		},
-		chart: {
-			background: 'transparent'
-		},
-		series: {
-			colors: ['#677bfe', '#ff5889'],
-		},
-		xAxis: {
-			title: {
-				fontSize: 13,
-				color: '#fff'
-			},
-			label: {
-				fontSize: 13,
-				color: '#bababa'
-			},
-			tickColor: '#fff'
-		},
-		yAxis: {
-			title: {
-				fontSize: 13,
-				color: '#fff'
-			},
-			label: {
-				fontSize: 13,
-				color: '#bababa'
-			},
-			tickColor: '#fff'
-		}
-	};
-
-	tuiChart.registerTheme('myTheme', theme);
-	
-	const option = {
-		legend: { align: 'bottom', showCheckbox: false, visible: true },
-		chartExportMenu: { visible: false },
-		xAxis: { title: '시'},
-		yAxis: { title: '단위'},
-		chart: { height: 318 },
-		plot: { visible: false },
-		responsive: {
-			animation: false
-		},
-		series: {shift: true},
-		theme: 'myTheme'
-	};
-	
-	const option2 = {
-		legend: { align: 'bottom', showCheckbox: false, visible: true },
-		chartExportMenu: { visible: false },
-		xAxis: { title: '시'},
-		yAxis: {
-			title: '단위',
-			scale: {
-				min: -20,
-				max: 20,
-				stepSize: 20
-			}
-		},
-		chart: { height: 120 },
-		plot: { visible: false },
-		responsive: {
-			animation: false
-		},
-		series: {shift: true},
-		theme: 'myTheme'
-	};
+	const [chartAxis1, setChartAxis1] = useState([]);
+	const [chartSeriesIn1, setChartSeriesIn1] = useState([]);
+	const [chartSeriesOut1, setChartSeriesOut1] = useState([]);
 
 	const co2 = {
 		grid: { top: 30, right: 30, bottom: 35, left: 1, containLabel: true },
@@ -151,7 +70,75 @@ export default function DashboardResult(props) {
 				fontWeight: '600',
 				color: '#bababa'
 			},
-			data: ['13:17:50', '13:18:00', '13:18:10', '13:18:20', '13:18:30', '13:18:40', '13:18:50'],
+			data: chartAxis1,
+			axisLabel: { color: '#fff' },
+		},
+		yAxis: {
+			type: 'value',
+			name: '단위',
+			nameTextStyle: {
+				align: 'right',
+				verticalAlign: 'bottom',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			splitLine: {
+				lineStyle: {
+					color: 'rgba(255,255,255,0.18)'
+				}
+			},
+			axisLabel: { color:'#fff' },
+			interval : 1000,
+		},
+		series: [
+			{
+				name: 'CO₂-IN',
+				type: 'bar',
+				data: chartSeriesIn1,
+				label: {
+					show: false,
+				},
+				barWidth: '20%',
+				itemStyle: {color:'#677bfe'},
+				animation: false
+			},
+			{
+				name: 'CO₂-OUT',
+				type: 'bar',
+				data: chartSeriesOut1,
+				label: {
+					show: false,
+				},
+				barWidth: '20%',
+				itemStyle: {color:'#ff5889'},
+				animation: false
+			}
+		]
+	}
+
+	const [chartAxis2, setChartAxis2] = useState([]);
+	const [chartSeriesIn2, setChartSeriesIn2] = useState([]);
+	const [chartSeriesOut2, setChartSeriesOut2] = useState([]);
+
+	const o2 = {
+		grid: { top: 30, right: 30, bottom: 35, left: 1, containLabel: true },
+		legend: {
+			show: true,
+			bottom: -5,
+			itemGap: 30,
+			textStyle: {
+				color: '#fff'
+			}
+		},
+		xAxis: {
+			type: 'category',
+			name: '시',
+			nameTextStyle: {
+				verticalAlign: 'top',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			data: chartAxis2,
 			axisLabel: { color: '#fff' },
 		},
 		yAxis: {
@@ -173,9 +160,9 @@ export default function DashboardResult(props) {
 		},
 		series: [
 			{
-				name: 'CO₂-IN',
+				name: 'O₂-IN',
 				type: 'bar',
-				data: [13.604, 14.173, 16.334, 20.261, 32.063, 42.192, 52.492, 71.173],
+				data: chartSeriesIn2,
 				label: {
 					show: false,
 				},
@@ -184,14 +171,126 @@ export default function DashboardResult(props) {
 				animation: false
 			},
 			{
-				name: 'CO₂-OUT',
+				name: 'O₂-OUT',
 				type: 'bar',
-				data: [13.604, 14.173, 16.334, 20.261, 32.063, 42.192, 52.492, 71.173],
+				data: chartSeriesOut2,
 				label: {
 					show: false,
 				},
 				barWidth: '20%',
 				itemStyle: {color:'#ff5889'},
+				animation: false
+			}
+		]
+	}
+
+	const [chartAxis3, setChartAxis3] = useState([]);
+	const [chartSeries3, setChartSeries3] = useState([]);
+
+	const diffO2 = {
+		grid: { top: 30, right: 30, bottom: 35, left: 1, containLabel: true },
+		legend: {
+			show: true,
+			bottom: -5,
+			itemGap: 30,
+			textStyle: {
+				color: '#fff'
+			}
+		},
+		xAxis: {
+			type: 'category',
+			name: '시',
+			nameTextStyle: {
+				verticalAlign: 'top',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			data: chartAxis3,
+			axisLabel: { color: '#fff' },
+		},
+		yAxis: {
+			type: 'value',
+			name: '단위',
+			nameTextStyle: {
+				align: 'right',
+				verticalAlign: 'bottom',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			splitLine: {
+				lineStyle: {
+					color: 'rgba(255,255,255,0.18)'
+				}
+			},
+			axisLabel: { color:'#fff' },
+			interval : 1000,
+		},
+		series: [
+			{
+				name: 'CO₂',
+				type: 'line',
+				data: chartSeries3,
+				label: {
+					show: false,
+				},
+				barWidth: '20%',
+				itemStyle: {color:'#677bfe'},
+				animation: false
+			}
+		]
+	}
+
+	const [chartAxis4, setChartAxis4] = useState([]);
+	const [chartSeries4, setChartSeries4] = useState([]);
+
+	const diffCo2 = {
+		grid: { top: 30, right: 30, bottom: 35, left: 1, containLabel: true },
+		legend: {
+			show: true,
+			bottom: -5,
+			itemGap: 30,
+			textStyle: {
+				color: '#fff'
+			}
+		},
+		xAxis: {
+			type: 'category',
+			name: '시',
+			nameTextStyle: {
+				verticalAlign: 'top',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			data: chartAxis4,
+			axisLabel: { color: '#fff' },
+		},
+		yAxis: {
+			type: 'value',
+			name: '단위',
+			nameTextStyle: {
+				align: 'right',
+				verticalAlign: 'bottom',
+				fontWeight: '600',
+				color: '#bababa'
+			},
+			splitLine: {
+				lineStyle: {
+					color: 'rgba(255,255,255,0.18)'
+				}
+			},
+			axisLabel: { color:'#fff' },
+			interval : 20,
+		},
+		series: [
+			{
+				name: 'O₂',
+				type: 'line',
+				data: chartSeries4,
+				label: {
+					show: false,
+				},
+				barWidth: '20%',
+				itemStyle: {color:'#677bfe'},
 				animation: false
 			}
 		]
@@ -333,20 +432,19 @@ export default function DashboardResult(props) {
 				}
 			}
 
-			data1_series.push({name: 'CO₂ - IN', data: data1_series_in_carbon});
-			data1_series.push({name: 'CO₂ - OUT', data: data1_series_out_carbon});
+			setChartAxis1(data1_categories);
+			setChartSeriesIn1(data1_series_in_carbon);
+			setChartSeriesOut1(data1_series_out_carbon);
 
-			data2_series.push({name: 'O₂ - IN', data: data2_series_in_oxygen});
-			data2_series.push({name: 'O₂ - OUT', data: data2_series_out_oxygen});
+			setChartAxis2(data2_categories);
+			setChartSeriesIn2(data2_series_in_oxygen);
+			setChartSeriesOut2(data2_series_out_oxygen);
 
-			data3_series.push({name: 'CO₂', data: data3_series_diff_carbon});
+			setChartAxis3(data3_categories);
+			setChartSeries3(data3_series_diff_carbon);
 
-			data4_series.push({name: 'O₂', data: data4_series_diff_oxygen});
-
-			setData1({categories: data1_categories, series: data1_series});
-			setData2({categories: data2_categories, series: data2_series});
-			setData3({categories: data3_categories, series: data3_series});
-			setData4({categories: data4_categories, series: data4_series});
+			setChartAxis4(data4_categories);
+			setChartSeries4(data4_series_diff_oxygen);
 		}
 	},[list])
 
@@ -375,16 +473,6 @@ export default function DashboardResult(props) {
 
 	const contentRef = useRef(null);
 
-	const adaptResize = useCallback(() => {
-		if (contentRef.current) {
-			const elmRect = contentRef.current.getBoundingClientRect();
-			// chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
-			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
-		}
-	}, []);
-
 	const isLiveFun = () => {
 		if(isLive === 'Y')
 			return <span title='실시간 연동됨' className='live-inter'><FontAwesomeIcon icon={faLinkHorizontal} /></span>
@@ -398,18 +486,7 @@ export default function DashboardResult(props) {
 
 	useEffect(() => {
 		handleSearch();
-		if(visible && contentRef.current) {
-			const elmRect = contentRef.current.getBoundingClientRect();
-			// chartRef1.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			chartRef2.current.chartInst.resize({width:elmRect.width, height:elmRect.height})
-			chartRef3.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
-			chartRef4.current.chartInst.resize({width:elmRect.width, height:elmRect.height / 2})
-		}
 	},[visible])
-
-	useEffect(() => {
-		adaptResize();
-	},[])
 
 	// cctv 추가 시작 ==========================---------------
 	const cctvCanvasRef = useRef(null);
@@ -475,12 +552,6 @@ export default function DashboardResult(props) {
 					<li className="box">
 						<h2>CO₂ 유입 및 배출량</h2>
 						<div className='chart' ref={contentRef}>
-							{/* <ElementResizeListener onResize={adaptResize}/>
-							<ColumnChart
-								ref={chartRef1}
-								data={data1}
-								options={option}>
-							</ColumnChart> */}
 							<ReactEcharts option={co2}></ReactEcharts>
 						</div>
 					</li>
@@ -488,30 +559,18 @@ export default function DashboardResult(props) {
 					<li className="box">
 						<h2>O₂ 유입 및 배출량</h2>
 						<div className='chart'>
-							<ColumnChart
-								ref={chartRef2}
-								data={data2}
-								options={option}>
-							</ColumnChart>
+							<ReactEcharts option={o2}></ReactEcharts>
 						</div>
 					</li>
 
 					<li className="box">
 						<h2>O₂, CO₂ 변화량</h2>
 						<div className='chart2'>
-							<LineChart
-								ref={chartRef3}
-								data={data3}
-								options={option2}>
-							</LineChart>
+							<ReactEcharts option={diffO2}></ReactEcharts>
 						</div>
 						
 						<div className='chart2'>
-							<LineChart
-								ref={chartRef4}
-								data={data4}
-								options={option2}>
-							</LineChart>
+							<ReactEcharts option={diffCo2}></ReactEcharts>
 						</div>
 					</li>
 				</ol>
