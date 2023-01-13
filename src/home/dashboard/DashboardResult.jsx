@@ -502,13 +502,18 @@ export default function DashboardResult(props) {
     // cctv 끄기
 	const cctvOff = () => {
 		console.log("cctv 끄기");
-        client.close();
-		client = null;
-        canvas = null;      
+        if(client != null) {
+			client.close();
+			client = null;
+		}
+		if(canvas != null) {
+        	canvas = null;
+		}
     };
 	// cctv 전체화면
 	const openCctvFullscreen = () => {    		 		
 		console.log("cctv 전체화면");
+		canvas = cctvCanvasRef.current;
 		if (canvas.requestFullscreen) {
 			canvas.requestFullscreen();
 		}
