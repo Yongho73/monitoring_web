@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import Left from './Left'
 import HomePage from "../HomePage";
+import '../static/css/common.css'
 
 const Layout = () => {
 	return (

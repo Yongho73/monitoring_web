@@ -38,7 +38,7 @@ input::placeholder {color:#bababa;}
 select {position:relative; height:2.714rem; padding:0 2.143rem 0 0.714rem; border:1px solid #7120ea; border-radius:0.357rem; background:url('../images/select_arrow.png') right 0.5rem center no-repeat; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
 select::-ms-expand {display:none;}
 select > option {background:#7120ea;}
-button {height:2.714rem; padding:0 1.786rem; line-height:1rem; border:none; border-radius:0.357rem; background:#263ed9; cursor:pointer;}
+button {height:2.714rem; padding:0 1.786rem; line-height:1rem; border:none; border-radius:0.357rem; background:#263ed9; white-space:nowrap; cursor:pointer;}
 a {display:inline-block; text-decoration:none; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
 a:hover {text-decoration:none; color:#fff; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
 *:focus {outline:none; -ms-touch-action:manipulation; touch-action:manipulation; -webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-tap-highlight-color:transparent;}
@@ -110,7 +110,7 @@ nav > input.menu:checked ~ ul > li > ol > li:nth-child(3) {transition:max-height
 
 
 /* 메인영역 */
-main {position:relative; height:calc(100% - 3.713rem); overflow:hidden;}
+main {position:relative; height:calc(100vh - 3.714rem); overflow:hidden;}
 main > h2 {margin:1rem 0 0 2rem; font-weight:500; font-size:1.286rem;}
 main > h2 > span {margin-right:0.5rem;}
 

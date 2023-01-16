@@ -1,6 +1,6 @@
 /* 대시보드 */
 .dashboard {height:calc(100% - 2.714rem); padding:1rem 2rem; text-align:center;}
-.dashboard > section {display:flex; align-items:center; height:calc(100vh - 10.714rem);}
+.dashboard > section {display:flex; align-items:center; height:calc(100% - 3rem);}
 .dashboard > .dashboard-list > map {position:relative; flex:1; height:80%; margin-right:3.571rem;}
 .dashboard > .dashboard-list > map > button {display:flex; justify-content:center; align-items:center; position:absolute; right:0; width:3.214rem; height:3.214rem; padding:0; font-size:1.143rem; z-index:10;}
 .dashboard > .dashboard-list > map > div:nth-of-type(1), .dashboard > .dashboard-list > map canvas {width:100% !important; height:100% !important;}

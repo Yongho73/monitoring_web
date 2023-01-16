@@ -1,7 +1,4 @@
 import {React, useEffect, useState} from 'react';
-import '../static/css/common.css'
-import '../static/css/content.css'
-import '../static/css/font.css'
 import logoImg from '../static/images/logo01.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
