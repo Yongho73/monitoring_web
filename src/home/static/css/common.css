@@ -219,7 +219,7 @@ main > h2 > span {margin-right:0.5rem;}
 /* 팝업 - 버튼 밑 */
 .popup-content > div:first-of-type {display:none;}
 .popup-mini {display:flex; flex-direction:column; border-radius:0.714rem; background:#1a006f; overflow:hidden;}
-.popup-mini > canvas {position:relative; width:28.571rem;}
+.popup-mini > canvas {position:relative; width:57.143rem;}
 .popup-mini > span {position:absolute; right:0.929rem; bottom:0.714rem; font-size:1.429rem; cursor:pointer;}
 .popup-mini .react-calendar__navigation {height:2.714rem; margin-bottom:0;}
 .popup-mini .react-calendar__month-view__weekdays {color:#7120ea;}
