@@ -329,6 +329,8 @@ export default function DashboardResult(props) {
 					url = "ws://192.168.0.3:61614";
 				}
 				const client = mqtt.connect(url, {
+					username: 'bizmarvel',
+					password: 'shako-richard-mutable-quadrant-superior-wasp',
 					clientId: uuidv4(),
 					properties: {topicAliasMaximum: 20, maximumPacketSize: 100}
 				});
