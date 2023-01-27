@@ -499,18 +499,14 @@ export default function DashboardResult(props) {
         console.log("cctv 켜기");
 		client = new WebSocket('wss://dev.bizmarvel.co.kr:9000');
         canvas = cctvCanvasRef.current;
-        new jsmpeg(client, {canvas: canvas});           
+        new jsmpeg(client, {canvas: canvas});
     };
     // cctv 끄기
 	const cctvOff = () => {
-		console.log("cctv 끄기");
-        if(client != null) {
-			client.close();
-			client = null;
-		}
-		if(canvas != null) {
-        	canvas = null;
-		}
+		console.log("cctv 끄기");         
+		client.close();
+		client = null;
+		canvas = null;
     };
 	// cctv 전체화면
 	const openCctvFullscreen = () => {    		 		
