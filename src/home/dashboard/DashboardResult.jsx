@@ -88,7 +88,7 @@ export default function DashboardResult(props) {
 				}
 			},
 			axisLabel: { color:'#fff' },
-			interval : 1000,
+			interval : 10000,
 		},
 		series: [
 			{
