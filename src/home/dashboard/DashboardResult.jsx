@@ -223,7 +223,7 @@ export default function DashboardResult(props) {
 				}
 			},
 			axisLabel: { color:'#fff' },
-			//interval : 1000,
+			interval : 2000,
 		},
 		series: [
 			{
@@ -279,7 +279,7 @@ export default function DashboardResult(props) {
 				}
 			},
 			axisLabel: { color:'#fff' },
-			//interval : 20,
+			interval : 20,
 		},
 		series: [
 			{
